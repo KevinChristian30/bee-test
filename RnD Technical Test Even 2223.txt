@@ -13,7 +13,7 @@
   - true | false V
   - choose an answer from list V
   - essay V
-  - submit file
+  - submit file V
 
 => use Blazor for making the web application
 => try running it using docker / setup runnable with docker
