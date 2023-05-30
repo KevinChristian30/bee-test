@@ -1,6 +1,7 @@
 USE beetest
 GO
 
+DROP TABLE Roles
 DROP TABLE Participant_Schedules
 DROP TABLE Participants
 DROP TABLE Questions

@@ -10,7 +10,8 @@ namespace BeeTest.Data
             
         }
 
-        public DbSet<Participant> Participants { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Participant_Schedule> Participant_Schedules { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionType> QuestionTypes { get; set; }

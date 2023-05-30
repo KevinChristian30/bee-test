@@ -1,24 +1,76 @@
 ﻿@page "/"
 
-<head>
-    <link rel="stylesheet" href="~/css/index.css" type="text/css" />
-</head>
+@using BeeTest.Authentication
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
 
 <PageTitle>BeeTest</PageTitle>
 
-<div class="index">
-    <form>
-        <h1>BeeTest</h1>
-        <div class="field-container">
-            <div class="line">
-                <label>Email</label>
-                <input type="email" placeholder="Email" />
-            </div>
-            <div class="line">
-                <label>Password</label>
-                <input type="password" placeholder="Password" />
-            </div>
-        </div>
-        <button>Log In</button>
-    </form>
-</div>
+<AuthorizeView>
+    <Authorized>
+        <h1>Hello, You Are Authorized</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>You Are Not Authorized</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <h1>Hello, You Are an Admin</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>You Are Not an Admin</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Participant">
+    <Authorized>
+        <h1>Hello, You Are a Participant</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>You Are Not a Participant</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Admin, Participant">
+    <Authorized>
+        <h1>Hello, You Are a Participant or an Admin</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>You Are Not a Participant nor an Admin</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView>
+    <button @onclick="LogOut">Log Out</button>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+
+        if (!authState.User.Identity.IsAuthenticated)
+        {           
+            navigationManager.NavigateTo("/login", true);
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LogOut()
+    {
+        var authState = await authenticationState;
+        js.InvokeVoidAsync("console.log", authState.User.Identity.IsAuthenticated);
+
+        var authStateProvider = (AuthStateProvider) authenticationStateProvider;
+        await authStateProvider.UpdateAuthenticationState(null);
+
+        navigationManager.NavigateTo("/login", true);
+    }
+}

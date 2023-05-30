@@ -1,0 +1,56 @@
+﻿@page "/login"
+@using BeeTest.Authentication
+@inject UserAuthService userAccountService
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject IJSRuntime js
+@inject NavigationManager navigationManager
+
+<PageTitle>BeeTest | Login</PageTitle>
+
+<div class="login">
+    <form @onsubmit="Authenticate">
+        <h1>BeeTest</h1>
+        <div class="field-container">
+            <div class="line">
+                <label>Email</label>
+                <input @bind="model.Email" type="email" placeholder="Email" />
+            </div>
+            <div class="line">
+                <label>Password</label>
+                <input @bind="model.Password" type="password" placeholder="Password" />
+            </div>
+        </div>
+        <button>Log In</button>
+    </form>
+</div>
+
+
+@code {
+    private class Model
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    private Model model = new Model();
+
+    private async Task Authenticate()
+    {
+        var userAccount = userAccountService.GetUser(model.Email);
+
+        if (userAccount == null || userAccount.Password != model.Password)
+        {
+            await js.InvokeVoidAsync("alert", "Invalid Email or Password");
+            return;
+        }
+
+        var authStateProvider = (AuthStateProvider) authenticationStateProvider;
+        await authStateProvider.UpdateAuthenticationState(new UserSession
+        {
+            Email = userAccount.Email,
+            Role = userAccount.Role.Name
+        });
+
+        navigationManager.NavigateTo("/", true);
+    }
+}

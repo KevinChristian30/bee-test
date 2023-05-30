@@ -82,6 +82,13 @@ using BeeTest.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Index.razor"
+using BeeTest.Authentication;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : global::Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -90,6 +97,41 @@ using BeeTest.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 50 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Index.razor"
+       
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+
+        if (!authState.User.Identity.IsAuthenticated)
+        {           
+            navigationManager.NavigateTo("/login", true);
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LogOut()
+    {
+        var authState = await authenticationState;
+        js.InvokeVoidAsync("console.log", authState.User.Identity.IsAuthenticated);
+
+        var authStateProvider = (AuthStateProvider) authenticationStateProvider;
+        await authStateProvider.UpdateAuthenticationState(null);
+
+        navigationManager.NavigateTo("/login", true);
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider authenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591

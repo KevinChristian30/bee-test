@@ -22,37 +22,6 @@ namespace BeeTest.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BeeTest.Models.Participant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Participants");
-                });
-
             modelBuilder.Entity("BeeTest.Models.Participant_Schedule", b =>
                 {
                     b.Property<int>("ParticipantId")
@@ -118,6 +87,23 @@ namespace BeeTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionTypes");
+                });
+
+            modelBuilder.Entity("BeeTest.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("BeeTest.Models.Schedule", b =>
@@ -188,9 +174,45 @@ namespace BeeTest.Migrations
                     b.ToTable("Tests");
                 });
 
+            modelBuilder.Entity("BeeTest.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("BeeTest.Models.Participant_Schedule", b =>
                 {
-                    b.HasOne("BeeTest.Models.Participant", "Participant")
+                    b.HasOne("BeeTest.Models.User", "Participant")
                         .WithMany("Participant_Schedules")
                         .HasForeignKey("ParticipantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -256,9 +278,15 @@ namespace BeeTest.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("BeeTest.Models.Participant", b =>
+            modelBuilder.Entity("BeeTest.Models.User", b =>
                 {
-                    b.Navigation("Participant_Schedules");
+                    b.HasOne("BeeTest.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("BeeTest.Models.Participant_Schedule", b =>
@@ -276,6 +304,11 @@ namespace BeeTest.Migrations
                     b.Navigation("Questions");
                 });
 
+            modelBuilder.Entity("BeeTest.Models.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("BeeTest.Models.Schedule", b =>
                 {
                     b.Navigation("Participant_Schedules");
@@ -286,6 +319,11 @@ namespace BeeTest.Migrations
                     b.Navigation("Questions");
 
                     b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("BeeTest.Models.User", b =>
+                {
+                    b.Navigation("Participant_Schedules");
                 });
 #pragma warning restore 612, 618
         }

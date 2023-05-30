@@ -16,7 +16,8 @@ namespace BeeTest
         public void SeedDataContext()
         {
             SeedQuestionTypes();
-            SeedParticipants();
+            SeedRoles();
+            //SeedParticipants();
         }
 
         public void SeedQuestionTypes()
@@ -30,7 +31,7 @@ namespace BeeTest
                         Name = "Multiple Choice"
                     },
                     new QuestionType() 
-                    { 
+                    {
                         Name = "Boolean"
                     },
                     new QuestionType()
@@ -52,57 +53,106 @@ namespace BeeTest
             }
         }
     
-        public void SeedParticipants()
+        public void SeedRoles()
         {
-            if (!_context.Participants.Any())
+            if (!_context.Roles.Any()) 
             {
-                var participants = new List<Participant>()
+                var roles = new List<Role>()
                 {
-                    new Participant()
+                    new Role()
                     {
-                        Name = "Kevin Christian",
-                        Email = "kevinchristian@gmail.com",
-                        Password = "kevinchristian",
-                        Gender = Gender.Male,
-                        DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
+                        Name = "Admin"
                     },
-                    new Participant()
+                    new Role()
                     {
-                        Name = "Rico Gunawan",
-                        Email = "ricogunawan@gmail.com",
-                        Password = "ricogunawan",
-                        Gender = Gender.Male,
-                        DateOfBirth = new DateTime(2003, 6, 13, 0, 0, 0)
-                    },
-                    new Participant()
-                    {
-                        Name = "Richard Gregorius",
-                        Email = "richardgregorius@gmail.com",
-                        Password = "richardgregorius",
-                        Gender = Gender.Male,
-                        DateOfBirth = new DateTime(2003, 3, 21, 0, 0, 0)
-                    },
-                    new Participant()
-                    {
-                        Name = "Glory Daniella",
-                        Email = "glorydaniella@gmail.com",
-                        Password = "glorydaniella",
-                        Gender = Gender.Female,
-                        DateOfBirth = new DateTime(2003, 4, 14, 0, 0, 0)
-                    },
-                    new Participant()
-                    {
-                        Name = "Jaysie Lestari",
-                        Email = "jaysielestari@gmail.com",
-                        Password = "jaysielestari",
-                        Gender = Gender.Female,
-                        DateOfBirth = new DateTime(2002, 7, 19, 0, 0, 0)
+                        Name = "Participant"
                     }
                 };
-                
-                _context.Participants.AddRange(participants);
+
+                _context.Roles.AddRange(roles);
                 _context.SaveChanges();
             }
         }
+
+        //public void SeedParticipants()
+        //{
+        //    if (!_context.Users.Any())
+        //    {
+        //        var users = new List<User>()
+        //        {
+        //new User()
+        //{
+        //    Name = "Admin",
+        //                Email = "admin@gmail.com",
+        //                Password = "admin",
+        //                Role = new Role
+        //                {
+        //                    Id = 1
+        //                },
+        //                Gender = Gender.Male,
+        //                DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
+        //            },
+        //            new User()
+        //{
+        //    Name = "Kevin Christian",
+        //                Email = "kevinchristian@gmail.com",
+        //                Password = "kevinchristian",
+        //                Role = new Role
+        //                {
+        //                    Id = 2
+        //                },
+        //                Gender = Gender.Male,
+        //                DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
+        //            },
+        //            new User()
+        //            {
+        //                Name = "Rico Gunawan",
+        //                Email = "ricogunawan@gmail.com",
+        //                Password = "ricogunawan",
+        //                Role = new Role {
+        //                    Id = 2
+        //                },
+        //                Gender = Gender.Male,
+        //                DateOfBirth = new DateTime(2003, 6, 13, 0, 0, 0)
+        //            },
+        //            new User()
+        //            {
+        //                Name = "Richard Gregorius",
+        //                Email = "richardgregorius@gmail.com",
+        //                Password = "richardgregorius",
+        //                Role = new Role {
+        //                    Id = 2
+        //                },
+        //                Gender = Gender.Male,
+        //                DateOfBirth = new DateTime(2003, 3, 21, 0, 0, 0)
+        //            },
+        //            new User()
+        //            {
+        //                Name = "Glory Daniella",
+        //                Email = "glorydaniella@gmail.com",
+        //                Password = "glorydaniella",
+        //                Role = new Role {
+        //                    Id = 2
+        //                },
+        //                Gender = Gender.Female,
+        //                DateOfBirth = new DateTime(2003, 4, 14, 0, 0, 0)
+        //            },
+        //            new User()
+        //            {
+        //                Name = "Jaysie Lestari",
+        //                Email = "jaysielestari@gmail.com",
+        //                Password = "jaysielestari",
+        //                Role = new Role {
+        //                    Id = 2
+        //                },
+        //                Gender = Gender.Female,
+        //                DateOfBirth = new DateTime(2002, 7, 19, 0, 0, 0)
+        //            }
+        //        };
+                
+            //    _context.Users.AddRange(users);
+            //    _context.SaveChanges();
+            //}
+        //}    
     }
 }
