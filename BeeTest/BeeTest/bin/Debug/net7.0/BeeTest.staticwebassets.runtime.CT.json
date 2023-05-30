@@ -29,6 +29,14 @@
             "Asset": null,
             "Patterns": null
           },
+          "index.css": {
+            "Children": null,
+            "Asset": {
+              "ContentRootIndex": 0,
+              "SubPath": "css/index.css"
+            },
+            "Patterns": null
+          },
           "open-iconic": {
             "Children": {
               "FONT-LICENSE": {
