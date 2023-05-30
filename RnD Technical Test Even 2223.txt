@@ -15,7 +15,7 @@
   - essay V
   - submit file V
 
-=> use Blazor for making the web application
+=> use Blazor for making the web application           
 => try running it using docker / setup runnable with docker
 
 => make a mock data for the question, user, and schedule
@@ -25,7 +25,7 @@
   describe the efficincy in the documentation
 
 => find a recent technology and design an application that can be made using the technology, write it in a document,
- describe the app and in which part / feature the technology can be used.\
+ describe the app and in which part / feature the technology can be used.
 
 Note to self:
 Saat seseorang sedang mengerjakan ujian, menyimpan hasil ujiannya menggunakan JSON akan tidak efisien, karena kita harus memparse JSONNya setiap kali mau update, maka kita buat saja tabel sementara untuk menyimpan jawaban participant selagi ujian, saat ujain difinalize, baru kita pindahkan ke JSON dan hapus dari table itu.
