@@ -314,3 +314,11 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razo
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Shared\AuthenticatedLayout.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Login.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Login.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\ManageSchedules.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\ManageTests.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\ManageUsers.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\TestHistories.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\ManageSchedules.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\ManageTests.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\ManageUsers.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\TestHistories.razor.g.cs
