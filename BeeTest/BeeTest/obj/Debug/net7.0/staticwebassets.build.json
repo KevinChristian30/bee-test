@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6dQXhlvndeNNyLpm7mmI+iO42ay2YYSMAYm0SqpNKGA=",
+  "Hash": "K7EvI0oCEotnx6C5hUegAt53nZlaQiOlEAOUw42HC2o=",
   "Source": "BeeTest",
   "BasePath": "_content/BeeTest",
   "Mode": "Default",
@@ -1069,6 +1069,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\BeeTest.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\css\\authenticated-layout.css",
+      "SourceId": "BeeTest",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\",
+      "BasePath": "_content/BeeTest",
+      "RelativePath": "css/authenticated-layout.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\authenticated-layout.css"
     },
     {
       "Identity": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\css\\bootstrap\\bootstrap.min.css",

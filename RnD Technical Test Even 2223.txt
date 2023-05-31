@@ -15,7 +15,7 @@
   - essay V
   - submit file V
 
-=> use Blazor for making the web application           
+=> use Blazor for making the web application
 => try running it using docker / setup runnable with docker
 
 => make a mock data for the question, user, and schedule

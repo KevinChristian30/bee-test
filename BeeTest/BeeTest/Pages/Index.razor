@@ -1,51 +1,12 @@
 ﻿@page "/"
+@layout AuthenticatedLayout
 
 @using BeeTest.Authentication
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
 
-<PageTitle>BeeTest</PageTitle>
-
-<AuthorizeView>
-    <Authorized>
-        <h1>Hello, You Are Authorized</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>You Are Not Authorized</h1>
-    </NotAuthorized>
-</AuthorizeView>
-
-<AuthorizeView Roles="Admin">
-    <Authorized>
-        <h1>Hello, You Are an Admin</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>You Are Not an Admin</h1>
-    </NotAuthorized>
-</AuthorizeView>
-
-<AuthorizeView Roles="Participant">
-    <Authorized>
-        <h1>Hello, You Are a Participant</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>You Are Not a Participant</h1>
-    </NotAuthorized>
-</AuthorizeView>
-
-<AuthorizeView Roles="Admin, Participant">
-    <Authorized>
-        <h1>Hello, You Are a Participant or an Admin</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>You Are Not a Participant nor an Admin</h1>
-    </NotAuthorized>
-</AuthorizeView>
-
-<AuthorizeView>
-    <button @onclick="LogOut">Log Out</button>
-</AuthorizeView>
+<PageTitle>BeeTest | Home</PageTitle>
 
 @code {
     [CascadingParameter]
@@ -56,21 +17,10 @@
         var authState = await authenticationState;
 
         if (!authState.User.Identity.IsAuthenticated)
-        {           
+        {
             navigationManager.NavigateTo("/login", true);
         }
 
         await base.OnInitializedAsync();
-    }
-
-    private async Task LogOut()
-    {
-        var authState = await authenticationState;
-        js.InvokeVoidAsync("console.log", authState.User.Identity.IsAuthenticated);
-
-        var authStateProvider = (AuthStateProvider) authenticationStateProvider;
-        await authStateProvider.UpdateAuthenticationState(null);
-
-        navigationManager.NavigateTo("/login", true);
     }
 }

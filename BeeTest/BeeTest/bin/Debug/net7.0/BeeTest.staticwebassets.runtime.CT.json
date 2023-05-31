@@ -8,6 +8,14 @@
     "Children": {
       "css": {
         "Children": {
+          "authenticated-layout.css": {
+            "Children": null,
+            "Asset": {
+              "ContentRootIndex": 0,
+              "SubPath": "css/authenticated-layout.css"
+            },
+            "Patterns": null
+          },
           "bootstrap": {
             "Children": {
               "bootstrap.min.css": {

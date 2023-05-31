@@ -1,0 +1,62 @@
+﻿@inherits LayoutComponentBase
+@using BeeTest.Authentication
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManager
+
+<div class="authenticated-layout">
+    <div class="side-bar">
+        <div class="top">
+            <NavLink class="link" href="/">
+                <h2>BeeTest</h2>
+            </NavLink>
+            <div>
+                <AuthorizeView Roles="Admin">
+                    <NavLink class="link" href="/manage-tests">
+                        <h5>Manage Tests</h5>
+                    </NavLink>
+                    <NavLink class="link" href="/manage-schedules">
+                        <h5>Manage Schedules</h5>
+                    </NavLink>
+                    <NavLink class="link" href="/manage-users">
+                        <h5>Manage Users</h5>
+                    </NavLink>
+                    <NavLink class="link" href="/test-histories">
+                        <h5>Test Histories</h5>
+                    </NavLink>
+                </AuthorizeView>
+                <AuthorizeView Roles="Participant">
+                    <NavLink class="link" href="/manage-tests">
+                        <h5>My Schedule</h5>
+                    </NavLink>
+                    <NavLink class="link" href="/manage-schedules">
+                        <h5>My Test History</h5>
+                    </NavLink>
+                </AuthorizeView>
+            </div>
+        </div>
+        <div class="bottom">
+            <AuthorizeView>
+                <button @onclick="LogOut" id="logout-button">Log Out</button>
+            </AuthorizeView>
+        </div>
+    </div>
+
+    <main>
+        @Body
+    </main>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private async Task LogOut()
+    {
+        var authState = await authenticationState;
+
+        var authStateProvider = (AuthStateProvider) authenticationStateProvider;
+        await authStateProvider.UpdateAuthenticationState(null);
+
+        navigationManager.NavigateTo("/login", true);
+    }
+}

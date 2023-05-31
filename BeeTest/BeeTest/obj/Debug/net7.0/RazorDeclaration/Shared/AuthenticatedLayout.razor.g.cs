@@ -82,7 +82,14 @@ using BeeTest.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : global::Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
+using BeeTest.Authentication;
+
+#line default
+#line hidden
+#nullable disable
+    public partial class AuthenticatedLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -90,20 +97,26 @@ using BeeTest.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 30 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\NavMenu.razor"
+#line 49 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
        
-    private bool collapseNavMenu = true;
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    private async Task LogOut()
     {
-        collapseNavMenu = !collapseNavMenu;
+        var authState = await authenticationState;
+
+        var authStateProvider = (AuthStateProvider) authenticationStateProvider;
+        await authStateProvider.UpdateAuthenticationState(null);
+
+        navigationManager.NavigateTo("/login", true);
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider authenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591
