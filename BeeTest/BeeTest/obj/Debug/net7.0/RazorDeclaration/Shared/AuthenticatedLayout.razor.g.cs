@@ -97,7 +97,7 @@ using BeeTest.Authentication;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
+#line 50 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
