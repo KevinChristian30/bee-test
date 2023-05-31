@@ -1,0 +1,40 @@
+﻿@page "/users"
+@layout AuthenticatedLayout
+
+@using BeeTest.Pages.Components
+@using BeeTest.Authentication
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+
+<PageTitle>BeeTest | Manage Users</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="manage-users">
+            <PageHeader Text="Manage Users" />
+
+            <Button Text="Add User" OnClick="NavigateToAddUserPage" />
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@*Display Add Button*@
+@*Display All Users (Update + Delete)*@
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        await base.OnInitializedAsync();
+    }
+
+    private void NavigateToAddUserPage()
+    {
+        navigationManager.NavigateTo("/users/add", true);
+    }
+}

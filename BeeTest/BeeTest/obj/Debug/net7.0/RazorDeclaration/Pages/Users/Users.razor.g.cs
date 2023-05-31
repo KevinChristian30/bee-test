@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BeeTest.Pages
+namespace BeeTest.Pages.Users
 {
     #line hidden
     using System;
@@ -83,15 +83,22 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\ManageUsers.razor"
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
 using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
+using BeeTest.Authentication;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/users")]
-    public partial class ManageUsers : global::Microsoft.AspNetCore.Components.ComponentBase
+    public partial class Users : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -99,8 +106,19 @@ using BeeTest.Pages.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 16 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\ManageUsers.razor"
+#line 24 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
        
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        await base.OnInitializedAsync();
+    }
+
     private void NavigateToAddUserPage()
     {
         navigationManager.NavigateTo("/users/add", true);
@@ -109,6 +127,7 @@ using BeeTest.Pages.Components;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }

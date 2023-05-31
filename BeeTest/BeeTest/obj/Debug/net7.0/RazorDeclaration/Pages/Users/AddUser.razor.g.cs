@@ -96,6 +96,13 @@ using BeeTest.Pages.Components;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+using BeeTest.Authentication;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/users/add")]
     public partial class AddUser : global::Microsoft.AspNetCore.Components.ComponentBase
@@ -106,24 +113,33 @@ using BeeTest.Pages.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 47 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
        
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        await base.OnInitializedAsync();
+    }
+
     private User NewUser = new();
-    private string Male { get; set; }
-    private string Female { get; set; }
+    private string MaleRadioButtonValue { get; set; }
+    private string FemaleRadioButtonValue { get; set; }
 
     private void Save()
     {
-        js.InvokeVoidAsync("console.log", NewUser.Name);
-        js.InvokeVoidAsync("console.log", NewUser.Email);
-        js.InvokeVoidAsync("console.log", Male == "on" ? "Male" : Female == "on" ? "Female" : "Not Picked");
-        js.InvokeVoidAsync("console.log", NewUser.DateOfBirth);
+        
     }
 
 #line default
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

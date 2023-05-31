@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
@@ -12,7 +13,7 @@ namespace BeeTest.Authentication
 
         public AuthStateProvider(ProtectedSessionStorage sessionStorage)
         {
-            this._sessionStorage = sessionStorage; 
+            this._sessionStorage = sessionStorage;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -56,6 +57,33 @@ namespace BeeTest.Authentication
             }
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+        }
+    
+        public static bool IsAuthenticated(AuthenticationState authState)
+        {
+            return authState.User.Identity.IsAuthenticated;
+        }
+
+        public static bool IsAuthorizedAs(AuthenticationState authState, string role)
+        {
+            return authState.User.IsInRole(role);
+        }
+
+        public static void AllowAuthorizedOnly(AuthenticationState authState, NavigationManager navigationManager)
+        {
+            if (!IsAuthenticated(authState))
+            {
+                navigationManager.NavigateTo("/login", true);
+            }
+        }
+
+        public static void AllowAdminOnly(AuthenticationState authState, NavigationManager navigationManager)
+        {
+            if (!IsAuthenticated(authState) ||
+                !IsAuthorizedAs(authState, "Admin"))
+            {
+                navigationManager.NavigateTo("/", true);
+            }
         }
     }
 }

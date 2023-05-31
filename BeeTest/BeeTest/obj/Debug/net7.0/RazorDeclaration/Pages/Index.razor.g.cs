@@ -99,7 +99,7 @@ using BeeTest.Authentication;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 11 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Index.razor"
+#line 10 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Index.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -108,7 +108,7 @@ using BeeTest.Authentication;
     {
         var authState = await authenticationState;
 
-        if (!authState.User.Identity.IsAuthenticated)
+        if (!AuthStateProvider.IsAuthenticated(authState))
         {
             navigationManager.NavigateTo("/login", true);
         }
@@ -119,7 +119,6 @@ using BeeTest.Authentication;
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider authenticationStateProvider { get; set; }
     }

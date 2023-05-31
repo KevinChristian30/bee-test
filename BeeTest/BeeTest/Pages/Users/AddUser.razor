@@ -3,11 +3,15 @@
 
 @using BeeTest.Models
 @using BeeTest.Pages.Components
+@using BeeTest.Authentication
+@inject NavigationManager navigationManager
 @inject IJSRuntime js
 
 <PageTitle>Add User</PageTitle>
 
-<div class="add-user">
+<AuthorizeView>
+    <Authorized>
+        <div class="add-user">
     <PageHeader Text="Add User" />
 
     <form Model="NewUser" class="user-form">
@@ -37,8 +41,21 @@
         <Button Text="Add User" OnClick="Save" />
     </form>
 </div>
+    </Authorized>
+</AuthorizeView>
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        await base.OnInitializedAsync();
+    }
+
     private User NewUser = new();
     private string MaleRadioButtonValue { get; set; }
     private string FemaleRadioButtonValue { get; set; }

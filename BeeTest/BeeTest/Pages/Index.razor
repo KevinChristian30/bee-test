@@ -4,7 +4,6 @@
 @using BeeTest.Authentication
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject NavigationManager navigationManager
-@inject IJSRuntime js
 
 <PageTitle>BeeTest | Home</PageTitle>
 
@@ -16,7 +15,7 @@
     {
         var authState = await authenticationState;
 
-        if (!authState.User.Identity.IsAuthenticated)
+        if (!AuthStateProvider.IsAuthenticated(authState))
         {
             navigationManager.NavigateTo("/login", true);
         }
