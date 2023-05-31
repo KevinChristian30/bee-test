@@ -1,18 +1,23 @@
-﻿.authenticated-layout {
+﻿.authenticated-layout main {
+    padding: 25px;
+    width: 100%;
+}
+
+.authenticated-layout {
     width: 100vw;
     height: 100vh;
     display: flex;
 }
 
 .authenticated-layout .side-bar {
-    width: 250px;
+    width: 300px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 50px;
     background-color: #018dd1;
-    padding: 25px 10px;
+    padding: 25px 20px;
 }
 
 .authenticated-layout #title {

@@ -1,0 +1,15 @@
+﻿.add-user .user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-user .line {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-user .line input[type=text],
+.line input[type=email] {
+    width: 100%;
+}

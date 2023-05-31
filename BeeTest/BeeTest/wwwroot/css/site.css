@@ -66,3 +66,10 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"]{
+        height: 35px;
+        padding: 0 5px;
+    }

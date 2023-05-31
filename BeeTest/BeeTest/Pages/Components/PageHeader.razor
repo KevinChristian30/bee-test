@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<div class="page-header">
+    <h2>@Text</h2>
+</div>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+}
+
+<style>
+    .page-header {
+        margin-bottom: 50px;
+    }
+</style>

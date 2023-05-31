@@ -8,6 +8,14 @@
     "Children": {
       "css": {
         "Children": {
+          "add-user-page.css": {
+            "Children": null,
+            "Asset": {
+              "ContentRootIndex": 0,
+              "SubPath": "css/add-user-page.css"
+            },
+            "Patterns": null
+          },
           "authenticated-layout.css": {
             "Children": null,
             "Asset": {

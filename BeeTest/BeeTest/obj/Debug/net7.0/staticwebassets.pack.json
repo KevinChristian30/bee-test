@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\BeeTest.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\css\\add-user-page.css",
+      "PackagePath": "staticwebassets\\css\\add-user-page.css"
+    },
+    {
       "Id": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\css\\authenticated-layout.css",
       "PackagePath": "staticwebassets\\css\\authenticated-layout.css"
     },

@@ -91,8 +91,6 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\runt
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Index.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Index.razor.g.cs
-C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\AddUser.razor.g.cs
-C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\AddUser.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.Build.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.Build.Framework.dll
@@ -322,3 +320,9 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razo
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\ManageTests.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\ManageUsers.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\TestHistories.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Components\PageHeader.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Components\PageHeader.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Components\Button.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Components\Button.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Users\AddUser.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Users\AddUser.razor.g.cs

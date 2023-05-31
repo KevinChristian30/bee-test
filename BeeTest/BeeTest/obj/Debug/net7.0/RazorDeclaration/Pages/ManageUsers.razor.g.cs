@@ -82,8 +82,15 @@ using BeeTest.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\ManageUsers.razor"
+using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
-    [global::Microsoft.AspNetCore.Components.RouteAttribute("/manage-users")]
+    [global::Microsoft.AspNetCore.Components.RouteAttribute("/users")]
     public partial class ManageUsers : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -91,6 +98,18 @@ using BeeTest.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 16 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\ManageUsers.razor"
+       
+    private void NavigateToAddUserPage()
+    {
+        navigationManager.NavigateTo("/users/add", true);
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

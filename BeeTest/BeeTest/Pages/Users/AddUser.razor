@@ -1,0 +1,50 @@
+﻿@page "/users/add"
+@layout AuthenticatedLayout
+
+@using BeeTest.Models
+@using BeeTest.Pages.Components
+@inject IJSRuntime js
+
+<PageTitle>Add User</PageTitle>
+
+<div class="add-user">
+    <PageHeader Text="Add User" />
+
+    <form Model="NewUser" class="user-form">
+        <div class="line">
+            <label for="name">Name</label>
+            <input type="text" id="name" @bind="NewUser.Name" />
+        </div>
+        <div class="line">
+            <label for="email">Email</label>
+            <input type="email" id="email" @bind="NewUser.Email" />
+        </div>
+        <div class="line">
+            <div>
+                <label>Gender</label>
+            </div>
+            <div>
+                <label for="male">Male</label>
+                <input type="radio" id="male" name="gender" @bind="MaleRadioButtonValue" />
+                <label for="female">Female</label>
+                <input type="radio" id="female" name="gender" @bind="FemaleRadioButtonValue" />
+            </div>
+        </div>
+        <div class="line">
+            <label for="date-of-birth">Date of Birth</label>
+            <input type="date" id="date-of-birth" @bind="NewUser.DateOfBirth" />
+        </div>
+        <Button Text="Add User" OnClick="Save" />
+    </form>
+</div>
+
+@code {
+    private User NewUser = new();
+    private string MaleRadioButtonValue { get; set; }
+    private string FemaleRadioButtonValue { get; set; }
+
+    private void Save()
+    {
+        
+    }
+}

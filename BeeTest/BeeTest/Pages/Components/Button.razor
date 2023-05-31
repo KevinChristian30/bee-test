@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<button @onclick="HandleClick" type="button" class="button">@Text</button>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnClick { get; set; }
+
+    private async Task HandleClick()
+    {
+        await OnClick.InvokeAsync();
+    }
+}
+
+<style>
+    .button {
+        background-color: #018dd1;
+        color: white;
+        border: none;
+        border-radius: 7px;
+        padding: 7px 10px;
+        transition: all 0.1s ease-in;
+        font-weight: bold;
+    }
+
+    .button:hover {
+        transform: scale(1.02, 1.02);
+        background-color: #f48703;
+    }
+</style>
