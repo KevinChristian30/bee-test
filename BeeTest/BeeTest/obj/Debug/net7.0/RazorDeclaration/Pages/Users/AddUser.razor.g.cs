@@ -110,6 +110,13 @@ using Services.Interfaces;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+using BCrypt.Net;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/users/add")]
     public partial class AddUser : global::Microsoft.AspNetCore.Components.ComponentBase
@@ -120,7 +127,7 @@ using Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 58 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 59 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -154,27 +161,25 @@ using Services.Interfaces;
         {
             IsLoading = false;
             await Task.Delay(1);
-            
+
             return;
         }
 
         NewUser.Id = 0;
-        NewUser.Password = NewUser.Name;
+        NewUser.Password = BCrypt.HashPassword(NewUser.Name);
         NewUser.Role = roleService.Get("Participant");
         NewUser.Gender = Gender == "Male" ?
             Enumerations.Gender.Male : Enumerations.Gender.Female;
 
         if (await userService.AddOrUpdate(NewUser))
         {
-            js.InvokeVoidAsync("alert", "User Added Successfully");
+            await js.InvokeVoidAsync("alert", "User Added Successfully");
 
             NewUser = new User();
             Gender = "";
             StateHasChanged();
-        } else
-        {
-            js.InvokeVoidAsync("alert", "Couldn't Save User");
         }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save User");
 
         IsLoading = false;
         await Task.Delay(1);
@@ -183,32 +188,32 @@ using Services.Interfaces;
     private async Task<bool> AreFormValuesValid()
     {
         if (NewUser.Name == null || NewUser.Name == "") {
-            js.InvokeVoidAsync("alert", "Name can't be empty");
+            await js.InvokeVoidAsync("alert", "Name can't be empty");
             return false;
         }
 
         if (NewUser.Email == null || NewUser.Email == "")
         {
-            js.InvokeVoidAsync("alert", "Email can't be empty");
+            await js.InvokeVoidAsync("alert", "Email can't be empty");
             return false;
         }
 
         if (!NewUser.Email.EndsWith("@gmail.com"))
         {
-            js.InvokeVoidAsync("alert", "Email must end with @gmail.com");
+            await js.InvokeVoidAsync("alert", "Email must end with @gmail.com");
             return false;
         }
 
         User userWithTheSameEmail = await userService.Get(NewUser.Email);
         if (userWithTheSameEmail != null)
         {
-            js.InvokeVoidAsync("alert", "Email already taken");
+            await js.InvokeVoidAsync("alert", "Email already taken");
             return false;
         }
 
         if (Gender == null)
         {
-            js.InvokeVoidAsync("alert", "You must choose a gender");
+            await js.InvokeVoidAsync("alert", "You must choose a gender");
             return false;
         }
 

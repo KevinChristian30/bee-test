@@ -3,8 +3,12 @@
 
 @using BeeTest.Pages.Components
 @using BeeTest.Authentication
+@using BeeTest.Models
+@using Services.Interfaces
+
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
+@inject IUserService userService
 
 <PageTitle>BeeTest | Manage Users</PageTitle>
 
@@ -12,23 +16,45 @@
     <Authorized>
         <div class="manage-users">
             <PageHeader Text="Manage Users" />
-
             <Button Text="Add User" OnClick="NavigateToAddUserPage" />
+            <table class="table table-fluid">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach(var user in users)
+                {
+                    <tr>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                        <td>@user.Gender</td>
+                        <td>@user.DateOfBirth</td>
+                        <td><Button Text="Delete" /></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </div>
     </Authorized>
 </AuthorizeView>
-
-@*Display Add Button*@
-@*Display All Users (Update + Delete)*@
 
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
+    private List<User> users = new List<User>();
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        users = await userService.GetAll();
 
         await base.OnInitializedAsync();
     }

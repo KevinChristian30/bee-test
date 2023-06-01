@@ -21,7 +21,7 @@ namespace BeeTest.Authentication
                         Name= "Admin"
                     },
                     Gender = Gender.Male,
-                    DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
+                    DateOfBirth = new DateTime(2003, 5, 24)
                 },
                 new User()
                 {
@@ -34,7 +34,7 @@ namespace BeeTest.Authentication
                         Name = "Participant"
                     },
                     Gender = Gender.Male,
-                    DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
+                    DateOfBirth = new DateTime(2003, 5, 24)
                 },
             };
         }

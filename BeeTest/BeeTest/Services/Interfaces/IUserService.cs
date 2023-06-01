@@ -8,6 +8,6 @@ namespace BeeTest.Services.Interfaces
         Task<bool> Delete(int id);
         Task<User> Get(int id);
         Task<User> Get(string email);
-        Task<ICollection<User>> GetAll();
+        Task<List<User>> GetAll();
     }
 }

@@ -1,16 +1,15 @@
 USE beetest
 GO
 
-DROP TABLE Roles
-DROP TABLE Participant_Schedules
-DROP TABLE Participants
+DROP TABLE TemporaryAnswers
 DROP TABLE Questions
 DROP TABLE QuestionTypes
+DROP TABLE Participant_Schedules
 DROP TABLE Schedules
-DROP TABLE TemporaryAnswers
+DROP TABLE Roles
+DROP TABLE Users
 DROP TABLE Tests
-
-SELECT * FROM QuestionTypes
 GO
 
-SELECT * FROM Participants
+DELETE FROM __EFMigrationsHistory
+GO

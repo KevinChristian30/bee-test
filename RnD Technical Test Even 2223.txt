@@ -1,24 +1,24 @@
 => Create a web application following these specifications:
 # Pages
-  - Manage questions V
-  - Manage schedule V
-  - Manage participant V
-  - View participant test result V
-  - View participant test status (answer status) V
-  - Test page for participant test (server time in the page) V
-  - Login page for participant V
+  - Manage questions
+  - Manage schedule
+  - Manage participant
+  - View participant test result
+  - View participant test status (answer status)
+  - Test page for participant test (server time in the page)
+  - Login page for participant
 
 # Types
-  - multiple choice V
-  - true | false V
-  - choose an answer from list V
-  - essay V
-  - submit file V
+  - multiple choice
+  - true | false
+  - choose an answer from list
+  - essay
+  - submit file
 
-=> use Blazor for making the web application
-=> try running it using docker / setup runnable with docker
+=> use Blazor for making the web application V
+=> try running it using docker / setup runnable with docker V
 
-=> make a mock data for the question, user, and schedule
+=> make a mock data for the question, user, and schedule (baru user)
 => make a documentation for the application you made / video documentation
 
 * Please concern with the efficiency of the application regarding memory, server load, easy to use, and access time.

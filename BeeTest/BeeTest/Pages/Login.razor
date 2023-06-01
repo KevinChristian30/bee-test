@@ -1,9 +1,14 @@
 ﻿@page "/login"
+
 @using BeeTest.Authentication
+@using BeeTest.Services.Interfaces
+@using BCrypt.Net
+
 @inject UserAuthService userAccountService
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject IJSRuntime js
 @inject NavigationManager navigationManager
+@inject IUserService userService
 
 <PageTitle>BeeTest | Login</PageTitle>
 
@@ -24,7 +29,6 @@
     </form>
 </div>
 
-
 @code {
     private class Model
     {
@@ -36,11 +40,17 @@
 
     private async Task Authenticate()
     {
-        var userAccount = userAccountService.GetUser(model.Email);
+        var userAccount = await userService.Get(model.Email);
 
-        if (userAccount == null || userAccount.Password != model.Password)
+        if (userAccount == null)
         {
-            await js.InvokeVoidAsync("alert", "Invalid Email or Password");
+            await js.InvokeVoidAsync("alert", "Email Not Found");
+            return;
+        }
+
+        if (!BCrypt.Verify(model.Password, userAccount.Password))
+        {
+            await js.InvokeVoidAsync("alert", "Wrong Password");
             return;
         }
 

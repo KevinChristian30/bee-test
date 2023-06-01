@@ -83,8 +83,22 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+#line 3 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
 using BeeTest.Authentication;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+using BCrypt.Net;
 
 #line default
 #line hidden
@@ -98,7 +112,7 @@ using BeeTest.Authentication;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 28 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+#line 32 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
        
     private class Model
     {
@@ -110,11 +124,17 @@ using BeeTest.Authentication;
 
     private async Task Authenticate()
     {
-        var userAccount = userAccountService.GetUser(model.Email);
+        var userAccount = await userService.Get(model.Email);
 
-        if (userAccount == null || userAccount.Password != model.Password)
+        if (userAccount == null)
         {
-            await js.InvokeVoidAsync("alert", "Invalid Email or Password");
+            await js.InvokeVoidAsync("alert", "Email Not Found");
+            return;
+        }
+
+        if (!BCrypt.Verify(model.Password, userAccount.Password))
+        {
+            await js.InvokeVoidAsync("alert", "Wrong Password");
             return;
         }
 
@@ -131,6 +151,7 @@ using BeeTest.Authentication;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider authenticationStateProvider { get; set; }

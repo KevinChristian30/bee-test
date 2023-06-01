@@ -1,6 +1,7 @@
 ﻿using BeeTest.Data;
 using BeeTest.Models;
 using BeeTest.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeeTest.Services.Classes
 {
@@ -14,16 +15,6 @@ namespace BeeTest.Services.Classes
         public Role Get(string name)
         {
             return _context.Roles.FirstOrDefault(r => r.Name == name);
-        }
-
-        public Role Get(int id)
-        {
-            return _context.Roles.FirstOrDefault(r => r.Id == id);
-        }
-
-        public ICollection<Role> GetAll()
-        {
-            return _context.Roles.ToList();
         }
     }
 }

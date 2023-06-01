@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeeTest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230530110258_InitialCreation")]
+    [Migration("20230601124157_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -186,6 +186,9 @@ namespace BeeTest.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")

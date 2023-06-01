@@ -1,23 +1,26 @@
 ﻿using BeeTest.Data;
 using BeeTest.Enumerations;
 using BeeTest.Models;
+using BeeTest.Services.Interfaces;
 
 namespace BeeTest
 {
     public class Seed
     {
         private readonly DataContext _context;
+        private readonly IRoleService _roleService;
 
-        public Seed(DataContext context)
+        public Seed(DataContext context, IRoleService roleService)
         {
             this._context = context;
+            this._roleService = roleService;
         }
 
         public void SeedDataContext()
         {
             SeedQuestionTypes();
             SeedRoles();
-            //SeedParticipants();
+            SeedUsers();
         }
 
         public void SeedQuestionTypes()
@@ -74,85 +77,62 @@ namespace BeeTest
             }
         }
 
-        //public void SeedParticipants()
-        //{
-        //    if (!_context.Users.Any())
-        //    {
-        //        var users = new List<User>()
-        //        {
-        //new User()
-        //{
-        //    Name = "Admin",
-        //                Email = "admin@gmail.com",
-        //                Password = "admin",
-        //                Role = new Role
-        //                {
-        //                    Id = 1
-        //                },
-        //                Gender = Gender.Male,
-        //                DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
-        //            },
-        //            new User()
-        //{
-        //    Name = "Kevin Christian",
-        //                Email = "kevinchristian@gmail.com",
-        //                Password = "kevinchristian",
-        //                Role = new Role
-        //                {
-        //                    Id = 2
-        //                },
-        //                Gender = Gender.Male,
-        //                DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
-        //            },
-        //            new User()
-        //            {
-        //                Name = "Rico Gunawan",
-        //                Email = "ricogunawan@gmail.com",
-        //                Password = "ricogunawan",
-        //                Role = new Role {
-        //                    Id = 2
-        //                },
-        //                Gender = Gender.Male,
-        //                DateOfBirth = new DateTime(2003, 6, 13, 0, 0, 0)
-        //            },
-        //            new User()
-        //            {
-        //                Name = "Richard Gregorius",
-        //                Email = "richardgregorius@gmail.com",
-        //                Password = "richardgregorius",
-        //                Role = new Role {
-        //                    Id = 2
-        //                },
-        //                Gender = Gender.Male,
-        //                DateOfBirth = new DateTime(2003, 3, 21, 0, 0, 0)
-        //            },
-        //            new User()
-        //            {
-        //                Name = "Glory Daniella",
-        //                Email = "glorydaniella@gmail.com",
-        //                Password = "glorydaniella",
-        //                Role = new Role {
-        //                    Id = 2
-        //                },
-        //                Gender = Gender.Female,
-        //                DateOfBirth = new DateTime(2003, 4, 14, 0, 0, 0)
-        //            },
-        //            new User()
-        //            {
-        //                Name = "Jaysie Lestari",
-        //                Email = "jaysielestari@gmail.com",
-        //                Password = "jaysielestari",
-        //                Role = new Role {
-        //                    Id = 2
-        //                },
-        //                Gender = Gender.Female,
-        //                DateOfBirth = new DateTime(2002, 7, 19, 0, 0, 0)
-        //            }
-        //        };
-                
-            //    _context.Users.AddRange(users);
-            //    _context.SaveChanges();
-            //}
-        //}    
+        public void SeedUsers()
+        {
+            if (!_context.Users.Any())
+            {
+                var users = new List<User>()
+                {
+                    new User()
+                    {
+                        Name = "Admin",
+                        Email = "admin@gmail.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Admin"),
+                        Role = _roleService.Get("Admin"),
+                        Gender = Gender.Male,
+                        DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0),
+                    },
+                    new User()
+                    {
+                        Name = "Kevin Christian",
+                        Email = "kevinchristian@gmail.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Kevin Christian"),
+                        Role = _roleService.Get("Participant"),
+                        Gender = Gender.Male,
+                        DateOfBirth = new DateTime(2003, 5, 24, 0, 0, 0)
+                    },
+                    new User()
+                    {
+                        Name = "Rico Gunawan",
+                        Email = "ricogunawan@gmail.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Rico Gunawan"),
+                        Role = _roleService.Get("Participant"),
+                        Gender = Gender.Male,
+                        DateOfBirth = new DateTime(2003, 6, 13, 0, 0, 0)
+                    },
+                    new User()
+                    {
+                        Name = "Glory Daniella",
+                        Email = "glorydaniella@gmail.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Glory Daniella"),
+                        Role = _roleService.Get("Participant"),
+                        Gender = Gender.Female,
+                        DateOfBirth = new DateTime(2003, 4, 14, 0, 0, 0)
+                    },
+                    new User()
+                    {
+                        Name = "Jaysie Lestari",
+                        Email = "jaysielestari@gmail.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Jaysie Lestari"),
+                        Role = _roleService.Get("Participant"),
+                        Gender = Gender.Female,
+                        DateOfBirth = new DateTime(2002, 7, 19, 0, 0, 0)
+                    }
+                };
+
+                _context.Users.AddRange(users);
+                _context.SaveChanges();
+            }
+        }
     }
 }

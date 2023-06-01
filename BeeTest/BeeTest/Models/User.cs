@@ -2,7 +2,6 @@
 
 namespace BeeTest.Models
 {
-
     public class User
     {
         public int Id { get; set; }
@@ -12,6 +11,7 @@ namespace BeeTest.Models
         public Role Role { get; set; }
         public Gender Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public DateTime? DeletedAt { get; set; }
         public ICollection<Participant_Schedule> Participant_Schedules { get; set; }
     }
 }

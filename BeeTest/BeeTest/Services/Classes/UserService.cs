@@ -26,8 +26,9 @@ namespace BeeTest.Services.Classes
                 await _context.SaveChangesAsync();
 
                 return true;
-            } catch (Exception _)
+            } catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return false;
             }
         }
@@ -43,23 +44,28 @@ namespace BeeTest.Services.Classes
                 await _context.SaveChangesAsync();
                 
                 return true;
-            } catch (Exception _)
+            } catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return false;
             }
         }
 
         public async Task<User> Get(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Users
+                .Include(user => user.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> Get(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _context.Users
+                .Include(user => user.Role)
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<ICollection<User>> GetAll()
+        public async Task<List<User>> GetAll()
         {
             return await _context.Users.ToListAsync();
         }
