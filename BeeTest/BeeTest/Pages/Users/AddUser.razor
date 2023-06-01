@@ -14,14 +14,16 @@
 <PageTitle>Add User</PageTitle>
 
 <AuthorizeView>
-    <Authorized>
-        @if (@IsLoading) {
-            <div>Loading</div>
-        } else {
+    <Authorized>            
         <div class="add-user">
             <PageHeader Text="Add User" />
 
-            <form Model="NewUser" class="user-form">
+            @if (@IsLoading)
+            {
+                <LoadingView />
+            } else
+            {
+                <form Model="NewUser" class="user-form">
                 <div class="line">
                     <label for="name">Name</label>
                     <input type="text" id="name" @bind="NewUser.Name" />
@@ -48,8 +50,8 @@
                 </div>
                 <Button Text="Add User" OnClick="Save" />
             </form>
+            }
         </div>
-        }
     </Authorized>
 </AuthorizeView>
 
@@ -77,12 +79,18 @@
         Gender = e.Value.ToString();
     }
 
-    private async void Save()
+    private async Task Save()
     {
-        if (!(await AreFormValuesValid())) return;
-
         IsLoading = true;
-        StateHasChanged();
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+            
+            return;
+        }
 
         NewUser.Id = 0;
         NewUser.Password = NewUser.Name;
@@ -103,7 +111,7 @@
         }
 
         IsLoading = false;
-        StateHasChanged();
+        await Task.Delay(1);
     }
 
     private async Task<bool> AreFormValuesValid()

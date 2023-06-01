@@ -120,7 +120,7 @@ using Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 56 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 58 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -145,12 +145,18 @@ using Services.Interfaces;
         Gender = e.Value.ToString();
     }
 
-    private async void Save()
+    private async Task Save()
     {
-        if (!(await AreFormValuesValid())) return;
-
         IsLoading = true;
-        StateHasChanged();
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+            
+            return;
+        }
 
         NewUser.Id = 0;
         NewUser.Password = NewUser.Name;
@@ -171,7 +177,7 @@ using Services.Interfaces;
         }
 
         IsLoading = false;
-        StateHasChanged();
+        await Task.Delay(1);
     }
 
     private async Task<bool> AreFormValuesValid()

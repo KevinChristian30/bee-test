@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PpOV48bG/FXvKkxMAJZ7DP+uVtPw14SAVBTMJFGezJQ=",
+  "Hash": "hxIuqZsee3eRuIRw2OOKJBCE3kNOgV+QFzh7w8QvdEc=",
   "Source": "BeeTest",
   "BasePath": "_content/BeeTest",
   "Mode": "Default",
@@ -1324,6 +1324,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\css\\variabels.css",
+      "SourceId": "BeeTest",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\",
+      "BasePath": "_content/BeeTest",
+      "RelativePath": "css/variabels.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\variabels.css"
     },
     {
       "Identity": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\favicon.png",

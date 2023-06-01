@@ -65,6 +65,10 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
+      "Id": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\css\\variabels.css",
+      "PackagePath": "staticwebassets\\css\\variabels.css"
+    },
+    {
       "Id": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },

@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 50px;
-    background-color: #018dd1;
+    background-color: var(--primary-color);
     padding: 25px 20px;
 }
 
@@ -30,13 +30,13 @@
 .authenticated-layout span {
     width: 100%;
     height: 2px;
-    background-color: white;
+    background-color: var(--on-primary-color);
     display: block;
 }
 
 .authenticated-layout .link {
     text-decoration: none;
-    color: white;
+    color: var(--on-primary-color);
     width: 100%;
     padding: 7px 15px 0px 15px;
 }
@@ -46,7 +46,7 @@
 }
 
 .authenticated-layout .top div .link:hover {
-    background-color: #f48703;
+    background-color: var(--secondary-color);
 }
 
 .authenticated-layout .top div {
@@ -56,7 +56,7 @@
 }
 
 .authenticated-layout #logout-button {
-    background-color: #f48703;
+    background-color: var(--secondary-color);
     color: white;
     width: 100%;
     height: 40px;
