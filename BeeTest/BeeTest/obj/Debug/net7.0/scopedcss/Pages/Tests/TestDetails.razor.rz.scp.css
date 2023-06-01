@@ -1,0 +1,18 @@
+.test-form[b-lj4536m4lr] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-lj4536m4lr] {
+    display: flex;
+    flex-direction: column;
+}
+
+.line input[type=text][b-lj4536m4lr] {
+    width: 100%;
+}
+
+.line input[type=number][b-lj4536m4lr] {
+    width: 100px;
+}

@@ -115,6 +115,25 @@ button:hover[b-b9zy7gl736] {
 .line input[type=number][b-0vvibkcvzw] {
     width: 100px;
 }
+/* _content/BeeTest/Pages/Tests/TestDetails.razor.rz.scp.css */
+.test-form[b-lj4536m4lr] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-lj4536m4lr] {
+    display: flex;
+    flex-direction: column;
+}
+
+.line input[type=text][b-lj4536m4lr] {
+    width: 100%;
+}
+
+.line input[type=number][b-lj4536m4lr] {
+    width: 100px;
+}
 /* _content/BeeTest/Pages/Users/AddUser.razor.rz.scp.css */
 .user-form[b-2z7w7jde7k] {
     display: flex;

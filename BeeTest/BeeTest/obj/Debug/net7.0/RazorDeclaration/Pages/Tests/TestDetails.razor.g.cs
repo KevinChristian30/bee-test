@@ -120,7 +120,7 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 30 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+#line 46 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
        
     [Parameter]
     public string id { get; set; }
@@ -130,6 +130,7 @@ using BeeTest.Services.Interfaces;
 
     private bool IsLoading = false;
     private Test test = new Test();
+    private Test oldTestData = new Test();
 
     protected override async Task OnInitializedAsync()
     {
@@ -138,9 +139,67 @@ using BeeTest.Services.Interfaces;
 
         IsLoading = true;
         test = await testService.Get(int.Parse(id));
+
+        oldTestData.Name = test.Name;
+        oldTestData.PassingScore = test.PassingScore;
+
         IsLoading = false;
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        if (test.Name == oldTestData.Name && test.PassingScore == oldTestData.PassingScore)
+        {
+            await js.InvokeVoidAsync("alert", "You didn't Change Anything");
+            return;
+        }
+
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        if (await testService.AddOrUpdate(test))
+        {
+            oldTestData.Name = test.Name;
+
+            await js.InvokeVoidAsync("alert", "Test Updated Successfully");
+        } else await js.InvokeVoidAsync("alert", "Couldn't Update Test");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (test.Name == null || test.Name == "")
+        {
+            await js.InvokeVoidAsync("alert", "Test Name can't be empty");
+            return false;
+        }
+
+        Test testThatHasTheSameName = await testService.Get(test.Name);
+        if (test.Name != oldTestData.Name && testThatHasTheSameName != null)
+        {
+            await js.InvokeVoidAsync("alert", "Test Name is Already Taken");
+            return false;
+        }
+
+        if (test.PassingScore > 100 || test.PassingScore < 1)
+        {
+            await js.InvokeVoidAsync("alert", "Test Passing Score Must be Between 1 and 100");
+            return false;
+        }
+
+        return true;
     }
 
 #line default
