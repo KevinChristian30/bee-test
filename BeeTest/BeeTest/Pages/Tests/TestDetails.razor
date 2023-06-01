@@ -1,0 +1,53 @@
+﻿@page "/tests/{id}"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Services.Interfaces
+
+@inject NavigationManager navigationManager
+@inject ITestService testService
+@inject IJSRuntime js
+
+<AuthorizeView>
+    <Authorized>
+        @if (IsLoading)
+        {
+            <LoadingView />
+        }
+        else if (@test == null)
+        {
+            <h2>The Test You're Looking for isn't Available</h2>
+        }
+        else
+        {
+            <PageHeader Text="@test.Name" />
+
+
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool IsLoading = false;
+    private Test test = new Test();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        IsLoading = true;
+        test = await testService.Get(int.Parse(id));
+        IsLoading = false;
+
+        await base.OnInitializedAsync();
+    }
+}

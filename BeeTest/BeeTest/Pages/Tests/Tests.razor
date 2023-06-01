@@ -42,7 +42,7 @@
                             <td>@test.Name</td>
                             <td>@test.PassingScore</td>
                             <td>
-                                <Button Text="Manage" />
+                                <Button Text="Manage" OnClick="@(() => NavigateToAddTestPage(test.Id))"/>
                                 <Button Text="Delete" OnClick="@(() => DeleteTest(@test))" />
                             </td>
                         </tr>
@@ -73,6 +73,11 @@
     private void NavigateToAddTestPage()
     {
         navigationManager.NavigateTo("/tests/add", true);
+    }
+
+    private void NavigateToAddTestPage(int id)
+    {
+        navigationManager.NavigateTo($"/tests/{id}", true);
     }
 
     private async Task DeleteTest(Test test)

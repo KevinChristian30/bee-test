@@ -338,3 +338,5 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razo
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Tests\AddTest.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Tests\AddTest.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Tests\AddTest.razor.rz.scp.css
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Tests\TestDetails.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Tests\TestDetails.razor.g.cs

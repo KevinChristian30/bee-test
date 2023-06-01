@@ -83,36 +83,36 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
 using BeeTest.Authentication;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
 using BeeTest.Pages.Components;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
 using BeeTest.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
 using BeeTest.Services.Interfaces;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
-    [global::Microsoft.AspNetCore.Components.RouteAttribute("/tests")]
-    public partial class Tests : global::Microsoft.AspNetCore.Components.ComponentBase
+    [global::Microsoft.AspNetCore.Components.RouteAttribute("/tests/{id}")]
+    public partial class TestDetails : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -120,43 +120,27 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 56 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 30 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
        
+    [Parameter]
+    public string id { get; set; }
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
     private bool IsLoading = false;
-    private List<Test> tests = new List<Test>();
+    private Test test = new Test();
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
-        tests = await testService.GetAllTests();
-
-        await base.OnInitializedAsync();
-    }
-
-    private void NavigateToAddTestPage()
-    {
-        navigationManager.NavigateTo("/tests/add", true);
-    }
-
-    private void NavigateToAddTestPage(int id)
-    {
-        navigationManager.NavigateTo($"/tests/{id}", true);
-    }
-
-    private async Task DeleteTest(Test test)
-    {
         IsLoading = true;
-
-        bool isSucessful = await testService.Delete(test.Id);
+        test = await testService.Get(int.Parse(id));
         IsLoading = false;
 
-        if (isSucessful) tests.Remove(test);
-        else await js.InvokeVoidAsync("alert", "User Deletion Failed");
+        await base.OnInitializedAsync();
     }
 
 #line default

@@ -158,6 +158,7 @@ using BeeTest.Services.Interfaces;
             await js.InvokeVoidAsync("alert", "Test Added Successfully");
 
             NewTest = new Test();
+            NewTest.PassingScore = 50;
         }
         else await js.InvokeVoidAsync("alert", "Couldn't Add Test");
 
