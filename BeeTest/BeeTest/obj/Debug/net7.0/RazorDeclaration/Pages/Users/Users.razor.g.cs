@@ -127,6 +127,7 @@ using Services.Interfaces;
 
     private bool IsLoading = false;
     private List<User> users = new List<User>();
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;

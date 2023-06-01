@@ -96,6 +96,20 @@ using BeeTest.Pages.Components;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+using BeeTest.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/tests")]
     public partial class Tests : global::Microsoft.AspNetCore.Components.ComponentBase
@@ -106,15 +120,20 @@ using BeeTest.Pages.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 19 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 55 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool IsLoading = false;
+    private List<Test> tests = new List<Test>();
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        tests = await testService.GetAllTests();
 
         await base.OnInitializedAsync();
     }
@@ -127,6 +146,7 @@ using BeeTest.Pages.Components;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }

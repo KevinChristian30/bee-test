@@ -3,16 +3,52 @@
 
 @using BeeTest.Authentication
 @using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Services.Interfaces
 
 @inject NavigationManager navigationManager
+@inject ITestService testService
 
 <PageTitle>BeeTest | Manage Tests</PageTitle>
 
 <AuthorizeView>
     <Authorized>
         <PageHeader Text="Manage Tests" />
+        @if (IsLoading)
+        {
+            <LoadingView />
+        }
+        else if (@tests.Count() == 0)
+        {
+            <h3>There Are No Tests</h3>
+        }
+        else
+        {
+            <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
 
-        <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
+            <table class="table table-fluid">
+                <thead>
+                    <tr>
+                        <th scope="col">Test Name</th>
+                        <th scope="col">Test Passing Grade</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var test in tests)
+                    {
+                        <tr>
+                            <td>@test.Name</td>
+                            <td>@test.PassingScore</td>
+                            <td>
+                                <Button Text="Manage" />
+                                <Button Text="Delete" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </Authorized>
 </AuthorizeView>
 
@@ -20,10 +56,15 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
+    private bool IsLoading = false;
+    private List<Test> tests = new List<Test>();
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        tests = await testService.GetAllTests();
 
         await base.OnInitializedAsync();
     }

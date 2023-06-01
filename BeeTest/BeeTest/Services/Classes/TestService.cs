@@ -63,7 +63,7 @@ namespace BeeTest.Services.Classes
             return await _context.Tests.FirstOrDefaultAsync(t => t.Name == name);
         }
 
-        public async Task<List<Test>> GetAllTest()
+        public async Task<List<Test>> GetAllTests()
         {
             return await _context.Tests.ToListAsync();
         }
