@@ -8,6 +8,7 @@
 
 @inject NavigationManager navigationManager
 @inject ITestService testService
+@inject IJSRuntime js
 
 <PageTitle>BeeTest | Manage Tests</PageTitle>
 
@@ -21,11 +22,11 @@
         else if (@tests.Count() == 0)
         {
             <h3>There Are No Tests</h3>
+            <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
         }
         else
         {
             <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
-
             <table class="table table-fluid">
                 <thead>
                     <tr>
@@ -42,7 +43,7 @@
                             <td>@test.PassingScore</td>
                             <td>
                                 <Button Text="Manage" />
-                                <Button Text="Delete" />
+                                <Button Text="Delete" OnClick="@(() => DeleteTest(@test))" />
                             </td>
                         </tr>
                     }
@@ -72,5 +73,16 @@
     private void NavigateToAddTestPage()
     {
         navigationManager.NavigateTo("/tests/add", true);
+    }
+
+    private async Task DeleteTest(Test test)
+    {
+        IsLoading = true;
+
+        bool isSucessful = await testService.Delete(test.Id);
+        IsLoading = false;
+
+        if (isSucessful) tests.Remove(test);
+        else await js.InvokeVoidAsync("alert", "User Deletion Failed");
     }
 }

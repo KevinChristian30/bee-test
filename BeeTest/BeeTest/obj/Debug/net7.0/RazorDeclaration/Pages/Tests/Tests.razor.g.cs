@@ -120,7 +120,7 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 55 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 56 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -143,9 +143,21 @@ using BeeTest.Services.Interfaces;
         navigationManager.NavigateTo("/tests/add", true);
     }
 
+    private async Task DeleteTest(Test test)
+    {
+        IsLoading = true;
+
+        bool isSucessful = await testService.Delete(test.Id);
+        IsLoading = false;
+
+        if (isSucessful) tests.Remove(test);
+        else await js.InvokeVoidAsync("alert", "User Deletion Failed");
+    }
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
