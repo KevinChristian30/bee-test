@@ -16,8 +16,16 @@
     <Authorized>
         <div class="manage-users">
             <PageHeader Text="Manage Users" />
-            <Button Text="Add User" OnClick="NavigateToAddUserPage" />
-            <table class="table table-fluid">
+            @if(IsLoading)
+            {
+                <LoadingView />
+            } else if (@users.Count() == 0)
+            {
+                <h3>There Are No Users</h3>
+            } else
+            {
+                <Button Text="Add User" OnClick="NavigateToAddUserPage" />
+                <table class="table table-fluid">
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
@@ -34,12 +42,15 @@
                         <td>@user.Name</td>
                         <td>@user.Email</td>
                         <td>@user.Gender</td>
-                        <td>@user.DateOfBirth</td>
-                        <td><Button Text="Delete" /></td>
+                        <td>@user.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <Button Text="Delete" OnClick="@(() => DeleteUser(@user))" />
+                        </td>
                     </tr>
                 }
                 </tbody>
             </table>
+            }
         </div>
     </Authorized>
 </AuthorizeView>
@@ -48,13 +59,14 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
+    private bool IsLoading = false;
     private List<User> users = new List<User>();
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
-        users = await userService.GetAll();
+        users = await userService.GetAllParticipants();
 
         await base.OnInitializedAsync();
     }
@@ -62,5 +74,24 @@
     private void NavigateToAddUserPage()
     {
         navigationManager.NavigateTo("/users/add", true);
+    }
+
+    private async Task DeleteUser(User user)
+    {
+        IsLoading = true;
+
+        TimeZoneInfo wibTimeZone = 
+            TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        user.DeletedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, wibTimeZone);
+
+        bool isSucessful = await userService.AddOrUpdate(user);
+        IsLoading = false;
+
+        if (isSucessful)
+        {
+            users.Remove(user);
+            await js.InvokeVoidAsync("alert", "User Deleted Sucessfully");
+        } 
+        else await js.InvokeVoidAsync("alert", "User Deletion Failed");
     }
 }

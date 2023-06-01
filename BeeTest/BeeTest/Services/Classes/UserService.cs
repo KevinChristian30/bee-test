@@ -55,6 +55,7 @@ namespace BeeTest.Services.Classes
         {
             return await _context.Users
                 .Include(user => user.Role)
+                .Where(u => u.DeletedAt == null)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
@@ -62,12 +63,17 @@ namespace BeeTest.Services.Classes
         {
             return await _context.Users
                 .Include(user => user.Role)
+                .Where(u => u.DeletedAt == null)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<User>> GetAllParticipants()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Include(user => user.Role)
+                .Where(u => u.Role.Name == "Participant")
+                .Where(u => u.DeletedAt == null)
+                .ToListAsync();
         }
     }
 }

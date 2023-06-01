@@ -120,18 +120,19 @@ using Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 47 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
+#line 58 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
+    private bool IsLoading = false;
     private List<User> users = new List<User>();
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
-        users = await userService.GetAll();
+        users = await userService.GetAllParticipants();
 
         await base.OnInitializedAsync();
     }
@@ -139,6 +140,25 @@ using Services.Interfaces;
     private void NavigateToAddUserPage()
     {
         navigationManager.NavigateTo("/users/add", true);
+    }
+
+    private async Task DeleteUser(User user)
+    {
+        IsLoading = true;
+
+        TimeZoneInfo wibTimeZone = 
+            TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        user.DeletedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, wibTimeZone);
+
+        bool isSucessful = await userService.AddOrUpdate(user);
+        IsLoading = false;
+
+        if (isSucessful)
+        {
+            users.Remove(user);
+            //await js.InvokeVoidAsync("alert", "User Deleted Sucessfully");
+        } 
+        //else await js.InvokeVoidAsync("alert", "User Deletion Failed");
     }
 
 #line default
