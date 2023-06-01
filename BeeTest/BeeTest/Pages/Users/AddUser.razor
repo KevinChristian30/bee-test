@@ -4,43 +4,52 @@
 @using BeeTest.Models
 @using BeeTest.Pages.Components
 @using BeeTest.Authentication
+@using Services.Interfaces
+
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
+@inject IUserService userService
+@inject IRoleService roleService
 
 <PageTitle>Add User</PageTitle>
 
 <AuthorizeView>
     <Authorized>
+        @if (@IsLoading) {
+            <div>Loading</div>
+        } else {
         <div class="add-user">
-    <PageHeader Text="Add User" />
+            <PageHeader Text="Add User" />
 
-    <form Model="NewUser" class="user-form">
-        <div class="line">
-            <label for="name">Name</label>
-            <input type="text" id="name" @bind="NewUser.Name" />
+            <form Model="NewUser" class="user-form">
+                <div class="line">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" @bind="NewUser.Name" />
+                </div>
+                <div class="line">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" @bind="NewUser.Email" />
+                </div>
+                <div class="line">
+                    <div>
+                        <label>Gender</label>
+                    </div>
+                    <div>
+                        <label for="male">Male</label>
+                        <input type="radio" id="male" name="gender" value="Male" @onchange="UpdateGender" checked="@IsMaleRadioButtonChecked" />
+                        <label for="female">Female</label>
+                        <input type="radio" id="female" name="gender" value="Female"
+                            @onchange="UpdateGender" checked="@IsFemaleRadioButtonChecked"/>
+                    </div>
+                </div>
+                <div class="line">
+                    <label for="date-of-birth">Date of Birth</label>
+                    <input type="date" id="date-of-birth" @bind="NewUser.DateOfBirth" />
+                </div>
+                <Button Text="Add User" OnClick="Save" />
+            </form>
         </div>
-        <div class="line">
-            <label for="email">Email</label>
-            <input type="email" id="email" @bind="NewUser.Email" />
-        </div>
-        <div class="line">
-            <div>
-                <label>Gender</label>
-            </div>
-            <div>
-                <label for="male">Male</label>
-                <input type="radio" id="male" name="gender" @bind="MaleRadioButtonValue" />
-                <label for="female">Female</label>
-                <input type="radio" id="female" name="gender" @bind="FemaleRadioButtonValue" />
-            </div>
-        </div>
-        <div class="line">
-            <label for="date-of-birth">Date of Birth</label>
-            <input type="date" id="date-of-birth" @bind="NewUser.DateOfBirth" />
-        </div>
-        <Button Text="Add User" OnClick="Save" />
-    </form>
-</div>
+        }
     </Authorized>
 </AuthorizeView>
 
@@ -56,12 +65,79 @@
         await base.OnInitializedAsync();
     }
 
-    private User NewUser = new();
-    private string MaleRadioButtonValue { get; set; }
-    private string FemaleRadioButtonValue { get; set; }
+    private bool IsLoading { get; set; } = false;
 
-    private void Save()
+    private User NewUser = new User();
+    private string Gender { get; set; }
+    private bool IsMaleRadioButtonChecked => Gender == "Male";
+    private bool IsFemaleRadioButtonChecked => Gender == "Female";
+
+    private void UpdateGender(ChangeEventArgs e)
     {
-        
+        Gender = e.Value.ToString();
+    }
+
+    private async void Save()
+    {
+        if (!(await AreFormValuesValid())) return;
+
+        IsLoading = true;
+        StateHasChanged();
+
+        NewUser.Id = 0;
+        NewUser.Password = NewUser.Name;
+        NewUser.Role = roleService.Get("Participant");
+        NewUser.Gender = Gender == "Male" ?
+            Enumerations.Gender.Male : Enumerations.Gender.Female;
+
+        if (await userService.AddOrUpdate(NewUser))
+        {
+            js.InvokeVoidAsync("alert", "User Added Successfully");
+
+            NewUser = new User();
+            Gender = "";
+            StateHasChanged();
+        } else
+        {
+            js.InvokeVoidAsync("alert", "Couldn't Save User");
+        }
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewUser.Name == null || NewUser.Name == "") {
+            js.InvokeVoidAsync("alert", "Name can't be empty");
+            return false;
+        }
+
+        if (NewUser.Email == null || NewUser.Email == "")
+        {
+            js.InvokeVoidAsync("alert", "Email can't be empty");
+            return false;
+        }
+
+        if (!NewUser.Email.EndsWith("@gmail.com"))
+        {
+            js.InvokeVoidAsync("alert", "Email must end with @gmail.com");
+            return false;
+        }
+
+        User userWithTheSameEmail = await userService.Get(NewUser.Email);
+        if (userWithTheSameEmail != null)
+        {
+            js.InvokeVoidAsync("alert", "Email already taken");
+            return false;
+        }
+
+        if (Gender == null)
+        {
+            js.InvokeVoidAsync("alert", "You must choose a gender");
+            return false;
+        }
+
+        return true;
     }
 }

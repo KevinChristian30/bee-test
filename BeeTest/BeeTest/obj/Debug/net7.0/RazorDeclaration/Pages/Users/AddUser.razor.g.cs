@@ -103,6 +103,13 @@ using BeeTest.Authentication;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+using Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/users/add")]
     public partial class AddUser : global::Microsoft.AspNetCore.Components.ComponentBase
@@ -113,7 +120,7 @@ using BeeTest.Authentication;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 47 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 56 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -126,18 +133,87 @@ using BeeTest.Authentication;
         await base.OnInitializedAsync();
     }
 
-    private User NewUser = new();
-    private string MaleRadioButtonValue { get; set; }
-    private string FemaleRadioButtonValue { get; set; }
+    private bool IsLoading { get; set; } = false;
 
-    private void Save()
+    private User NewUser = new User();
+    private string Gender { get; set; }
+    private bool IsMaleRadioButtonChecked => Gender == "Male";
+    private bool IsFemaleRadioButtonChecked => Gender == "Female";
+
+    private void UpdateGender(ChangeEventArgs e)
     {
-        
+        Gender = e.Value.ToString();
+    }
+
+    private async void Save()
+    {
+        if (!(await AreFormValuesValid())) return;
+
+        IsLoading = true;
+        StateHasChanged();
+
+        NewUser.Id = 0;
+        NewUser.Password = NewUser.Name;
+        NewUser.Role = roleService.Get("Participant");
+        NewUser.Gender = Gender == "Male" ?
+            Enumerations.Gender.Male : Enumerations.Gender.Female;
+
+        if (await userService.AddOrUpdate(NewUser))
+        {
+            js.InvokeVoidAsync("alert", "User Added Successfully");
+
+            NewUser = new User();
+            Gender = "";
+            StateHasChanged();
+        } else
+        {
+            js.InvokeVoidAsync("alert", "Couldn't Save User");
+        }
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewUser.Name == null || NewUser.Name == "") {
+            js.InvokeVoidAsync("alert", "Name can't be empty");
+            return false;
+        }
+
+        if (NewUser.Email == null || NewUser.Email == "")
+        {
+            js.InvokeVoidAsync("alert", "Email can't be empty");
+            return false;
+        }
+
+        if (!NewUser.Email.EndsWith("@gmail.com"))
+        {
+            js.InvokeVoidAsync("alert", "Email must end with @gmail.com");
+            return false;
+        }
+
+        User userWithTheSameEmail = await userService.Get(NewUser.Email);
+        if (userWithTheSameEmail != null)
+        {
+            js.InvokeVoidAsync("alert", "Email already taken");
+            return false;
+        }
+
+        if (Gender == null)
+        {
+            js.InvokeVoidAsync("alert", "You must choose a gender");
+            return false;
+        }
+
+        return true;
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IRoleService roleService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
