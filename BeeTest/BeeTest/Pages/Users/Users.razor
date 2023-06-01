@@ -87,11 +87,7 @@
         bool isSucessful = await userService.AddOrUpdate(user);
         IsLoading = false;
 
-        if (isSucessful)
-        {
-            users.Remove(user);
-            await js.InvokeVoidAsync("alert", "User Deleted Sucessfully");
-        } 
+        if (isSucessful) users.Remove(user);
         else await js.InvokeVoidAsync("alert", "User Deletion Failed");
     }
 }

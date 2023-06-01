@@ -28,6 +28,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<ITestService, TestService>();
 
 var app = builder.Build();
 

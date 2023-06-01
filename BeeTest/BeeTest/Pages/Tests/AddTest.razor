@@ -1,0 +1,108 @@
+﻿@page "/tests/add"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Models
+@using BeeTest.Pages.Components
+@using BeeTest.Services.Interfaces
+
+@inject ITestService testService
+@inject IJSRuntime js
+@inject NavigationManager navigationManager
+
+<PageTitle>BeeTest | Add Test</PageTitle>
+
+<AuthorizeView>
+    <Authorized>            
+        <PageHeader Text="Add Test" />
+        <div class="add-test">
+            @if (@IsLoading)
+            {
+                <LoadingView />
+            }
+            else
+            {
+                <form Model="NewTest" class="test-form">
+                    <div class="line">
+                        <label for="name">Test Name</label>
+                        <input type="text" id="name" @bind="NewTest.Name" />
+                    </div>
+                    <div class="line">
+                        <label for="passing-score">Test Passing Grade</label>
+                        <input type="number" id="passing-score" @bind="NewTest.PassingScore" />
+                    </div>
+                    <Button Text="Add Test" OnClick="Save" />
+                </form>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool IsLoading { get; set; } = false;
+    private Test NewTest = new Test();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        NewTest.PassingScore = 50;
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        NewTest.Id = 0;
+
+        if (await testService.AddOrUpdate(NewTest))
+        {
+            await js.InvokeVoidAsync("alert", "Test Added Successfully");
+
+            NewTest = new Test();
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Add Test");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewTest.Name == null || NewTest.Name == "")
+        {
+            await js.InvokeVoidAsync("alert", "Test Name can't be empty");
+            return false;
+        }
+
+        Test testThatHasTheSameName = await testService.Get(NewTest.Name);
+        if (testThatHasTheSameName != null)
+        {
+            await js.InvokeVoidAsync("alert", "Test Name is Already Taken");
+            return false;
+        }
+
+        if (NewTest.PassingScore > 100 || NewTest.PassingScore < 1)
+        {
+            await js.InvokeVoidAsync("alert", "Test Passing Score Must be Between 1 and 100");
+            return false;
+        }
+
+        return true;
+    }
+}

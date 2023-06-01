@@ -75,8 +75,9 @@ input[type="password"]{
 }
 
 .side-bar-link,
-.side-bar-link-header {
-    text-decoration: none !important;
+.side-bar-link-header,
+.side-bar-link-header:hover {
+    text-decoration: none;
     color: white;
 }
 

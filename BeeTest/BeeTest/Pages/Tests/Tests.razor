@@ -1,0 +1,35 @@
+﻿@page "/tests"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Pages.Components
+
+@inject NavigationManager navigationManager
+
+<PageTitle>BeeTest | Manage Tests</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <PageHeader Text="Manage Tests" />
+
+        <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        await base.OnInitializedAsync();
+    }
+
+    private void NavigateToAddTestPage()
+    {
+        navigationManager.NavigateTo("/tests/add", true);
+    }
+}

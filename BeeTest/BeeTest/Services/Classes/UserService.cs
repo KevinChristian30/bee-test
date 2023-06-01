@@ -33,24 +33,6 @@ namespace BeeTest.Services.Classes
             }
         }
 
-        public async Task<bool> Delete(int id)
-        {
-            try
-            {
-                var user = await Get(id);
-                if (user == null) return false;
-
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
-                
-                return true;
-            } catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return false;
-            }
-        }
-
         public async Task<User> Get(int id)
         {
             return await _context.Users

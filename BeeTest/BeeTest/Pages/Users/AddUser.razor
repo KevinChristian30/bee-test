@@ -12,7 +12,7 @@
 @inject IUserService userService
 @inject IRoleService roleService
 
-<PageTitle>Add User</PageTitle>
+<PageTitle>BeeTest | Add User</PageTitle>
 
 <AuthorizeView>
     <Authorized>            
@@ -25,32 +25,32 @@
             } else
             {
                 <form Model="NewUser" class="user-form">
-                <div class="line">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" @bind="NewUser.Name" />
-                </div>
-                <div class="line">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" @bind="NewUser.Email" />
-                </div>
-                <div class="line">
-                    <div>
-                        <label>Gender</label>
+                    <div class="line">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" @bind="NewUser.Name" />
                     </div>
-                    <div>
-                        <label for="male">Male</label>
-                        <input type="radio" id="male" name="gender" value="Male" @onchange="UpdateGender" checked="@IsMaleRadioButtonChecked" />
-                        <label for="female">Female</label>
-                        <input type="radio" id="female" name="gender" value="Female"
-                            @onchange="UpdateGender" checked="@IsFemaleRadioButtonChecked"/>
+                    <div class="line">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" @bind="NewUser.Email" />
                     </div>
-                </div>
-                <div class="line">
-                    <label for="date-of-birth">Date of Birth</label>
-                    <input type="date" id="date-of-birth" @bind="NewUser.DateOfBirth" />
-                </div>
-                <Button Text="Add User" OnClick="Save" />
-            </form>
+                    <div class="line">
+                        <div>
+                            <label>Gender</label>
+                        </div>
+                        <div>
+                            <label for="male">Male</label>
+                            <input type="radio" id="male" name="gender" value="Male" @onchange="UpdateGender" checked="@IsMaleRadioButtonChecked" />
+                            <label for="female">Female</label>
+                            <input type="radio" id="female" name="gender" value="Female"
+                                @onchange="UpdateGender" checked="@IsFemaleRadioButtonChecked"/>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <label for="date-of-birth">Date of Birth</label>
+                        <input type="date" id="date-of-birth" @bind="NewUser.DateOfBirth" />
+                    </div>
+                    <Button Text="Add User" OnClick="Save" />
+                </form>
             }
         </div>
     </Authorized>
@@ -105,7 +105,6 @@
 
             NewUser = new User();
             Gender = "";
-            StateHasChanged();
         }
         else await js.InvokeVoidAsync("alert", "Couldn't Save User");
 

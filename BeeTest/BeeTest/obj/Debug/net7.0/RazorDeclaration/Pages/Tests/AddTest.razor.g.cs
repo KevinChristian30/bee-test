@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BeeTest.Pages.Users
+namespace BeeTest.Pages.Tests
 {
     #line hidden
     using System;
@@ -83,43 +83,36 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
-using BeeTest.Models;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
-using BeeTest.Pages.Components;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
 using BeeTest.Authentication;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
-using Services.Interfaces;
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
+using BeeTest.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
-using BCrypt.Net;
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
+using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
+using BeeTest.Services.Interfaces;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
-    [global::Microsoft.AspNetCore.Components.RouteAttribute("/users/add")]
-    public partial class AddUser : global::Microsoft.AspNetCore.Components.ComponentBase
+    [global::Microsoft.AspNetCore.Components.RouteAttribute("/tests/add")]
+    public partial class AddTest : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -127,29 +120,22 @@ using BCrypt.Net;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 59 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 41 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool IsLoading { get; set; } = false;
+    private Test NewTest = new Test();
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
+        NewTest.PassingScore = 50;
+
         await base.OnInitializedAsync();
-    }
-
-    private bool IsLoading { get; set; } = false;
-
-    private User NewUser = new User();
-    private string Gender { get; set; }
-    private bool IsMaleRadioButtonChecked => Gender == "Male";
-    private bool IsFemaleRadioButtonChecked => Gender == "Female";
-
-    private void UpdateGender(ChangeEventArgs e)
-    {
-        Gender = e.Value.ToString();
     }
 
     private async Task Save()
@@ -165,20 +151,15 @@ using BCrypt.Net;
             return;
         }
 
-        NewUser.Id = 0;
-        NewUser.Password = BCrypt.HashPassword(NewUser.Name);
-        NewUser.Role = roleService.Get("Participant");
-        NewUser.Gender = Gender == "Male" ?
-            Enumerations.Gender.Male : Enumerations.Gender.Female;
+        NewTest.Id = 0;
 
-        if (await userService.AddOrUpdate(NewUser))
+        if (await testService.AddOrUpdate(NewTest))
         {
-            await js.InvokeVoidAsync("alert", "User Added Successfully");
+            await js.InvokeVoidAsync("alert", "Test Added Successfully");
 
-            NewUser = new User();
-            Gender = "";
+            NewTest = new Test();
         }
-        else await js.InvokeVoidAsync("alert", "Couldn't Save User");
+        else await js.InvokeVoidAsync("alert", "Couldn't Add Test");
 
         IsLoading = false;
         await Task.Delay(1);
@@ -186,33 +167,22 @@ using BCrypt.Net;
 
     private async Task<bool> AreFormValuesValid()
     {
-        if (NewUser.Name == null || NewUser.Name == "") {
-            await js.InvokeVoidAsync("alert", "Name can't be empty");
+        if (NewTest.Name == null || NewTest.Name == "")
+        {
+            await js.InvokeVoidAsync("alert", "Test Name can't be empty");
             return false;
         }
 
-        if (NewUser.Email == null || NewUser.Email == "")
+        Test testThatHasTheSameName = await testService.Get(NewTest.Name);
+        if (testThatHasTheSameName != null)
         {
-            await js.InvokeVoidAsync("alert", "Email can't be empty");
+            await js.InvokeVoidAsync("alert", "Test Name is Already Taken");
             return false;
         }
 
-        if (!NewUser.Email.EndsWith("@gmail.com"))
+        if (NewTest.PassingScore > 100 || NewTest.PassingScore < 1)
         {
-            await js.InvokeVoidAsync("alert", "Email must end with @gmail.com");
-            return false;
-        }
-
-        User userWithTheSameEmail = await userService.Get(NewUser.Email);
-        if (userWithTheSameEmail != null)
-        {
-            await js.InvokeVoidAsync("alert", "Email already taken");
-            return false;
-        }
-
-        if (Gender == null)
-        {
-            await js.InvokeVoidAsync("alert", "You must choose a gender");
+            await js.InvokeVoidAsync("alert", "Test Passing Score Must be Between 1 and 100");
             return false;
         }
 
@@ -222,10 +192,9 @@ using BCrypt.Net;
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IRoleService roleService { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
     }
 }
 #pragma warning restore 1591

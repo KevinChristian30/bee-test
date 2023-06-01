@@ -24,8 +24,8 @@
 }
 
 .loading[b-9ys799mncy] {
-    border: 10px solid #f3f3f3;
-    border-top: 10px solid #3498db;
+    border: 10px solid var(--secondary-color);
+    border-top: 10px solid var(--primary-color);;
     border-radius: 50%;
     width: 100px;
     height: 100px;
@@ -95,6 +95,25 @@ button[b-b9zy7gl736] {
 button:hover[b-b9zy7gl736] {
     transform: scale(1.01, 1.01);
     background-color: var(--secondary-color);
+}
+/* _content/BeeTest/Pages/Tests/AddTest.razor.rz.scp.css */
+.test-form[b-0vvibkcvzw] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-0vvibkcvzw] {
+    display: flex;
+    flex-direction: column;
+}
+
+.line input[type=text][b-0vvibkcvzw] {
+    width: 100%;
+}
+
+.line input[type=number][b-0vvibkcvzw] {
+    width: 100px;
 }
 /* _content/BeeTest/Pages/Users/AddUser.razor.rz.scp.css */
 .user-form[b-2z7w7jde7k] {
