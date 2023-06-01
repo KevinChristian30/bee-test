@@ -1,4 +1,4 @@
-﻿.login {
+.login[b-b9zy7gl736] {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -7,7 +7,7 @@
     background-color: var(--primary-color);
 }
 
-.login form {
+form[b-b9zy7gl736] {
     padding: 25px;
     background-color: white;
     display: flex;
@@ -18,23 +18,22 @@
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
 }
-
-.login .field-container {
+.field-container[b-b9zy7gl736] {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.login .line {
+.line[b-b9zy7gl736] {
     display: flex;
     flex-direction: column;
 }
 
-.login input {
+input[b-b9zy7gl736] {
     height: 35px;
 }
 
-.login button {
+button[b-b9zy7gl736] {
     width: 100%;
     height: 40px;
     background-color: var(--primary-color);
@@ -45,8 +44,7 @@
     transition: all 0.1s ease-in;
 }
 
-.login button:hover {
+button:hover[b-b9zy7gl736] {
     transform: scale(1.01, 1.01);
     background-color: var(--secondary-color);
 }
-

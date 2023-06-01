@@ -1,0 +1,15 @@
+.user-form[b-2z7w7jde7k] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-2z7w7jde7k] {
+    display: flex;
+    flex-direction: column;
+}
+
+.line input[type=text][b-2z7w7jde7k],
+.line input[type=email][b-2z7w7jde7k] {
+    width: 100%;
+}

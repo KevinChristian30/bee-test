@@ -132,8 +132,9 @@ using BCrypt.Net;
             __builder.AddAttribute(5, "Authorized", (global::Microsoft.AspNetCore.Components.RenderFragment<Microsoft.AspNetCore.Components.Authorization.AuthenticationState>)((context) => (__builder2) => {
                 __builder2.OpenElement(6, "div");
                 __builder2.AddAttribute(7, "class", "add-user");
-                __builder2.OpenComponent<global::BeeTest.Pages.Components.PageHeader>(8);
-                __builder2.AddAttribute(9, "Text", (object)("Add User"));
+                __builder2.AddAttribute(8, "b-2z7w7jde7k");
+                __builder2.OpenComponent<global::BeeTest.Pages.Components.PageHeader>(9);
+                __builder2.AddAttribute(10, "Text", (object)("Add User"));
                 __builder2.CloseComponent();
 #nullable restore
 #line 22 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
@@ -143,7 +144,7 @@ using BCrypt.Net;
 #line default
 #line hidden
 #nullable disable
-                __builder2.OpenComponent<global::BeeTest.Pages.Components.LoadingView>(10);
+                __builder2.OpenComponent<global::BeeTest.Pages.Components.LoadingView>(11);
                 __builder2.CloseComponent();
 #nullable restore
 #line 25 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
@@ -153,16 +154,18 @@ using BCrypt.Net;
 #line default
 #line hidden
 #nullable disable
-                __builder2.OpenElement(11, "form");
-                __builder2.AddAttribute(12, "Model", "NewUser");
-                __builder2.AddAttribute(13, "class", "user-form");
-                __builder2.OpenElement(14, "div");
-                __builder2.AddAttribute(15, "class", "line");
-                __builder2.AddMarkupContent(16, "<label for=\"name\">Name</label>\r\n                    ");
-                __builder2.OpenElement(17, "input");
-                __builder2.AddAttribute(18, "type", "text");
-                __builder2.AddAttribute(19, "id", "name");
-                __builder2.AddAttribute(20, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+                __builder2.OpenElement(12, "form");
+                __builder2.AddAttribute(13, "Model", "NewUser");
+                __builder2.AddAttribute(14, "class", "user-form");
+                __builder2.AddAttribute(15, "b-2z7w7jde7k");
+                __builder2.OpenElement(16, "div");
+                __builder2.AddAttribute(17, "class", "line");
+                __builder2.AddAttribute(18, "b-2z7w7jde7k");
+                __builder2.AddMarkupContent(19, "<label for=\"name\" b-2z7w7jde7k>Name</label>\r\n                    ");
+                __builder2.OpenElement(20, "input");
+                __builder2.AddAttribute(21, "type", "text");
+                __builder2.AddAttribute(22, "id", "name");
+                __builder2.AddAttribute(23, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
 #nullable restore
 #line 30 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                         NewUser.Name
@@ -171,18 +174,20 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 ));
-                __builder2.AddAttribute(21, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => NewUser.Name = __value, NewUser.Name));
+                __builder2.AddAttribute(24, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => NewUser.Name = __value, NewUser.Name));
                 __builder2.SetUpdatesAttributeName("value");
+                __builder2.AddAttribute(25, "b-2z7w7jde7k");
                 __builder2.CloseElement();
                 __builder2.CloseElement();
-                __builder2.AddMarkupContent(22, "\r\n                ");
-                __builder2.OpenElement(23, "div");
-                __builder2.AddAttribute(24, "class", "line");
-                __builder2.AddMarkupContent(25, "<label for=\"email\">Email</label>\r\n                    ");
-                __builder2.OpenElement(26, "input");
-                __builder2.AddAttribute(27, "type", "email");
-                __builder2.AddAttribute(28, "id", "email");
-                __builder2.AddAttribute(29, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+                __builder2.AddMarkupContent(26, "\r\n                ");
+                __builder2.OpenElement(27, "div");
+                __builder2.AddAttribute(28, "class", "line");
+                __builder2.AddAttribute(29, "b-2z7w7jde7k");
+                __builder2.AddMarkupContent(30, "<label for=\"email\" b-2z7w7jde7k>Email</label>\r\n                    ");
+                __builder2.OpenElement(31, "input");
+                __builder2.AddAttribute(32, "type", "email");
+                __builder2.AddAttribute(33, "id", "email");
+                __builder2.AddAttribute(34, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
 #nullable restore
 #line 34 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                           NewUser.Email
@@ -191,22 +196,25 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 ));
-                __builder2.AddAttribute(30, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => NewUser.Email = __value, NewUser.Email));
+                __builder2.AddAttribute(35, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => NewUser.Email = __value, NewUser.Email));
                 __builder2.SetUpdatesAttributeName("value");
+                __builder2.AddAttribute(36, "b-2z7w7jde7k");
                 __builder2.CloseElement();
                 __builder2.CloseElement();
-                __builder2.AddMarkupContent(31, "\r\n                ");
-                __builder2.OpenElement(32, "div");
-                __builder2.AddAttribute(33, "class", "line");
-                __builder2.AddMarkupContent(34, "<div><label>Gender</label></div>\r\n                    ");
-                __builder2.OpenElement(35, "div");
-                __builder2.AddMarkupContent(36, "<label for=\"male\">Male</label>\r\n                        ");
-                __builder2.OpenElement(37, "input");
-                __builder2.AddAttribute(38, "type", "radio");
-                __builder2.AddAttribute(39, "id", "male");
-                __builder2.AddAttribute(40, "name", "gender");
-                __builder2.AddAttribute(41, "value", "Male");
-                __builder2.AddAttribute(42, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::Microsoft.AspNetCore.Components.ChangeEventArgs>(this, 
+                __builder2.AddMarkupContent(37, "\r\n                ");
+                __builder2.OpenElement(38, "div");
+                __builder2.AddAttribute(39, "class", "line");
+                __builder2.AddAttribute(40, "b-2z7w7jde7k");
+                __builder2.AddMarkupContent(41, "<div b-2z7w7jde7k><label b-2z7w7jde7k>Gender</label></div>\r\n                    ");
+                __builder2.OpenElement(42, "div");
+                __builder2.AddAttribute(43, "b-2z7w7jde7k");
+                __builder2.AddMarkupContent(44, "<label for=\"male\" b-2z7w7jde7k>Male</label>\r\n                        ");
+                __builder2.OpenElement(45, "input");
+                __builder2.AddAttribute(46, "type", "radio");
+                __builder2.AddAttribute(47, "id", "male");
+                __builder2.AddAttribute(48, "name", "gender");
+                __builder2.AddAttribute(49, "value", "Male");
+                __builder2.AddAttribute(50, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::Microsoft.AspNetCore.Components.ChangeEventArgs>(this, 
 #nullable restore
 #line 42 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                                                             UpdateGender
@@ -215,7 +223,7 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 ));
-                __builder2.AddAttribute(43, "checked", 
+                __builder2.AddAttribute(51, "checked", 
 #nullable restore
 #line 42 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                                                                                     IsMaleRadioButtonChecked
@@ -224,15 +232,16 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 );
+                __builder2.AddAttribute(52, "b-2z7w7jde7k");
                 __builder2.CloseElement();
-                __builder2.AddMarkupContent(44, "\r\n                        ");
-                __builder2.AddMarkupContent(45, "<label for=\"female\">Female</label>\r\n                        ");
-                __builder2.OpenElement(46, "input");
-                __builder2.AddAttribute(47, "type", "radio");
-                __builder2.AddAttribute(48, "id", "female");
-                __builder2.AddAttribute(49, "name", "gender");
-                __builder2.AddAttribute(50, "value", "Female");
-                __builder2.AddAttribute(51, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::Microsoft.AspNetCore.Components.ChangeEventArgs>(this, 
+                __builder2.AddMarkupContent(53, "\r\n                        ");
+                __builder2.AddMarkupContent(54, "<label for=\"female\" b-2z7w7jde7k>Female</label>\r\n                        ");
+                __builder2.OpenElement(55, "input");
+                __builder2.AddAttribute(56, "type", "radio");
+                __builder2.AddAttribute(57, "id", "female");
+                __builder2.AddAttribute(58, "name", "gender");
+                __builder2.AddAttribute(59, "value", "Female");
+                __builder2.AddAttribute(60, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::Microsoft.AspNetCore.Components.ChangeEventArgs>(this, 
 #nullable restore
 #line 45 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                        UpdateGender
@@ -241,7 +250,7 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 ));
-                __builder2.AddAttribute(52, "checked", 
+                __builder2.AddAttribute(61, "checked", 
 #nullable restore
 #line 45 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                                IsFemaleRadioButtonChecked
@@ -250,17 +259,19 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 );
+                __builder2.AddAttribute(62, "b-2z7w7jde7k");
                 __builder2.CloseElement();
                 __builder2.CloseElement();
                 __builder2.CloseElement();
-                __builder2.AddMarkupContent(53, "\r\n                ");
-                __builder2.OpenElement(54, "div");
-                __builder2.AddAttribute(55, "class", "line");
-                __builder2.AddMarkupContent(56, "<label for=\"date-of-birth\">Date of Birth</label>\r\n                    ");
-                __builder2.OpenElement(57, "input");
-                __builder2.AddAttribute(58, "type", "date");
-                __builder2.AddAttribute(59, "id", "date-of-birth");
-                __builder2.AddAttribute(60, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+                __builder2.AddMarkupContent(63, "\r\n                ");
+                __builder2.OpenElement(64, "div");
+                __builder2.AddAttribute(65, "class", "line");
+                __builder2.AddAttribute(66, "b-2z7w7jde7k");
+                __builder2.AddMarkupContent(67, "<label for=\"date-of-birth\" b-2z7w7jde7k>Date of Birth</label>\r\n                    ");
+                __builder2.OpenElement(68, "input");
+                __builder2.AddAttribute(69, "type", "date");
+                __builder2.AddAttribute(70, "id", "date-of-birth");
+                __builder2.AddAttribute(71, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
 #nullable restore
 #line 50 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                                  NewUser.DateOfBirth
@@ -269,14 +280,15 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
                 , format: "yyyy-MM-dd", culture: global::System.Globalization.CultureInfo.InvariantCulture));
-                __builder2.AddAttribute(61, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => NewUser.DateOfBirth = __value, NewUser.DateOfBirth, format: "yyyy-MM-dd", culture: global::System.Globalization.CultureInfo.InvariantCulture));
+                __builder2.AddAttribute(72, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => NewUser.DateOfBirth = __value, NewUser.DateOfBirth, format: "yyyy-MM-dd", culture: global::System.Globalization.CultureInfo.InvariantCulture));
                 __builder2.SetUpdatesAttributeName("value");
+                __builder2.AddAttribute(73, "b-2z7w7jde7k");
                 __builder2.CloseElement();
                 __builder2.CloseElement();
-                __builder2.AddMarkupContent(62, "\r\n                ");
-                __builder2.OpenComponent<global::BeeTest.Pages.Components.Button>(63);
-                __builder2.AddAttribute(64, "Text", (object)("Add User"));
-                __builder2.AddAttribute(65, "OnClick", (object)(global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<global::Microsoft.AspNetCore.Components.EventCallback<global::System.String>>(global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::System.String>(this, 
+                __builder2.AddMarkupContent(74, "\r\n                ");
+                __builder2.OpenComponent<global::BeeTest.Pages.Components.Button>(75);
+                __builder2.AddAttribute(76, "Text", (object)("Add User"));
+                __builder2.AddAttribute(77, "OnClick", (object)(global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<global::Microsoft.AspNetCore.Components.EventCallback<global::System.String>>(global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::System.String>(this, 
 #nullable restore
 #line 52 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
                                                  Save

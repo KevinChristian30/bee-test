@@ -156,9 +156,9 @@ using Services.Interfaces;
         if (isSucessful)
         {
             users.Remove(user);
-            //await js.InvokeVoidAsync("alert", "User Deleted Sucessfully");
+            await js.InvokeVoidAsync("alert", "User Deleted Sucessfully");
         } 
-        //else await js.InvokeVoidAsync("alert", "User Deletion Failed");
+        else await js.InvokeVoidAsync("alert", "User Deletion Failed");
     }
 
 #line default

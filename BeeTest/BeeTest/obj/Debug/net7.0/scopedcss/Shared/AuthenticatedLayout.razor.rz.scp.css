@@ -1,0 +1,64 @@
+main[b-thbicw15dz] {
+    padding: 25px;
+    width: 100%;
+}
+
+.authenticated-layout[b-thbicw15dz] {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.side-bar[b-thbicw15dz] {
+    width: 300px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 50px;
+    background-color: var(--primary-color);
+    padding: 25px 20px;
+    color: var(--on-primary-color);
+}
+
+span[b-thbicw15dz] {
+    height: 3px;
+    width: 100%;
+    background-color: var(--on-primary-color);
+    display: block;
+}
+
+.top[b-thbicw15dz] {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.top div[b-thbicw15dz] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item[b-thbicw15dz] {
+    background-color: red !important;
+}
+
+h5[b-thbicw15dz] {
+    text-decoration: none !important;
+    color: white;
+}
+
+#logout-button[b-thbicw15dz] {
+    background-color: var(--secondary-color);
+    color: white;
+    width: 100%;
+    height: 40px;
+    font-weight: bold;
+    border: none;
+    border-radius: 7px;
+}
+
+#logout-button:hover[b-thbicw15dz] {
+    transform: scale(1.02, 1.02);
+}

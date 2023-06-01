@@ -115,8 +115,9 @@ using BCrypt.Net;
             __builder.AddMarkupContent(3, "\r\n\r\n");
             __builder.OpenElement(4, "div");
             __builder.AddAttribute(5, "class", "login");
-            __builder.OpenElement(6, "form");
-            __builder.AddAttribute(7, "onsubmit", global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::System.EventArgs>(this, 
+            __builder.AddAttribute(6, "b-b9zy7gl736");
+            __builder.OpenElement(7, "form");
+            __builder.AddAttribute(8, "onsubmit", global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create<global::System.EventArgs>(this, 
 #nullable restore
 #line 16 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
                      Authenticate
@@ -125,16 +126,19 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
             ));
-            __builder.AddMarkupContent(8, "<h1>BeeTest</h1>\r\n        ");
-            __builder.OpenElement(9, "div");
-            __builder.AddAttribute(10, "class", "field-container");
+            __builder.AddAttribute(9, "b-b9zy7gl736");
+            __builder.AddMarkupContent(10, "<h1 b-b9zy7gl736>BeeTest</h1>\r\n        ");
             __builder.OpenElement(11, "div");
-            __builder.AddAttribute(12, "class", "line");
-            __builder.AddMarkupContent(13, "<label>Email</label>\r\n                ");
-            __builder.OpenElement(14, "input");
-            __builder.AddAttribute(15, "type", "email");
-            __builder.AddAttribute(16, "placeholder", "Email");
-            __builder.AddAttribute(17, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+            __builder.AddAttribute(12, "class", "field-container");
+            __builder.AddAttribute(13, "b-b9zy7gl736");
+            __builder.OpenElement(14, "div");
+            __builder.AddAttribute(15, "class", "line");
+            __builder.AddAttribute(16, "b-b9zy7gl736");
+            __builder.AddMarkupContent(17, "<label b-b9zy7gl736>Email</label>\r\n                ");
+            __builder.OpenElement(18, "input");
+            __builder.AddAttribute(19, "type", "email");
+            __builder.AddAttribute(20, "placeholder", "Email");
+            __builder.AddAttribute(21, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
 #nullable restore
 #line 21 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
                               model.Email
@@ -143,18 +147,20 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
             ));
-            __builder.AddAttribute(18, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => model.Email = __value, model.Email));
+            __builder.AddAttribute(22, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => model.Email = __value, model.Email));
             __builder.SetUpdatesAttributeName("value");
+            __builder.AddAttribute(23, "b-b9zy7gl736");
             __builder.CloseElement();
             __builder.CloseElement();
-            __builder.AddMarkupContent(19, "\r\n            ");
-            __builder.OpenElement(20, "div");
-            __builder.AddAttribute(21, "class", "line");
-            __builder.AddMarkupContent(22, "<label>Password</label>\r\n                ");
-            __builder.OpenElement(23, "input");
-            __builder.AddAttribute(24, "type", "password");
-            __builder.AddAttribute(25, "placeholder", "Password");
-            __builder.AddAttribute(26, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+            __builder.AddMarkupContent(24, "\r\n            ");
+            __builder.OpenElement(25, "div");
+            __builder.AddAttribute(26, "class", "line");
+            __builder.AddAttribute(27, "b-b9zy7gl736");
+            __builder.AddMarkupContent(28, "<label b-b9zy7gl736>Password</label>\r\n                ");
+            __builder.OpenElement(29, "input");
+            __builder.AddAttribute(30, "type", "password");
+            __builder.AddAttribute(31, "placeholder", "Password");
+            __builder.AddAttribute(32, "value", global::Microsoft.AspNetCore.Components.BindConverter.FormatValue(
 #nullable restore
 #line 25 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
                               model.Password
@@ -163,13 +169,14 @@ using BCrypt.Net;
 #line hidden
 #nullable disable
             ));
-            __builder.AddAttribute(27, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => model.Password = __value, model.Password));
+            __builder.AddAttribute(33, "onchange", global::Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => model.Password = __value, model.Password));
             __builder.SetUpdatesAttributeName("value");
+            __builder.AddAttribute(34, "b-b9zy7gl736");
             __builder.CloseElement();
             __builder.CloseElement();
             __builder.CloseElement();
-            __builder.AddMarkupContent(28, "\r\n        ");
-            __builder.AddMarkupContent(29, "<button>Log In</button>");
+            __builder.AddMarkupContent(35, "\r\n        ");
+            __builder.AddMarkupContent(36, "<button b-b9zy7gl736>Log In</button>");
             __builder.CloseElement();
             __builder.CloseElement();
         }

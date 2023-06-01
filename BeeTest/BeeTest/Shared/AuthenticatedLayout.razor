@@ -6,30 +6,30 @@
 <div class="authenticated-layout">
     <div class="side-bar">
         <div class="top">
-            <NavLink class="link" id="title" href="/">
+            <NavLink class="side-bar-link-header" id="title" href="/">
                 <h2>BeeTest</h2>
                 <span></span>
             </NavLink>
             <div>
                 <AuthorizeView Roles="Admin">
-                    <NavLink class="link" href="/manage-tests">
+                    <NavLink class="side-bar-link" href="/manage-tests">
                         <h5>Manage Tests</h5>
                     </NavLink>
-                    <NavLink class="link" href="/manage-schedules">
+                    <NavLink class="side-bar-link" href="/manage-schedules">
                         <h5>Manage Schedules</h5>
                     </NavLink>
-                    <NavLink class="link" href="/users">
+                    <NavLink class="side-bar-link" href="/users">
                         <h5>Manage Users</h5>
                     </NavLink>
-                    <NavLink class="link" href="/test-histories">
+                    <NavLink class="side-bar-link" href="/test-histories">
                         <h5>Test Histories</h5>
                     </NavLink>
                 </AuthorizeView>
                 <AuthorizeView Roles="Participant">
-                    <NavLink class="link" href="/manage-tests">
+                    <NavLink class="side-bar-link" href="/manage-tests">
                         <h5>My Schedule</h5>
                     </NavLink>
-                    <NavLink class="link" href="/manage-schedules">
+                    <NavLink class="side-bar-link" href="/manage-schedules">
                         <h5>My Test History</h5>
                     </NavLink>
                 </AuthorizeView>
