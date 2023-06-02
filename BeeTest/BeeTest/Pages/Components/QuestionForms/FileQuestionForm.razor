@@ -1,5 +1,93 @@
-﻿<h3>FileQuestionForm</h3>
+﻿@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+}
+else
+{
+    <form class="question-form">
+        <div class="line">
+            <label for="title">Question Title</label>
+            <textarea id="title" @bind="@NewQuestion.Title" />
+        </div>
+        <div class="line">
+            <InputFile class="form-control" type="file" OnChange="HandleFileChange" @key="inputFileKey" />
+        </div>
+    </form>
+}
 
 @code {
+    [Parameter]
+    public int TestId { get; set; }
 
+    private bool IsLoading = false;
+
+    private Question NewQuestion = new Question();
+    private FileQuestionDetail QuestionDetail = new FileQuestionDetail();
+
+    private object inputFileKey = new object();
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewQuestion.Title == null || NewQuestion.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        if (!(await AreFormValuesValid()))
+        {
+            await ClearFile();
+            return;
+        }
+
+        IsLoading = true;
+        await Task.Delay(1);
+
+        string url = await js.InvokeAsync<string>(
+                "uploadFileToFirebase",
+                "questions",
+                "test",
+                e.File
+            );
+
+        if (url == "")
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        //NewQuestion.Id = 0;
+        //QuestionDetail.fileURL = url;
+        //NewQuestion.Details = QuestionDetail.ToJSONString();
+        //NewQuestion.Test = await testService.Get(TestId);
+        //NewQuestion.QuestionType = await questionTypeService.Get("File");
+
+        //await questionService.AddOrUpdate(NewQuestion);
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task ClearFile(){
+        inputFileKey = new object ();
+    }
 }

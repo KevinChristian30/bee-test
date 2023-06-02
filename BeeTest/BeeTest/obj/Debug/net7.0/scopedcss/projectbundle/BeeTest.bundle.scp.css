@@ -128,6 +128,17 @@ textarea[b-hdex9du2j7] {
     flex-direction: column;
     gap: 5px;
 }
+/* _content/BeeTest/Pages/Components/QuestionForms/FileQuestionForm.razor.rz.scp.css */
+.question-form[b-z7aikjhbhx]{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.line[b-z7aikjhbhx] {
+    display: flex;
+    flex-direction: column;
+}
 /* _content/BeeTest/Pages/Components/QuestionForms/MultipleChoiceQuestionForm.razor.rz.scp.css */
 .question-form[b-xknbcvhci3] {
     display: flex;
