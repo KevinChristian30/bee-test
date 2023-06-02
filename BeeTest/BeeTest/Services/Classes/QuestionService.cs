@@ -1,7 +1,7 @@
 ﻿using BeeTest.Data;
 using BeeTest.Models;
-using BeeTest.Pages.Users;
 using BeeTest.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeeTest.Services.Classes
 {
@@ -32,6 +32,15 @@ namespace BeeTest.Services.Classes
                 Console.WriteLine(e.ToString());
                 return false;
             }
+        }
+
+        public async Task<List<Question>> GetQuestionsByTestId(int testId)
+        {
+            return await _context.Questions
+                .Include(q => q.Test)
+                .Include(q => q.QuestionType)
+                .Where(q => q.Test.Id == testId)
+                .ToListAsync();
         }
     }
 }

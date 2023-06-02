@@ -8,6 +8,7 @@
 
 @inject NavigationManager navigationManager
 @inject ITestService testService
+@inject IQuestionService questionService
 @inject IJSRuntime js
 
 <PageTitle>BeeTest | Manage Test</PageTitle>
@@ -39,12 +40,40 @@
                     <Button Text="Update Test" OnClick="Save" />
                 </form>
 
-                <br><br><br>
+                <br>
                 <h3>Questions</h3>
                 <Button Text="Add Question" OnClick="NavigateToAddQuestionPage" />
+                <br><br>
 
-                @*Display All Questions*@
-                @*Display Add Question Button*@
+                @if (@questions.Count() == 0)
+                {
+                    <h5>This Test has No Questions</h5>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Question Title</th>
+                                <th>Question Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var question in questions)
+                            {
+                                <tr>
+                                    <td>@question.Title</td>
+                                    <td>@question.QuestionType.Name</td>
+                                    <td>
+                                        <Button Text="Edit" />
+                                        <Button Text="Remove" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
             </div>
         }
     </Authorized>
@@ -60,6 +89,7 @@
     private bool IsLoading = false;
     private Test test = new Test();
     private Test oldTestData = new Test();
+    private List<Question> questions = new List<Question>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,6 +97,7 @@
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
         test = await testService.Get(int.Parse(id));
+        questions = await questionService.GetQuestionsByTestId(int.Parse(id));
 
         oldTestData.Name = test.Name;
         oldTestData.PassingScore = test.PassingScore;

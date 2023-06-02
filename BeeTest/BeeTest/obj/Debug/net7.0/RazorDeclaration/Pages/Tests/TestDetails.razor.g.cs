@@ -120,7 +120,7 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 53 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+#line 82 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
        
     [Parameter]
     public string id { get; set; }
@@ -131,6 +131,7 @@ using BeeTest.Services.Interfaces;
     private bool IsLoading = false;
     private Test test = new Test();
     private Test oldTestData = new Test();
+    private List<Question> questions = new List<Question>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -138,6 +139,7 @@ using BeeTest.Services.Interfaces;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
         test = await testService.Get(int.Parse(id));
+        questions = await questionService.GetQuestionsByTestId(int.Parse(id));
 
         oldTestData.Name = test.Name;
         oldTestData.PassingScore = test.PassingScore;
@@ -208,6 +210,7 @@ using BeeTest.Services.Interfaces;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService questionService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
