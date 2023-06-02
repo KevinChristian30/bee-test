@@ -228,6 +228,7 @@ using System.Text.Json;
 
     private void ResetFormValues()
     {
+        NewQuestion = new Question();
         NewQuestion.Title = "Manakah dari pernyataan ini yang benar?";
 
         QuestionDetail.CheckboxQuestionData = new Dictionary<int, CheckboxesQuestionDetail.Data>();

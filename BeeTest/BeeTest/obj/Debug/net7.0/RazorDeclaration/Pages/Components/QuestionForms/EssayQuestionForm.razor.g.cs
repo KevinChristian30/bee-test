@@ -177,7 +177,7 @@ using System.Text.Json;
 
     private void ResetFormValues()
     {
-        NewQuestion.Title = "";
+        NewQuestion = new Question();
     }
 
 #line default

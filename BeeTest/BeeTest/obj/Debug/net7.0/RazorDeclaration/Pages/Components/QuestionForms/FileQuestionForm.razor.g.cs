@@ -166,15 +166,12 @@ using System.IO;
         IsLoading = true;
         await Task.Delay(1);
 
-        await using FileStream fs = new(e.ToString(), FileMode.Create);
-        await e.File.OpenReadStream().CopyToAsync(fs);
-
         string fileName = Guid.NewGuid().ToString();
         string url = await js.InvokeAsync<string>(
                 "uploadFileToFirebase",
                 "questions",
                 fileName,
-                fs
+                e.File
             );
 
         if (url == "")
@@ -208,7 +205,7 @@ using System.IO;
 
     private async Task ResetFormValues()
     {
-        NewQuestion.Title = "";
+        NewQuestion = new Question();
         await ClearFile();
     }
 

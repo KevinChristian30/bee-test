@@ -34,6 +34,31 @@ namespace BeeTest.Services.Classes
             }
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            try
+            {
+                var question = await Get(id);
+                if (question == null) return false;
+
+                _context.Questions.Remove(question);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
+
+        }
+
+        public async Task<Question> Get(int id)
+        {
+            return await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
+        }
+
         public async Task<List<Question>> GetQuestionsByTestId(int testId)
         {
             return await _context.Questions

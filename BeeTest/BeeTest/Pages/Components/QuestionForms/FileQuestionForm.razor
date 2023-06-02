@@ -100,7 +100,7 @@ else
 
     private async Task ResetFormValues()
     {
-        NewQuestion.Title = "";
+        NewQuestion = new Question();
         await ClearFile();
     }
 }

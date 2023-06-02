@@ -206,6 +206,17 @@ using BeeTest.Services.Interfaces;
         navigationManager.NavigateTo($"/tests/{id}/questions/add", true);
     }
 
+    private async Task RemoveQuestion(Question question)
+    {
+        IsLoading = true;
+
+        bool isSucessful = await questionService.Delete(question.Id);
+        IsLoading = false;
+
+        if (isSucessful) questions.Remove(question);
+        else await js.InvokeVoidAsync("alert", "Question Deletion Failed");
+    }
+
 #line default
 #line hidden
 #nullable disable

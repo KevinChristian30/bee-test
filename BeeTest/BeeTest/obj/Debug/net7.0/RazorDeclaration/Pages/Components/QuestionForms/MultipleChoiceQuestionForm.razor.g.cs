@@ -209,7 +209,8 @@ using System.Text.Json;
 
     private void ResetFormValues()
     {
-        NewQuestion.Title = "";
+        NewQuestion = new Question();
+
         choices['a'] = "";
         choices['b'] = "";
         choices['c'] = "";
