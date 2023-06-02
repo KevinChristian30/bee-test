@@ -45,6 +45,29 @@
 .page-header[b-qqlga66mbd] {
     margin-bottom: 50px;
 }
+/* _content/BeeTest/Pages/Components/QuestionForms/BooleanQuestionForm.razor.rz.scp.css */
+.question-form[b-jm3tu5yj5x] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#question-title[b-jm3tu5yj5x]{
+    display: flex;
+    flex-direction: column;
+}
+
+textarea[b-jm3tu5yj5x] {
+    resize: vertical;
+}
+
+#choices-container[b-jm3tu5yj5x] {
+}
+
+.line[b-jm3tu5yj5x] {
+    display: flex;
+    gap: 5px;
+}
 /* _content/BeeTest/Pages/Components/QuestionForms/MultipleChoiceQuestionForm.razor.rz.scp.css */
 .question-form[b-xknbcvhci3] {
     display: flex;

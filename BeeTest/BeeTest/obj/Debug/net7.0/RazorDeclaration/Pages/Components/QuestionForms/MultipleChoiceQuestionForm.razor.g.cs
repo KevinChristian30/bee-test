@@ -125,7 +125,7 @@ using System.Text.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 48 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\MultipleChoiceQuestionForm.razor"
+#line 55 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\MultipleChoiceQuestionForm.razor"
        
     [Parameter]
     public int TestId { get; set; }
