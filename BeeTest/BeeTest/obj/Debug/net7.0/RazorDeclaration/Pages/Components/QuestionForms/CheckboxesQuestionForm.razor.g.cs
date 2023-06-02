@@ -82,6 +82,41 @@ using BeeTest.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor"
+using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor"
+using BeeTest.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor"
+using BeeTest.Models.QuestionDetail;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor"
+using System.Text.Json;
+
+#line default
+#line hidden
+#nullable disable
     public partial class CheckboxesQuestionForm : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -89,6 +124,124 @@ using BeeTest.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 43 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor"
+       
+    [Parameter]
+    public int TestId { get; set; }
+
+    private Question NewQuestion = new Question();
+    private CheckboxesQuestionDetail QuestionDetail = new CheckboxesQuestionDetail();
+
+    private bool IsLoading = false;
+
+    protected override void OnInitialized()
+    {
+        ResetFormValues();
+
+        base.OnInitialized();
+    }
+
+    private void AddNewDetailData()
+    {
+        int newKey = QuestionDetail.CheckboxQuestionData.Count() + 1;
+        while (true)
+        {
+            if (QuestionDetail.CheckboxQuestionData.ContainsKey(newKey))
+            {
+                newKey++;
+                continue;
+            }
+
+            QuestionDetail.CheckboxQuestionData.Add(
+                newKey,
+                new CheckboxesQuestionDetail.Data()
+            );
+
+            break;
+        }
+    }
+
+    private async Task RemoveDetailData(int key)
+    {
+        if (QuestionDetail.CheckboxQuestionData.Count() <= 2)
+        {
+            await js.InvokeVoidAsync("alert", "You must have at least 2 choices, if your question is a boolean, try making a boolean question instead");
+            return;
+        }
+
+        QuestionDetail.CheckboxQuestionData.Remove(key);
+    }
+
+    private async Task Save()
+    {
+        if (!(await AreFormValuesValid())) return;
+
+        IsLoading = true;
+        await Task.Delay(1);
+
+        NewQuestion.Id = 0;
+        NewQuestion.Details = QuestionDetail.ToJSONString();
+        NewQuestion.Test = await testService.Get(TestId);
+        NewQuestion.QuestionType = await questionTypeService.Get("Checkboxes");
+
+        if (await questionService.AddOrUpdate(NewQuestion))
+        {
+            await js.InvokeVoidAsync("alert", "Question Added Successfully");
+
+            ResetFormValues();
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewQuestion.Title == null || NewQuestion.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        bool hasOneTrue = false;
+        foreach (var keyValuePair in QuestionDetail.CheckboxQuestionData)
+        {
+            if (keyValuePair.Value.Statement == null || keyValuePair.Value.Statement == "")
+            {
+                await js.InvokeVoidAsync("alert", "Every choice should have a statement");
+                return false;
+            }
+
+            if (keyValuePair.Value.IsTrue) hasOneTrue = true;
+        }
+
+        if (!hasOneTrue)
+        {
+            await js.InvokeVoidAsync("alert", "The question must have at least 1 true statement");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ResetFormValues()
+    {
+        NewQuestion.Title = "Manakah dari pernyataan ini yang benar?";
+
+        QuestionDetail.CheckboxQuestionData = new Dictionary<int, CheckboxesQuestionDetail.Data>();
+        for (int i = 0; i < 2; i++) AddNewDetailData();
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService questionService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionTypeService questionTypeService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
     }
 }
 #pragma warning restore 1591

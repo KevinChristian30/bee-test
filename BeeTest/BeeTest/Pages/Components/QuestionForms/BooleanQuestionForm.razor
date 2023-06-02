@@ -10,7 +10,12 @@
 @inject IQuestionService questionService
 @inject NavigationManager navigationManager
 
-<form class="question-form">
+@if (IsLoading)
+{
+    <LoadingView />
+} else
+{
+    <form class="question-form">
     <div id="question-title">
         <label for="title">Question Title</label>
         <textarea id="title" @bind="@NewQuestion.Title" />
@@ -30,7 +35,7 @@
     </div>
     <Button Text="Add Question" OnClick="Save" />
 </form>
-
+}
 @code {
     [Parameter]
     public int TestId { get; set; }
