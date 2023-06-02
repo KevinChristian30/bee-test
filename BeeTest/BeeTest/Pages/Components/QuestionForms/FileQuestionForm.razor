@@ -3,6 +3,7 @@
 @using BeeTest.Models.QuestionDetail
 @using BeeTest.Services.Interfaces
 @using System.Text.Json
+@using System.IO
 
 @inject IJSRuntime js
 @inject ITestService testService
@@ -22,7 +23,7 @@ else
             <textarea id="title" @bind="@NewQuestion.Title" />
         </div>
         <div class="line">
-            <InputFile class="form-control" type="file" OnChange="HandleFileChange" @key="inputFileKey" />
+            <InputFile class="form-control" OnChange="HandleFileChange" @key="inputFileKey" />
         </div>
     </form>
 }
@@ -60,34 +61,46 @@ else
         IsLoading = true;
         await Task.Delay(1);
 
+        string fileName = Guid.NewGuid().ToString();
         string url = await js.InvokeAsync<string>(
                 "uploadFileToFirebase",
                 "questions",
-                "test",
+                fileName,
                 e.File
             );
 
         if (url == "")
         {
             IsLoading = false;
-            await Task.Delay(1);
+            await ClearFile();
 
             return;
         }
 
-        //NewQuestion.Id = 0;
-        //QuestionDetail.fileURL = url;
-        //NewQuestion.Details = QuestionDetail.ToJSONString();
-        //NewQuestion.Test = await testService.Get(TestId);
-        //NewQuestion.QuestionType = await questionTypeService.Get("File");
+        NewQuestion.Id = 0;
+        QuestionDetail.fileURL = url;
+        QuestionDetail.filePath = $"questions/{fileName}";
+        NewQuestion.Details = QuestionDetail.ToJSONString();
+        NewQuestion.Test = await testService.Get(TestId);
+        NewQuestion.QuestionType = await questionTypeService.Get("File");
 
-        //await questionService.AddOrUpdate(NewQuestion);
+        if (await questionService.AddOrUpdate(NewQuestion))
+        {
+            await js.InvokeVoidAsync("alert", "Question Added Successfully");
+
+            await ResetFormValues();
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
 
         IsLoading = false;
         await Task.Delay(1);
     }
 
-    private async Task ClearFile(){
-        inputFileKey = new object ();
+    private async Task ClearFile() => inputFileKey = new object ();
+
+    private async Task ResetFormValues()
+    {
+        NewQuestion.Title = "";
+        await ClearFile();
     }
 }

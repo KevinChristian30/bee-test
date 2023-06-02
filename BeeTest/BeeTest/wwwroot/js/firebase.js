@@ -1,4 +1,4 @@
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyDBKtAWkt6yYOkbCFq3cQ2nkgqlFTh33DU",
     authDomain: "beetest-d2a84.firebaseapp.com",
     projectId: "beetest-d2a84",
@@ -16,40 +16,22 @@ window.uploadFileToFirebase = async function (folderName, fileName, file) {
         return "";
     }
 
-    var fileExtension = file.name.split('.').pop().toLowerCase();
-    if (fileExtension !== 'zip') {
-        alert('File must be a .zip file');
-        return "";
-    }
+    //var fileExtension = file.name.split('.').pop().toLowerCase();
+    //if (fileExtension != 'zip') {
+    //    alert('File must be a .zip file');
+    //    return "";
+    //}
 
-    var fileSizeMB = file.size / (1024 * 1024);
+    const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > 100) {
         alert('File size must be less than 100 MB');
         return "";
     }
 
-    return new Promise((resolve, reject) => {
-        var storageRef = firebase.storage().ref();
+    const storageRef = firebase.storage().ref(folderName + '/' + fileName);
 
-        var uploadTask = storageRef.child(folderName + '/' + fileName).put(file);
+    const snapshot = await storageRef.put(file);
 
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            function (snapshot) {
-            },
-            function (error) {
-                resolve("");
-            },
-            function () {
-                uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                    resolve(downloadURL);
-                });
-            }
-        );
-    });
-};
-
-window.clearFileInput = function (fileInput) {
-    if (fileInput) {
-        fileInput.value = '';
-    }
+    const url = await snapshot.ref.getDownloadURL();
+    return url;
 };
