@@ -1,24 +1,29 @@
 ﻿main {
     padding: 25px;
     width: 100%;
+    margin-left: 250px;
+    height: auto;
 }
 
 .authenticated-layout {
     width: 100vw;
     height: 100vh;
     display: flex;
+    overflow-x: hidden;
 }
 
 .side-bar {
-    width: 300px;
+    width: 250px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 50px;
-    background-color: var(--primary-color);
     padding: 25px 20px;
+    background-color: var(--primary-color);
     color: var(--on-primary-color);
+    position: fixed;
+    overflow-y: auto;
 }
 
 span {

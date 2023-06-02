@@ -120,7 +120,7 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 46 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+#line 53 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
        
     [Parameter]
     public string id { get; set; }
@@ -137,13 +137,10 @@ using BeeTest.Services.Interfaces;
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
-        IsLoading = true;
         test = await testService.Get(int.Parse(id));
 
         oldTestData.Name = test.Name;
         oldTestData.PassingScore = test.PassingScore;
-
-        IsLoading = false;
 
         await base.OnInitializedAsync();
     }
@@ -200,6 +197,11 @@ using BeeTest.Services.Interfaces;
         }
 
         return true;
+    }
+
+    private void NavigateToAddQuestionPage()
+    {
+        navigationManager.NavigateTo($"/tests/{id}/questions/add", true);
     }
 
 #line default

@@ -1,0 +1,71 @@
+﻿@page "/tests/{id}/questions/add"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Services.Interfaces
+@using BeeTest.Pages.Components.QuestionForms
+
+@inject NavigationManager navigationManager
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IJSRuntime js
+
+<PageTitle>BeeTest | Manage Test</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @if (IsLoading)
+        {
+            <LoadingView />
+        } else if (test == null)
+        {
+            <h2>The Test You're Looking for isn't Available</h2>
+        } else
+        {
+            <PageHeader Text="@("Add Question - " + @test.Name)" />
+
+            <form class="question-form">
+                <div class="line">
+                    <label for="question-type">Question Type</label>
+                    <select id="question-type" @bind="@questionType">
+                        @foreach (var questionType in @questionTypes)
+                        {
+                            <option value="@questionType.Name">@questionType.Name</option>
+                        }
+                    </select>
+                </div>
+            </form>
+            <br />
+
+            <QuestionFormFactory QuestionType="@questionType" TestId="@(int.Parse(@id))" />
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool IsLoading = false;
+    private Test test = new Test();
+    private List<QuestionType> questionTypes = new List<QuestionType>();
+    private string questionType = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        test = await testService.Get(int.Parse(id));
+        questionTypes = await questionTypeService.GetAllQuestionTypes();
+        if (questionTypes != null && questionTypes.Count() > 0) 
+            questionType = questionTypes[0].Name;
+
+        await base.OnInitializedAsync();
+    }
+}

@@ -45,6 +45,34 @@
 .page-header[b-qqlga66mbd] {
     margin-bottom: 50px;
 }
+/* _content/BeeTest/Pages/Components/QuestionForms/MultipleChoiceQuestionForm.razor.rz.scp.css */
+.question-form[b-xknbcvhci3] {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#choices-container[b-xknbcvhci3] {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#question-title[b-xknbcvhci3] {
+    display: flex;
+    flex-direction: column;
+}
+.line[b-xknbcvhci3] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+textarea[b-xknbcvhci3] {
+    width: 100%;
+    resize: vertical;
+    padding: 0 5px;
+}
 /* _content/BeeTest/Pages/Login.razor.rz.scp.css */
 .login[b-b9zy7gl736] {
     width: 100vw;
@@ -95,6 +123,21 @@ button[b-b9zy7gl736] {
 button:hover[b-b9zy7gl736] {
     transform: scale(1.01, 1.01);
     background-color: var(--secondary-color);
+}
+/* _content/BeeTest/Pages/Questions/AddQuestion.razor.rz.scp.css */
+.question-form[b-6xqzjbu8bs] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-6xqzjbu8bs] {
+    display: flex;
+    flex-direction: column;
+}
+
+select[b-6xqzjbu8bs] {
+    height: 30px;
 }
 /* _content/BeeTest/Pages/Tests/AddTest.razor.rz.scp.css */
 .test-form[b-0vvibkcvzw] {
@@ -154,24 +197,29 @@ button:hover[b-b9zy7gl736] {
 main[b-thbicw15dz] {
     padding: 25px;
     width: 100%;
+    margin-left: 250px;
+    height: auto;
 }
 
 .authenticated-layout[b-thbicw15dz] {
     width: 100vw;
     height: 100vh;
     display: flex;
+    overflow-x: hidden;
 }
 
 .side-bar[b-thbicw15dz] {
-    width: 300px;
+    width: 250px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 50px;
-    background-color: var(--primary-color);
     padding: 25px 20px;
+    background-color: var(--primary-color);
     color: var(--on-primary-color);
+    position: fixed;
+    overflow-y: auto;
 }
 
 span[b-thbicw15dz] {

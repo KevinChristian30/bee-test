@@ -1,12 +1,12 @@
 => Create a web application following these specifications:
 # Pages
-  - Manage questions
+  - Manage questions 
   - Manage schedule
   - Manage participant V
   - View participant test result
   - View participant test status (answer status)
   - Test page for participant test (server time in the page)
-  - Login page for participant
+  - Login page for participant V
 
 # Types
   - multiple choice

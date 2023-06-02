@@ -1,0 +1,14 @@
+﻿.question-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    height: 30px;
+}

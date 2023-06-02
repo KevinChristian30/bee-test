@@ -38,6 +38,13 @@
                     </div>
                     <Button Text="Update Test" OnClick="Save" />
                 </form>
+
+                <br><br><br>
+                <h3>Questions</h3>
+                <Button Text="Add Question" OnClick="NavigateToAddQuestionPage" />
+
+                @*Display All Questions*@
+                @*Display Add Question Button*@
             </div>
         }
     </Authorized>
@@ -59,13 +66,10 @@
         var authState = await authenticationState;
         AuthStateProvider.AllowAdminOnly(authState, navigationManager);
 
-        IsLoading = true;
         test = await testService.Get(int.Parse(id));
 
         oldTestData.Name = test.Name;
         oldTestData.PassingScore = test.PassingScore;
-
-        IsLoading = false;
 
         await base.OnInitializedAsync();
     }
@@ -122,5 +126,10 @@
         }
 
         return true;
+    }
+
+    private void NavigateToAddQuestionPage()
+    {
+        navigationManager.NavigateTo($"/tests/{id}/questions/add", true);
     }
 }

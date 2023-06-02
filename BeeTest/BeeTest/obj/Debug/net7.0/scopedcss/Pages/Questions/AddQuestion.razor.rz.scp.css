@@ -1,0 +1,14 @@
+.question-form[b-6xqzjbu8bs] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-6xqzjbu8bs] {
+    display: flex;
+    flex-direction: column;
+}
+
+select[b-6xqzjbu8bs] {
+    height: 30px;
+}

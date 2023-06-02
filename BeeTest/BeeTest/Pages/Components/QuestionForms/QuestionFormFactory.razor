@@ -1,0 +1,30 @@
+﻿@using BeeTest.Pages.Components.QuestionForms
+
+@if (@QuestionType == "Multiple Choice")
+{
+    <MultipleChoiceQuestionForm TestId="@TestId" />
+}
+else if (@QuestionType == "Boolean")
+{
+    <BooleanQuestionForm />
+}
+else if (@QuestionType == "Checkboxes")
+{
+    <CheckboxesQuestionForm />
+}
+else if (@QuestionType == "Essay")
+{
+    <EssayQuestionForm />
+}
+else if (@QuestionType == "File")
+{
+    <FileQuestionForm />
+}
+
+@code {
+    [Parameter]
+    public string QuestionType { get; set; }
+
+    [Parameter]
+    public int TestId { get; set; }
+}

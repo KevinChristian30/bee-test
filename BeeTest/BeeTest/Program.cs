@@ -1,9 +1,6 @@
 using BeeTest;
 using BeeTest.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using BeeTest.Authentication;
@@ -13,7 +10,6 @@ using BeeTest.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<Seed>();
-
 builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
@@ -29,6 +25,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<ITestService, TestService>();
+builder.Services.AddTransient<IQuestionTypeService, QuestionTypeService>();
+builder.Services.AddTransient<IQuestionService, QuestionService>();
 
 var app = builder.Build();
 
@@ -52,9 +50,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.MapBlazorHub();
