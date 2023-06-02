@@ -359,3 +359,4 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razo
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\QuestionForms\MultipleChoiceQuestionForm.razor.rz.scp.css
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\QuestionForms\BooleanQuestionForm.razor.rz.scp.css
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\QuestionForms\CheckboxesQuestionForm.razor.rz.scp.css
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\QuestionForms\EssayQuestionForm.razor.rz.scp.css

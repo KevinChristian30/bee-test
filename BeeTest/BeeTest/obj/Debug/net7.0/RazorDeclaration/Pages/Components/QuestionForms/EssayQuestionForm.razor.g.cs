@@ -82,6 +82,41 @@ using BeeTest.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+using BeeTest.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+using BeeTest.Models.QuestionDetail;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+using System.Text.Json;
+
+#line default
+#line hidden
+#nullable disable
     public partial class EssayQuestionForm : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -89,6 +124,70 @@ using BeeTest.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 27 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+       
+    [Parameter]
+    public int TestId { get; set; }
+
+    private bool IsLoading = false;
+
+    private Question NewQuestion = new Question();
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        NewQuestion.Id = 0;
+        NewQuestion.Details = "{}";
+        NewQuestion.Test = await testService.Get(TestId);
+        NewQuestion.QuestionType = await questionTypeService.Get("Essay");
+
+        if (await questionService.AddOrUpdate(NewQuestion))
+        {
+            await js.InvokeVoidAsync("alert", "Question Added Successfully");
+
+            ResetFormValues();
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewQuestion.Title == null || NewQuestion.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ResetFormValues()
+    {
+        NewQuestion.Title = "";
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService questionService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionTypeService questionTypeService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
     }
 }
 #pragma warning restore 1591

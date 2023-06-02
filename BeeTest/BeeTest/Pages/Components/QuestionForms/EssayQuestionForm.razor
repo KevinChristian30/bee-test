@@ -1,5 +1,80 @@
-﻿<h3>EssayQuestionForm</h3>
+﻿@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+} else
+{
+    <form class="question-form">
+        <div class="line">
+            <label for="title">Question Title</label>
+            <textarea id="title" @bind="@NewQuestion.Title" />
+        </div>
+        <Button Text="Add Question" OnClick="Save" />
+    </form>
+}
 
 @code {
+    [Parameter]
+    public int TestId { get; set; }
 
+    private bool IsLoading = false;
+
+    private Question NewQuestion = new Question();
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        NewQuestion.Id = 0;
+        NewQuestion.Details = "{}";
+        NewQuestion.Test = await testService.Get(TestId);
+        NewQuestion.QuestionType = await questionTypeService.Get("Essay");
+
+        if (await questionService.AddOrUpdate(NewQuestion))
+        {
+            await js.InvokeVoidAsync("alert", "Question Added Successfully");
+
+            ResetFormValues();
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (NewQuestion.Title == null || NewQuestion.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ResetFormValues()
+    {
+        NewQuestion.Title = "";
+    }
 }
