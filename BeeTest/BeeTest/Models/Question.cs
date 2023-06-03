@@ -7,8 +7,8 @@ namespace BeeTest.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Details { get; set; }
+        public int QuestionPoints { get; set; }
         public Test Test { get; set; }
-        [JsonIgnore]
         public QuestionType QuestionType { get; set; }
         public ICollection<TemporaryAnswers> TemporaryAnswers { get; set; }
     }

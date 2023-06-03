@@ -120,7 +120,7 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 82 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+#line 89 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
        
     [Parameter]
     public string id { get; set; }
@@ -220,6 +220,11 @@ using BeeTest.Services.Interfaces;
     private void NavigateToEditPage(int id)
     {
         navigationManager.NavigateTo($"/questions/{id}/edit", true);
+    }
+
+    private async Task SaveQuestionScores()
+    {
+        
     }
 
 #line default

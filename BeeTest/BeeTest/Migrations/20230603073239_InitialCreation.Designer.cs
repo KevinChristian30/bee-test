@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeeTest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230601124157_InitialCreation")]
+    [Migration("20230603073239_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -55,6 +55,9 @@ namespace BeeTest.Migrations
                     b.Property<string>("Details")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuestionPoints")
+                        .HasColumnType("int");
 
                     b.Property<int>("QuestionTypeId")
                         .HasColumnType("int");

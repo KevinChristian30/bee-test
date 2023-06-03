@@ -53,6 +53,9 @@ namespace BeeTest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("QuestionPoints")
+                        .HasColumnType("int");
+
                     b.Property<int>("QuestionTypeId")
                         .HasColumnType("int");
 

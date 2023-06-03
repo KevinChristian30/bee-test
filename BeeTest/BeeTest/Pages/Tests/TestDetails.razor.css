@@ -13,6 +13,11 @@
     width: 100%;
 }
 
-.line input[type=number] {
+input[type=number] {
     width: 100px;
+}
+
+.button-container{
+    display: flex;
+    gap: 15px;
 }

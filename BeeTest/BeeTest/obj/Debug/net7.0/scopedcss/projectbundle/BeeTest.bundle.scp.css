@@ -390,8 +390,13 @@ select[b-6xqzjbu8bs] {
     width: 100%;
 }
 
-.line input[type=number][b-lj4536m4lr] {
+input[type=number][b-lj4536m4lr] {
     width: 100px;
+}
+
+.button-container[b-lj4536m4lr]{
+    display: flex;
+    gap: 15px;
 }
 /* _content/BeeTest/Pages/Users/AddUser.razor.rz.scp.css */
 .user-form[b-2z7w7jde7k] {
