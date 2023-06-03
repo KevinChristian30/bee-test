@@ -1,0 +1,138 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+@using System.IO
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+}
+else
+{
+    <form class="question-form">
+        <div class="line">
+            <label for="title">Question Title</label>
+            <textarea id="title" @bind="@Question.Title" />
+        </div>
+        <div class="line">
+            <Button Text="Save Question Title" OnClick="Save" />
+        </div>
+        <div class="line">
+            <a href="@QuestionDetail.fileURL">Download Case File</a>
+        </div>
+        <div class="line">
+            <InputFile class="form-control" OnChange="HandleFileChange" @key="inputFileKey" />
+        </div>
+        <div class="line">
+            <h6>Insert File to Update Question File</h6>
+        </div>
+    </form>
+}
+
+@code {
+    [Parameter]
+    public int QuestionId { get; set; }
+
+    private bool IsLoading = false;
+
+    private Question Question = new Question();
+    private FileQuestionDetail QuestionDetail = new FileQuestionDetail();
+
+    private object inputFileKey = new object();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Question = await questionService.Get(QuestionId);
+        QuestionDetail = (FileQuestionDetail) QuestionDetailFactory.ParseJSON(Question.QuestionType.Name, Question.Details);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (Question.Title == null || Question.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        if (!(await AreFormValuesValid()))
+        {
+            await ClearFile();
+            return;
+        }
+
+        IsLoading = true;
+        await Task.Delay(1);
+
+        string fileName = QuestionDetail.filePath.Split("/")[1];
+        string url = await js.InvokeAsync<string>(
+                "uploadFileToFirebase",
+                "questions",
+                fileName,
+                e.File
+            );
+
+        if (url == "")
+        {
+            IsLoading = false;
+            await ClearFile();
+
+            return;
+        }
+
+        QuestionDetail.fileURL = url;
+        QuestionDetail.filePath = $"questions/{fileName}";
+        Question.Details = QuestionDetail.ToJSONString();
+
+        if (await questionService.AddOrUpdate(Question))
+        {
+            await js.InvokeVoidAsync("alert", "Question Saved Successfully");
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        Question.Details = QuestionDetail.ToJSONString();
+
+        if (await questionService.AddOrUpdate(Question))
+        {
+            await js.InvokeVoidAsync("alert", "Question Saved Successfully");
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task ClearFile() => inputFileKey = new object ();
+}

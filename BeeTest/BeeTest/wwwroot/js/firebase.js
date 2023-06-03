@@ -16,11 +16,11 @@ window.uploadFileToFirebase = async function (folderName, fileName, file) {
         return "";
     }
 
-    //var fileExtension = file.name.split('.').pop().toLowerCase();
-    //if (fileExtension != 'zip') {
-    //    alert('File must be a .zip file');
-    //    return "";
-    //}
+    var fileExtension = file.name.split('.').pop().toLowerCase();
+    if (fileExtension != 'zip') {
+        alert('File must be a .zip file');
+        return "";
+    }
 
     const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > 100) {

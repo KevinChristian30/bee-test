@@ -217,6 +217,11 @@ using BeeTest.Services.Interfaces;
         else await js.InvokeVoidAsync("alert", "Question Deletion Failed");
     }
 
+    private void NavigateToEditPage(int id)
+    {
+        navigationManager.NavigateTo($"/questions/{id}/edit", true);
+    }
+
 #line default
 #line hidden
 #nullable disable

@@ -1,0 +1,15 @@
+﻿.question-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.line {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

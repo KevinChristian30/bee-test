@@ -1,0 +1,22 @@
+﻿.question-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#question-title{
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    resize: vertical;
+}
+
+#choices-container {
+}
+
+.line {
+    display: flex;
+    gap: 5px;
+}

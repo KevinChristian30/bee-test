@@ -1,0 +1,22 @@
+.question-form[b-6v1iw6tvem] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#question-title[b-6v1iw6tvem]{
+    display: flex;
+    flex-direction: column;
+}
+
+textarea[b-6v1iw6tvem] {
+    resize: vertical;
+}
+
+#choices-container[b-6v1iw6tvem] {
+}
+
+.line[b-6v1iw6tvem] {
+    display: flex;
+    gap: 5px;
+}

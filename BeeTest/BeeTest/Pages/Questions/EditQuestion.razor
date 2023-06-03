@@ -1,0 +1,54 @@
+﻿@page "/questions/{id}/edit"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Factories;
+@using BeeTest.Models.QuestionDetail;
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Services.Interfaces
+@using BeeTest.Pages.Components.QuestionForms
+@using BeeTest.Pages.Components.EditQuestionForms
+
+@inject NavigationManager navigationManager
+@inject ITestService testService
+@inject IQuestionService questionService
+@inject IJSRuntime js
+
+<PageTitle>BeeTest | Edit Question</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @if (Question == null)
+        {
+            <h4>The Question You're Looking For Doesn't Exist</h4>
+        } else
+        {
+            <PageHeader Text="Edit Question" />
+            <EditQuestionFormFactory 
+                QuestionId="@(int.Parse(id))"
+                Type="@Question.QuestionType.Name" />
+        }
+        
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private Question Question;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
+
+        Question = await questionService.Get(int.Parse(id));
+
+        await base.OnInitializedAsync();
+    }
+}

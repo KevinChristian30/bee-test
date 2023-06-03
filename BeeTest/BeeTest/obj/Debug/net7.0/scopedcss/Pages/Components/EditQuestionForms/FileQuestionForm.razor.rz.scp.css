@@ -1,0 +1,10 @@
+.question-form[b-o32daio5sc]{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.line[b-o32daio5sc] {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,32 @@
+﻿@using BeeTest.Models;
+@using BeeTest.Models.QuestionDetail;
+@using BeeTest.Pages.Components.QuestionForms
+
+@if (Type == "Multiple Choice")
+{
+    <MultipleChoiceEditQuestionForm QuestionId="@QuestionId" />
+}
+else if (Type == "Boolean")
+{
+    <BooleanEditQuestionForm QuestionId="@QuestionId" />
+}
+else if (Type == "Checkboxes")
+{
+    <CheckboxesEditQuestionForm QuestionId="@QuestionId" />
+}
+else if (Type == "Essay")
+{
+    <EssayEditQuestionForm QuestionId="@QuestionId" />
+}
+else if (Type == "File")
+{
+    <FileEditQuestionForm QuestionId="@QuestionId" />
+}
+
+@code {
+    [Parameter]
+    public int QuestionId { get; set; }
+
+    [Parameter]
+    public string Type { get; set; }
+}

@@ -1,0 +1,27 @@
+.question-form[b-obiuc0e0au] {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#choices-container[b-obiuc0e0au] {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#question-title[b-obiuc0e0au] {
+    display: flex;
+    flex-direction: column;
+}
+.line[b-obiuc0e0au] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+textarea[b-obiuc0e0au] {
+    width: 100%;
+    resize: vertical;
+    padding: 0 5px;
+}

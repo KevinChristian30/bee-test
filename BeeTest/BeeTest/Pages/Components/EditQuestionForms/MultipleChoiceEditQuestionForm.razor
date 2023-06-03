@@ -1,0 +1,137 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+}
+else if (Question == null || QuestionDetail == null)
+{
+    <h4>The Question You're Looking For Doesn't Exist</h4>
+}
+else
+{
+    <form class="question-form">
+        <div id="question-title">
+            <label for="title">Question Title</label>
+            <textarea id="title" @bind="@Question.Title" />
+        </div>
+        <div id="choices-container">
+            <div class="line">
+                <input type="radio" name="key" value="a" @onchange="UpdateKey" checked="@IsAChecked" />
+                <label for="a">A. </label>
+                <textarea id="a" @bind="@choices['a']" />
+            </div>
+            <div class="line">
+                <input type="radio" name="key" value="b" @onchange="UpdateKey" checked="@IsBChecked" />
+                <label for="b">B. </label>
+                <textarea id="b" @bind="@choices['b']" />
+            </div>
+            <div class="line">
+                <input type="radio" name="key" value="c" @onchange="UpdateKey" checked="@IsCChecked" />
+                <label for="c">C. </label>
+                <textarea id="c" @bind="@choices['c']" />
+            </div>
+            <div class="line">
+                <input type="radio" name="key" value="d" @onchange="UpdateKey" checked="@IsDChecked" />
+                <label for="d">D. </label>
+                <textarea id="d" @bind="@choices['d']" />
+            </div>
+            <div class="line">
+                <input type="radio" name="key" value="e" @onchange="UpdateKey" checked="@IsEChecked" />
+                <label for="e">E. </label>
+                <textarea id="e" @bind="@choices['e']" />
+            </div>
+        </div>
+        <Button Text="Save Question" OnClick="Save" />
+    </form>
+}
+
+@code {
+    [Parameter]
+    public int QuestionId { get; set; }
+
+    private bool IsLoading = false;
+
+    private Question Question;
+    private MultipleChoiceQuestionDetail QuestionDetail;
+    private Dictionary<char, string> choices = new Dictionary<char, string>();
+    private char key;
+    private bool IsAChecked => key == 'a';
+    private bool IsBChecked => key == 'b';
+    private bool IsCChecked => key == 'c';
+    private bool IsDChecked => key == 'd';
+    private bool IsEChecked => key == 'e';
+
+    protected override async Task OnInitializedAsync()
+    {
+        Question = await questionService.Get(QuestionId);
+        QuestionDetail = (MultipleChoiceQuestionDetail) QuestionDetailFactory.ParseJSON(Question.QuestionType.Name, Question.Details);
+
+        choices = QuestionDetail.Choices;
+        key = QuestionDetail.Key;
+
+        await base.OnInitializedAsync();
+    }   
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        QuestionDetail.Choices = choices;
+        QuestionDetail.Key = key;
+        Question.Details = QuestionDetail.ToJSONString();
+
+        if (await questionService.AddOrUpdate(Question))
+        {
+            await js.InvokeVoidAsync("alert", "Question Save Successfully");
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (Question.Title == null || Question.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        if (choices['a'] == "" || choices['b'] == "" || choices['c'] == "" || choices['d'] == "" || choices['e'] == "")
+        {
+            await js.InvokeVoidAsync("alert", "All choices must be filled");
+            return false;
+        }
+
+        if (key == '\0')
+        {
+            await js.InvokeVoidAsync("alert", "Question answer key must be chosen");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void UpdateKey(ChangeEventArgs e) => key = e.Value.ToString()[0];
+}

@@ -1,0 +1,139 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+} else
+{
+    <form class="question-form">
+        <div id="question-title">
+            <label for="title">Question Title</label>
+            <textarea id="title" @bind="@Question.Title" />
+        </div>
+        <div id="choices-container">
+            <div id="top">
+                <h6>Choices</h6>
+            </div>
+            <div id="bottom">
+                @foreach (var keyValuePair in QuestionDetail.CheckboxQuestionData)
+                {
+                    <div class="line">
+                        <input type="checkbox" @bind="@keyValuePair.Value.IsTrue" />
+                        <textarea @bind="@keyValuePair.Value.Statement" />
+                        <Button Text="Remove" OnClick="@(() => RemoveDetailData(@keyValuePair.Key))" />
+                    </div>
+                }
+            </div>
+        </div>
+        <Button Text="Add Choice" OnClick="AddNewDetailData" />
+        <Button Text="Save Question" OnClick="Save" />
+    </form>
+}
+
+@code {
+    [Parameter]
+    public int QuestionId { get; set; }
+
+    private Question Question = new Question();
+    private CheckboxesQuestionDetail QuestionDetail = new CheckboxesQuestionDetail();
+
+    private bool IsLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Question = await questionService.Get(QuestionId);
+        QuestionDetail = (CheckboxesQuestionDetail) QuestionDetailFactory.ParseJSON(Question.QuestionType.Name, Question.Details);
+
+        await base.OnInitializedAsync();
+    }
+
+    private void AddNewDetailData()
+    {
+        int newKey = QuestionDetail.CheckboxQuestionData.Count() + 1;
+        while (true)
+        {
+            if (QuestionDetail.CheckboxQuestionData.ContainsKey(newKey))
+            {
+                newKey++;
+                continue;
+            }
+
+            QuestionDetail.CheckboxQuestionData.Add(
+                newKey,
+                new CheckboxesQuestionDetail.Data()
+            );
+
+            break;
+        }
+    }
+
+    private async Task RemoveDetailData(int key)
+    {
+        if (QuestionDetail.CheckboxQuestionData.Count() <= 2)
+        {
+            await js.InvokeVoidAsync("alert", "You must have at least 2 choices, if your question is a boolean, try making a boolean question instead");
+            return;
+        }
+
+        QuestionDetail.CheckboxQuestionData.Remove(key);
+    }
+
+    private async Task Save()
+    {
+        if (!(await AreFormValuesValid())) return;
+
+        IsLoading = true;
+        await Task.Delay(1);
+
+        Question.Details = QuestionDetail.ToJSONString();
+
+        if (await questionService.AddOrUpdate(Question))
+        {
+            await js.InvokeVoidAsync("alert", "Question Saved Successfully");
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (Question.Title == null || Question.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        bool hasOneTrue = false;
+        foreach (var keyValuePair in QuestionDetail.CheckboxQuestionData)
+        {
+            if (keyValuePair.Value.Statement == null || keyValuePair.Value.Statement == "")
+            {
+                await js.InvokeVoidAsync("alert", "Every choice should have a statement");
+                return false;
+            }
+
+            if (keyValuePair.Value.IsTrue) hasOneTrue = true;
+        }
+
+        if (!hasOneTrue)
+        {
+            await js.InvokeVoidAsync("alert", "The question must have at least 1 true statement");
+            return false;
+        }
+
+        return true;
+    }
+}

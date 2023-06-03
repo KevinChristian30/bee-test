@@ -1,0 +1,15 @@
+.question-form[b-s16dmz3uny] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+textarea[b-s16dmz3uny] {
+    resize: vertical;
+}
+
+.line[b-s16dmz3uny] {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

@@ -56,7 +56,10 @@ namespace BeeTest.Services.Classes
 
         public async Task<Question> Get(int id)
         {
-            return await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
+            return await _context.Questions
+                .Include(q => q.QuestionType)
+                .Where(q => q.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<Question>> GetQuestionsByTestId(int testId)

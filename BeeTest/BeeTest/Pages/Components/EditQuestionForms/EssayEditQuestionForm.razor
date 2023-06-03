@@ -1,0 +1,75 @@
+﻿@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+} else
+{
+    <form class="question-form">
+        <div class="line">
+            <label for="title">Question Title</label>
+            <textarea id="title" @bind="@Question.Title" />
+        </div>
+        <Button Text="Save Question" OnClick="Save" />
+    </form>
+}
+
+@code {
+    [Parameter]
+    public int QuestionId { get; set; }
+
+    private bool IsLoading = false;
+
+    private Question Question = new Question();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Question = await questionService.Get(QuestionId);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        if (await questionService.AddOrUpdate(Question))
+        {
+            await js.InvokeVoidAsync("alert", "Question Saved Successfully");
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (Question.Title == null || Question.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        return true;
+    }
+}

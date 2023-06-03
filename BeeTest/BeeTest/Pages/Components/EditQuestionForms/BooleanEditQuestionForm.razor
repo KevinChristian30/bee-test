@@ -1,0 +1,108 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Pages.Components
+@using BeeTest.Models
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionTypeService questionTypeService
+@inject IQuestionService questionService
+@inject NavigationManager navigationManager
+
+@if (IsLoading)
+{
+    <LoadingView />
+} else
+{
+    <form class="question-form">
+    <div id="question-title">
+        <label for="title">Question Title</label>
+        <textarea id="title" @bind="@Question.Title" />
+    </div>
+    <div id="choices-container">
+        <h6>Answer Key</h6>
+        <div class="line">
+            <div>
+                <input type="radio" name="key" id="true" value="True" @onchange="UpdateKey" checked="@IsTrueChecked" />
+                <label for="true">True</label>
+            </div>
+            <div>
+                <input type="radio" name="key" id="false" value="False" @onchange="UpdateKey" checked="@IsFalseChecked" />
+                <label for="false">False</label>
+            </div>
+        </div>
+    </div>
+    <Button Text="Save Question" OnClick="Save" />
+</form>
+}
+
+@code {
+    [Parameter]
+    public int QuestionId { get; set; }
+
+    private bool IsLoading = false;
+
+    private Question Question = new Question();
+
+    private BooleanQuestionDetail QuestionDetail;
+    private string key = "";
+    private bool IsTrueChecked => key == "True";
+    private bool IsFalseChecked => key == "False";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Question = await questionService.Get(QuestionId);
+        QuestionDetail = (BooleanQuestionDetail) QuestionDetailFactory.ParseJSON(Question.QuestionType.Name, Question.Details);
+
+        key = QuestionDetail.Key ? "True" : "False";
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        QuestionDetail.Key = key == "True";
+        Question.Details = QuestionDetail.ToJSONString();
+
+        if (await questionService.AddOrUpdate(Question))
+        {
+            await js.InvokeVoidAsync("alert", "Question Saved Successfully");
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private void UpdateKey(ChangeEventArgs e) => key = e.Value.ToString();
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (Question.Title == null || Question.Title == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question title must be filled");
+            return false;
+        }
+
+        if (key == "")
+        {
+            await js.InvokeVoidAsync("alert", "Question answer key must be filled");
+            return false;
+        }
+
+        return true;
+    }
+}
