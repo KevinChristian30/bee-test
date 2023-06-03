@@ -70,6 +70,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[7.0.6, )"
+            },
+            "MudBlazor": {
+              "target": "Package",
+              "version": "[6.3.1, )"
             }
           },
           "imports": [

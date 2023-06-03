@@ -105,7 +105,21 @@ using BeeTest.Models;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+using BeeTest.Pages.Components.Gates;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
 using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -120,19 +134,13 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 56 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
+#line 55 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\Tests.razor"
        
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading = false;
     private List<Test> tests = new List<Test>();
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         tests = await testService.GetAllTests();
 
         await base.OnInitializedAsync();
@@ -143,7 +151,7 @@ using BeeTest.Services.Interfaces;
         navigationManager.NavigateTo("/tests/add", true);
     }
 
-    private void NavigateToAddTestPage(int id)
+    private void NavigateToTestDetailPage(int id)
     {
         navigationManager.NavigateTo($"/tests/{id}", true);
     }

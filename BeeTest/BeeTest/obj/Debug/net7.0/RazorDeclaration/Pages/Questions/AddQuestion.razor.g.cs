@@ -105,14 +105,28 @@ using BeeTest.Models;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\AddQuestion.razor"
-using BeeTest.Services.Interfaces;
+using BeeTest.Pages.Components.Gates;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\AddQuestion.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\AddQuestion.razor"
 using BeeTest.Pages.Components.QuestionForms;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 10 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\AddQuestion.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -127,13 +141,10 @@ using BeeTest.Pages.Components.QuestionForms;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 47 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\AddQuestion.razor"
+#line 50 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\AddQuestion.razor"
        
     [Parameter]
     public string id { get; set; }
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
 
     private bool IsLoading = false;
     private Test test = new Test();
@@ -142,9 +153,6 @@ using BeeTest.Pages.Components.QuestionForms;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         test = await testService.Get(int.Parse(id));
         questionTypes = await questionTypeService.GetAllQuestionTypes();
         if (questionTypes != null && questionTypes.Count() > 0) 

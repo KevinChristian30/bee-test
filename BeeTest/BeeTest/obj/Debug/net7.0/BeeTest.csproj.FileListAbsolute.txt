@@ -327,7 +327,6 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\refi
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\BeeTest.pdb
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\BeeTest.genruntimeconfig.cache
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\ref\BeeTest.dll
-C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\Button.razor.rz.scp.css
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\LoadingView.razor.rz.scp.css
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\PageHeader.razor.rz.scp.css
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Login.razor.rz.scp.css
@@ -380,3 +379,16 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scop
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Components\EditQuestionForms\FileEditQuestionForm.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Components\EditQuestionForms\FileEditQuestionForm.razor.g.cs
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Components\EditQuestionForms\FileEditQuestionForm.razor.rz.scp.css
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Components\Gates\AdminOnlyGate.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Components\Gates\AdminOnlyGate.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Schedules\Schedules.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Schedules\Schedules.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Schedules\AddSchedule.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Schedules\AddSchedule.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Components.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.JSInterop.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\MudBlazor.dll

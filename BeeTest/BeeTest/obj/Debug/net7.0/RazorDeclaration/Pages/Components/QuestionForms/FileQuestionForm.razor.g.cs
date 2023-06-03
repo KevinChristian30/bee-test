@@ -124,6 +124,13 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\FileQuestionForm.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class FileQuestionForm : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -132,7 +139,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 31 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\FileQuestionForm.razor"
+#line 32 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\FileQuestionForm.razor"
        
     [Parameter]
     public int TestId { get; set; }
@@ -141,6 +148,7 @@ using System.IO;
 
     private Question NewQuestion = new Question();
     private FileQuestionDetail QuestionDetail = new FileQuestionDetail();
+    private IBrowserFile file;
 
     private object inputFileKey = new object();
 

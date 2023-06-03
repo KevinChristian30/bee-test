@@ -124,6 +124,13 @@ using System.Text.Json;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\EditQuestionForms\BooleanEditQuestionForm.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class BooleanEditQuestionForm : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -132,7 +139,7 @@ using System.Text.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\EditQuestionForms\BooleanEditQuestionForm.razor"
+#line 42 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\EditQuestionForms\BooleanEditQuestionForm.razor"
        
     [Parameter]
     public int QuestionId { get; set; }

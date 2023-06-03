@@ -119,20 +119,27 @@ using BeeTest.Models;
 #nullable disable
 #nullable restore
 #line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\EditQuestion.razor"
-using BeeTest.Services.Interfaces;
+using BeeTest.Pages.Components.Gates;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 10 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\EditQuestion.razor"
-using BeeTest.Pages.Components.QuestionForms;
+using BeeTest.Services.Interfaces;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 11 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\EditQuestion.razor"
+using BeeTest.Pages.Components.QuestionForms;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 12 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\EditQuestion.razor"
 using BeeTest.Pages.Components.EditQuestionForms;
 
 #line default
@@ -148,21 +155,15 @@ using BeeTest.Pages.Components.EditQuestionForms;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\EditQuestion.razor"
+#line 39 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Questions\EditQuestion.razor"
        
     [Parameter]
     public string id { get; set; }
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
 
     private Question Question;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         Question = await questionService.Get(int.Parse(id));
 
         await base.OnInitializedAsync();

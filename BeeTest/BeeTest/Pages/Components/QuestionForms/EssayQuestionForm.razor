@@ -3,6 +3,7 @@
 @using BeeTest.Models.QuestionDetail
 @using BeeTest.Services.Interfaces
 @using System.Text.Json
+@using MudBlazor
 
 @inject IJSRuntime js
 @inject ITestService testService
@@ -20,7 +21,7 @@
             <label for="title">Question Title</label>
             <textarea id="title" @bind="@NewQuestion.Title" />
         </div>
-        <Button Text="Add Question" OnClick="Save" />
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Save Question</MudButton>
     </form>
 }
 

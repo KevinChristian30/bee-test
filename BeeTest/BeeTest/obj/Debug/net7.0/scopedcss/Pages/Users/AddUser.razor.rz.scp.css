@@ -7,9 +7,13 @@
 .line[b-2z7w7jde7k] {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
-.line input[type=text][b-2z7w7jde7k],
-.line input[type=email][b-2z7w7jde7k] {
-    width: 100%;
+input[type=date][b-2z7w7jde7k]{
+    width: 200px;
+}
+
+input[type=date]:focus[b-2z7w7jde7k] {
+    outline: none;
 }

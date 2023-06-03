@@ -3,16 +3,3 @@
     flex-direction: column;
     gap: 20px;
 }
-
-.line {
-    display: flex;
-    flex-direction: column;
-}
-
-.line input[type=text] {
-    width: 100%;
-}
-
-.line input[type=number] {
-    width: 100px;
-}

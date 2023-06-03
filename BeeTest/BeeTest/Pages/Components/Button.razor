@@ -1,6 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Components
+@using MudBlazor
 
-<button @onclick="HandleClick" type="button" class="button">@Text</button>
+<MudButton 
+    Variant="Variant.Filled" 
+    Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Blue.Default}; height: 40px; border-radius: 7px;")"
+    OnClick="HandleClick">
+    @Text
+</MudButton>
 
 @code {
     [Parameter]

@@ -3,6 +3,8 @@
 @using BeeTest.Authentication
 @using BeeTest.Services.Interfaces
 @using BCrypt.Net
+@using MudBlazor
+@using BeeTest.Pages.Components
 
 @inject UserAuthService userAccountService
 @inject AuthenticationStateProvider authenticationStateProvider
@@ -13,21 +15,22 @@
 <PageTitle>BeeTest | Login</PageTitle>
 
 <div class="login">
-    <form @onsubmit="Authenticate">
-        <h1>BeeTest</h1>
-        <div class="field-container">
-            <div class="line">
-                <label>Email</label>
-                <input @bind="model.Email" type="email" placeholder="Email" />
+    <form>
+        @if (IsLoading)
+        {
+            <LoadingView />
+        } else
+        {
+            <h1>BeeTest</h1>
+            <div class="field-container">
+                <MudTextField @bind-Value="model.Email" Label="Email" Variant="Variant.Filled" InputType="InputType.Email"></MudTextField>
+                <MudTextField @bind-Value="model.Password" Label="Password" Variant="Variant.Filled" InputType="InputType.Password"></MudTextField>
             </div>
-            <div class="line">
-                <label>Password</label>
-                <input @bind="model.Password" type="password" placeholder="Password" />
-            </div>
-        </div>
-        <button>Log In</button>
+            <Button Text="Login" OnClick="Authenticate" />
+        }
     </form>
 </div>
+
 
 @code {
     private class Model
@@ -37,19 +40,27 @@
     }
 
     private Model model = new Model();
+    private bool IsLoading = false;
 
     private async Task Authenticate()
     {
+        IsLoading = true;
+        await Task.Delay(1);
+
         var userAccount = await userService.Get(model.Email);
 
         if (userAccount == null)
         {
+            IsLoading = false;
+            await Task.Delay(1);
             await js.InvokeVoidAsync("alert", "Email Not Found");
             return;
         }
 
         if (!BCrypt.Verify(model.Password, userAccount.Password))
         {
+            IsLoading = false;
+            await Task.Delay(1);
             await js.InvokeVoidAsync("alert", "Wrong Password");
             return;
         }
@@ -60,6 +71,9 @@
             Email = userAccount.Email,
             Role = userAccount.Role.Name
         });
+
+        IsLoading = false;
+        await Task.Delay(1);
 
         navigationManager.NavigateTo("/", true);
     }

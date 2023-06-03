@@ -83,8 +83,15 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
+#line 3 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
 using BeeTest.Authentication;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -97,10 +104,14 @@ using BeeTest.Authentication;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 51 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
+#line 48 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Shared\AuthenticatedLayout.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+    bool open = false;
+
+    void ToggleDrawer() => open = !open;
 
     private async Task LogOut()
     {

@@ -105,7 +105,21 @@ using BeeTest.Models;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+using BeeTest.Pages.Components.Gates;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
 using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -120,13 +134,10 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 89 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
+#line 80 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\TestDetails.razor"
        
     [Parameter]
     public string id { get; set; }
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
 
     private bool IsLoading = false;
     private Test test = new Test();
@@ -135,9 +146,6 @@ using BeeTest.Services.Interfaces;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         test = await testService.Get(int.Parse(id));
         questions = await questionService.GetQuestionsByTestId(int.Parse(id));
 
@@ -206,7 +214,12 @@ using BeeTest.Services.Interfaces;
         navigationManager.NavigateTo($"/tests/{id}/questions/add", true);
     }
 
-    private async Task RemoveQuestion(Question question)
+    private void NavigateToEditPage(int id)
+    {
+        navigationManager.NavigateTo($"/questions/{id}/edit", true);
+    }
+
+    private async Task DeleteQuestion(Question question)
     {
         IsLoading = true;
 
@@ -217,14 +230,32 @@ using BeeTest.Services.Interfaces;
         else await js.InvokeVoidAsync("alert", "Question Deletion Failed");
     }
 
-    private void NavigateToEditPage(int id)
-    {
-        navigationManager.NavigateTo($"/questions/{id}/edit", true);
-    }
-
     private async Task SaveQuestionScores()
     {
-        
+        foreach (Question question in questions)
+        {
+            if (question.QuestionPoints < 1 || question.QuestionPoints > 100)
+            {
+                await js.InvokeVoidAsync("alert", "Scores must be between 1 and 100");
+                return;
+            }
+        }
+
+        IsLoading = true;
+        await Task.Delay(1);
+
+        foreach (Question question in questions)
+        {
+            if (!(await questionService.AddOrUpdate(question)))
+            {
+                await js.InvokeVoidAsync("alert", "Something went wrong while saving question points, not all changes may be saved");
+                return;
+            }
+        }
+
+        await js.InvokeVoidAsync("alert", "Question points saved");
+        IsLoading = false;
+        await Task.Delay(1);
     }
 
 #line default

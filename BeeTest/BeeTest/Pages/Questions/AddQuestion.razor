@@ -4,13 +4,17 @@
 @using BeeTest.Authentication
 @using BeeTest.Pages.Components
 @using BeeTest.Models
+@using BeeTest.Pages.Components.Gates
 @using BeeTest.Services.Interfaces
 @using BeeTest.Pages.Components.QuestionForms
+@using MudBlazor
 
 @inject NavigationManager navigationManager
 @inject ITestService testService
 @inject IQuestionTypeService questionTypeService
 @inject IJSRuntime js
+
+<AdminOnlyGate/>
 
 <PageTitle>BeeTest | Manage Test</PageTitle>
 
@@ -28,7 +32,6 @@
 
             <form class="question-form">
                 <div class="line">
-                    <label for="question-type">Question Type</label>
                     <select id="question-type" @bind="@questionType">
                         @foreach (var questionType in @questionTypes)
                         {
@@ -48,9 +51,6 @@
     [Parameter]
     public string id { get; set; }
 
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading = false;
     private Test test = new Test();
     private List<QuestionType> questionTypes = new List<QuestionType>();
@@ -58,9 +58,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         test = await testService.Get(int.Parse(id));
         questionTypes = await questionTypeService.GetAllQuestionTypes();
         if (questionTypes != null && questionTypes.Count() > 0) 

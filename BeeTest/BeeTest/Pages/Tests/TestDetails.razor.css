@@ -4,19 +4,6 @@
     gap: 20px;
 }
 
-.line {
-    display: flex;
-    flex-direction: column;
-}
-
-.line input[type=text] {
-    width: 100%;
-}
-
-input[type=number] {
-    width: 100px;
-}
-
 .button-container{
     display: flex;
     gap: 15px;

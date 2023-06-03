@@ -117,6 +117,13 @@ using System.Text.Json;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class EssayQuestionForm : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -125,7 +132,7 @@ using System.Text.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 27 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
+#line 28 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionForms\EssayQuestionForm.razor"
        
     [Parameter]
     public int TestId { get; set; }

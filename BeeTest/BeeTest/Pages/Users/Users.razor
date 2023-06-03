@@ -2,13 +2,17 @@
 @layout AuthenticatedLayout
 
 @using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
 @using BeeTest.Authentication
 @using BeeTest.Models
+@using MudBlazor
 @using Services.Interfaces
 
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
 @inject IUserService userService
+
+<AdminOnlyGate/>
 
 <PageTitle>BeeTest | Manage Users</PageTitle>
 
@@ -21,54 +25,47 @@
                 <LoadingView />
             } else if (@users.Count() == 0)
             {
-                <h3>There Are No Users</h3>
-                <Button Text="Add User" OnClick="NavigateToAddUserPage" />
+                <h5>There Are No Users</h5>
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
             } else
             {
-                <Button Text="Add User" OnClick="NavigateToAddUserPage" />
-                <table class="table table-fluid">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">Date of Birth</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach(var user in users)
-                    {
-                        <tr>
-                            <td>@user.Name</td>
-                            <td>@user.Email</td>
-                            <td>@user.Gender</td>
-                            <td>@user.DateOfBirth.ToString("yyyy-MM-dd")</td>
-                            <td>
-                                <Button Text="Delete" OnClick="@(() => DeleteUser(@user))" />
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
+
+                <MudTable Items="@users" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true"
+                      Style="@($"background-color:{Colors.Grey.Lighten3}; border-radius: 7px; margin-top: 10px")">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Email</MudTh>
+                        <MudTh>Gender</MudTh>
+                        <MudTh>Date of Birth</MudTh>
+                        <MudTh>Action</MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="user">
+                        <MudTd DataLabel="Name">@user.Name</MudTd>
+                        <MudTd DataLabel="Email">@user.Email</MudTd>
+                        <MudTd DataLabel="Gender">@user.Gender</MudTd>
+                        <MudTd DataLabel="Date of Birth">@user.DateOfBirth.ToString("yyyy-MM-dd")</MudTd>
+                        <MudTd DataLabel="Action">
+                            <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Red.Default}; color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteUser(@user))"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
             }
         </div>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading = false;
     private List<User> users = new List<User>();
 
+    private bool enabled = true;
+
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
+        IsLoading = true;
         users = await userService.GetAllParticipants();
+        IsLoading = false;
 
         await base.OnInitializedAsync();
     }

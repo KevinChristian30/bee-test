@@ -4,11 +4,15 @@
 @using BeeTest.Authentication
 @using BeeTest.Models
 @using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
 @using BeeTest.Services.Interfaces
+@using MudBlazor
 
 @inject ITestService testService
 @inject IJSRuntime js
 @inject NavigationManager navigationManager
+
+<AdminOnlyGate/>
 
 <PageTitle>BeeTest | Add Test</PageTitle>
 
@@ -23,15 +27,10 @@
             else
             {
                 <form Model="NewTest" class="test-form">
-                    <div class="line">
-                        <label for="name">Test Name</label>
-                        <input type="text" id="name" @bind="NewTest.Name" />
-                    </div>
-                    <div class="line">
-                        <label for="passing-score">Test Passing Grade</label>
-                        <input type="number" id="passing-score" @bind="NewTest.PassingScore" />
-                    </div>
-                    <Button Text="Add Test" OnClick="Save" />
+                    <MudTextField @bind-Value="NewTest.Name" Label="Test Name" Variant="Variant.Filled" InputType="InputType.Text"></MudTextField>
+                    <MudNumericField @bind-Value="NewTest.PassingScore" Label="Test Passing Grade" Variant="Variant.Filled" Min="1" Max="100" />
+
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Save Test</MudButton>
                 </form>
             }
         </div>
@@ -39,17 +38,11 @@
 </AuthorizeView>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading { get; set; } = false;
     private Test NewTest = new Test();
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         NewTest.PassingScore = 50;
 
         await base.OnInitializedAsync();

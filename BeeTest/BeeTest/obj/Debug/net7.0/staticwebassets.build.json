@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "83aGvPH/g8Uwq/x3/1rNAdxI2pcA5SO74aui/cfkZHY=",
+  "Hash": "N4TjGf8uvfApFDmJgxYD2nW4q2vMs2y8lJNIDdw7IMI=",
   "Source": "BeeTest",
   "BasePath": "_content/BeeTest",
   "Mode": "Default",
@@ -1035,6 +1035,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Kevin\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\7.0.5\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\Kevin\\.nuget\\packages\\mudblazor\\6.3.1\\staticwebassets\\MudBlazor.min.css",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\Kevin\\.nuget\\packages\\mudblazor\\6.3.1\\staticwebassets\\",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\Kevin\\.nuget\\packages\\mudblazor\\6.3.1\\staticwebassets\\MudBlazor.min.css"
+    },
+    {
+      "Identity": "C:\\Users\\Kevin\\.nuget\\packages\\mudblazor\\6.3.1\\staticwebassets\\MudBlazor.min.js",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\Kevin\\.nuget\\packages\\mudblazor\\6.3.1\\staticwebassets\\",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\Kevin\\.nuget\\packages\\mudblazor\\6.3.1\\staticwebassets\\MudBlazor.min.js"
     },
     {
       "Identity": "C:\\Users\\Kevin\\Desktop\\Current Job\\BeeTest\\BeeTest\\BeeTest\\obj\\Debug\\net7.0\\scopedcss\\bundle\\BeeTest.styles.css",

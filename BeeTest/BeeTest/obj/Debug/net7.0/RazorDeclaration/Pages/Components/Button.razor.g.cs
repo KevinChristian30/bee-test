@@ -88,6 +88,13 @@ using Microsoft.AspNetCore.Components;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\Button.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class Button : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -96,7 +103,7 @@ using Microsoft.AspNetCore.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\Button.razor"
+#line 11 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\Button.razor"
        
     [Parameter]
     public string Text { get; set; }

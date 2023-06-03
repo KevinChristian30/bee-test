@@ -67,27 +67,9 @@ a, .btn-link {
     content: "An error has occurred."
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"]{
-    height: 35px;
-    padding: 0 5px;
-}
-
-.side-bar-link,
-.side-bar-link-header,
-.side-bar-link-header:hover {
-    text-decoration: none;
-    color: white;
-}
-
-.side-bar-link {
-    padding: 7px 10px 0 10px;
-    border-radius: 7px;
-}
-
-.side-bar-link:hover {
-    background-color: var(--secondary-color);
-    padding: 7px 10px 0 10px;
-    border-radius: 7px;
+textarea{
+    border: 1.5px solid black;
+    border-radius: 2px;
+    resize: vertical;
+    padding-left: 5px;
 }

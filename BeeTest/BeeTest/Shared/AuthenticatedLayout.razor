@@ -1,56 +1,57 @@
 ﻿@inherits LayoutComponentBase
+
 @using BeeTest.Authentication
+@using MudBlazor
+
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject NavigationManager navigationManager
 
 <div class="authenticated-layout">
-    <div class="side-bar">
-        <div class="top">
-            <NavLink class="side-bar-link-header" id="title" href="/">
-                <h2>BeeTest</h2>
-                <span></span>
-            </NavLink>
-            <div>
-                <AuthorizeView Roles="Admin">
-                    <NavLink class="side-bar-link" href="/tests">
-                        <h5>Manage Tests</h5>
-                    </NavLink>
-                    <NavLink class="side-bar-link" href="/manage-schedules">
-                        <h5>Manage Schedules</h5>
-                    </NavLink>
-                    <NavLink class="side-bar-link" href="/users">
-                        <h5>Manage Users</h5>
-                    </NavLink>
-                    <NavLink class="side-bar-link" href="/test-histories">
-                        <h5>Test Histories</h5>
-                    </NavLink>
-                </AuthorizeView>
-                <AuthorizeView Roles="Participant">
-                    <NavLink class="side-bar-link" href="/manage-tests">
-                        <h5>My Schedule</h5>
-                    </NavLink>
-                    <NavLink class="side-bar-link" href="/manage-schedules">
-                        <h5>My Test History</h5>
-                    </NavLink>
-                </AuthorizeView>
-            </div>
-        </div>
-        <div class="bottom">
-            <AuthorizeView>
-                <button @onclick="LogOut" id="logout-button">Log Out</button>
+    <MudPaper Width="250px" Elevation="0" Class="py-3" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Blue.Default}; height: 100vh; position: fixed; overflow-y: auto; display: flex; flex-direction: column; justify-content: space-between; padding: 50px 0;")">
+        <MudNavMenu Bordered="true" >
+            <MudNavLink Href="/"
+                Icon="@Icons.Material.Filled.Home"
+                Style="@($"background-color:{Colors.Orange.Default};")">BeeTest</MudNavLink>
+            <AuthorizeView Roles="Admin">
+                <MudNavLink Href="/schedules"
+                    Icon="@Icons.Material.Filled.CalendarMonth"
+                    Style="@($"background-color:{Colors.Blue.Default};")">Schedules</MudNavLink>
+                <MudNavLink Href="/tests" 
+                    Icon="@Icons.Material.Filled.Book"
+                    Style="@($"background-color:{Colors.Blue.Default};")">Tests</MudNavLink>
+                <MudNavLink Href="/users" 
+                    Icon="@Icons.Material.Filled.People"
+                    Style="@($"background-color:{Colors.Blue.Default};")">Users</MudNavLink>
             </AuthorizeView>
-        </div>
-    </div>
-
+            <AuthorizeView Roles="Participant">
+                <MudNavLink Href="/my-schedule"
+                    Icon="@Icons.Material.Filled.CalendarMonth"
+                    Style="@($"background-color:{Colors.Blue.Default};")">My Schedule</MudNavLink>
+                <MudNavLink Href="/my-test-histories"
+                    Icon="@Icons.Material.Filled.History"
+                    Style="@($"background-color:{Colors.Blue.Default};")">My Test Histories</MudNavLink>
+            </AuthorizeView>
+        </MudNavMenu>
+        <MudIconButton
+            Icon="@Icons.Material.Filled.Logout"
+            Style="@($"width: 100%; text-align: center; margin-top: 25px")"
+            OnClick="LogOut"></MudIconButton>
+    </MudPaper>
     <main>
         @Body
         <br />
-    </main>
+    </main> 
 </div>
+
+
 
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+    bool open = false;
+
+    void ToggleDrawer() => open = !open;
 
     private async Task LogOut()
     {

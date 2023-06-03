@@ -6,6 +6,7 @@
 @using BeeTest.Models.QuestionDetail;
 @using BeeTest.Pages.Components
 @using BeeTest.Models
+@using BeeTest.Pages.Components.Gates
 @using BeeTest.Services.Interfaces
 @using BeeTest.Pages.Components.QuestionForms
 @using BeeTest.Pages.Components.EditQuestionForms
@@ -14,6 +15,8 @@
 @inject ITestService testService
 @inject IQuestionService questionService
 @inject IJSRuntime js
+
+<AdminOnlyGate/>
 
 <PageTitle>BeeTest | Edit Question</PageTitle>
 
@@ -37,16 +40,10 @@
     [Parameter]
     public string id { get; set; }
 
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private Question Question;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         Question = await questionService.Get(int.Parse(id));
 
         await base.OnInitializedAsync();

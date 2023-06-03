@@ -105,7 +105,21 @@ using BeeTest.Pages.Components;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
+using BeeTest.Pages.Components.Gates;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
 using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -120,19 +134,13 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
+#line 40 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Tests\AddTest.razor"
        
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading { get; set; } = false;
     private Test NewTest = new Test();
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         NewTest.PassingScore = 50;
 
         await base.OnInitializedAsync();

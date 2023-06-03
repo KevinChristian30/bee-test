@@ -105,14 +105,28 @@ using BeeTest.Authentication;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
-using Services.Interfaces;
+using BeeTest.Pages.Components.Gates;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+using Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
 using BCrypt.Net;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 10 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -127,30 +141,12 @@ using BCrypt.Net;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 59 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
+#line 52 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\AddUser.razor"
        
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
-        await base.OnInitializedAsync();
-    }
-
     private bool IsLoading { get; set; } = false;
 
     private User NewUser = new User();
-    private string Gender { get; set; }
-    private bool IsMaleRadioButtonChecked => Gender == "Male";
-    private bool IsFemaleRadioButtonChecked => Gender == "Female";
-
-    private void UpdateGender(ChangeEventArgs e)
-    {
-        Gender = e.Value.ToString();
-    }
+    private int Gender { get; set; } = 1;
 
     private async Task Save()
     {
@@ -168,7 +164,7 @@ using BCrypt.Net;
         NewUser.Id = 0;
         NewUser.Password = BCrypt.HashPassword(NewUser.Name);
         NewUser.Role = roleService.Get("Participant");
-        NewUser.Gender = Gender == "Male" ?
+        NewUser.Gender = Gender == 1 ?
             Enumerations.Gender.Male : Enumerations.Gender.Female;
 
         if (await userService.AddOrUpdate(NewUser))
@@ -176,7 +172,7 @@ using BCrypt.Net;
             await js.InvokeVoidAsync("alert", "User Added Successfully");
 
             NewUser = new User();
-            Gender = "";
+            Gender = 1;
         }
         else await js.InvokeVoidAsync("alert", "Couldn't Save User");
 
@@ -222,10 +218,11 @@ using BCrypt.Net;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IRoleService roleService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ISnackbar Snackbar { get; set; }
     }
 }
 #pragma warning restore 1591

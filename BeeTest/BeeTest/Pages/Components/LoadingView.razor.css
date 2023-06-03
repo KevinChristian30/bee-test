@@ -8,12 +8,12 @@
 }
 
 .loading {
-    border: 10px solid var(--secondary-color);
-    border-top: 10px solid var(--primary-color);;
+    border: 10px solid lightgray;
+    border-top: 10px solid var(--primary-color);
     border-radius: 50%;
     width: 100px;
     height: 100px;
-    animation: spin 1.5s ease-in-out infinite;
+    animation: spin 0.5s linear infinite;
 }
 
 @keyframes spin {

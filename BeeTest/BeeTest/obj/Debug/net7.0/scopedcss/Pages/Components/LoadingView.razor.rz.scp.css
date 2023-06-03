@@ -8,12 +8,12 @@
 }
 
 .loading[b-9ys799mncy] {
-    border: 10px solid var(--secondary-color);
-    border-top: 10px solid var(--primary-color);;
+    border: 10px solid lightgray;
+    border-top: 10px solid var(--primary-color);
     border-radius: 50%;
     width: 100px;
     height: 100px;
-    animation: spin-b-9ys799mncy 1.5s ease-in-out infinite;
+    animation: spin-b-9ys799mncy 0.5s linear infinite;
 }
 
 @keyframes spin-b-9ys799mncy {

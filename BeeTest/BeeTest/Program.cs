@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using BeeTest.Authentication;
 using BeeTest.Services.Classes;
 using BeeTest.Services.Interfaces;
+using MudBlazor.Services;
+using MudBlazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,14 @@ builder.Services.AddTransient<Seed>();
 builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddScoped<IScrollManager, ScrollManager>();
+builder.Services.AddScoped<IBrowserWindowSizeProvider, BrowserWindowSizeProvider>();
+builder.Services.AddScoped<IBreakpointService, BreakpointService>();
+builder.Services.AddScoped<IKeyInterceptorFactory, KeyInterceptorFactory>();
+builder.Services.AddScoped<IMudPopoverService, MudPopoverService>();
+builder.Services.AddScoped<ISnackbar, SnackbarService>();
+
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 builder.Services.AddSingleton<UserAuthService>();

@@ -1,0 +1,44 @@
+﻿@page "/schedules"
+@layout AuthenticatedLayout
+
+@using BeeTest.Models;
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+
+@inject NavigationManager navigationManager
+
+<AdminOnlyGate/>
+
+<PageTitle>BeeTest | Manage Schedules</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="manage-schedules">
+            <PageHeader Text="Manage Schedules" />
+
+            @if(IsLoading)
+            {
+                <LoadingView />
+            }
+            else if (@schedules.Count() == 0)
+            {
+                <h3>There Are No Schedules</h3>
+                <Button Text="Add Schedule" OnClick="NavigateToAddSchedulePage" />
+            } else
+            {
+                <Button Text="Add Schedule" OnClick="NavigateToAddSchedulePage" />
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private bool IsLoading = false;
+
+    private List<Schedule> schedules = new List<Schedule>();
+
+    private void NavigateToAddSchedulePage()
+    {
+        navigationManager.NavigateTo("/schedules/add", true);
+    }
+}

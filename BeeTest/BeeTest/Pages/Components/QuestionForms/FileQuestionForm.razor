@@ -4,6 +4,7 @@
 @using BeeTest.Services.Interfaces
 @using System.Text.Json
 @using System.IO
+@using MudBlazor
 
 @inject IJSRuntime js
 @inject ITestService testService
@@ -22,7 +23,7 @@ else
             <label for="title">Question Title</label>
             <textarea id="title" @bind="@NewQuestion.Title" />
         </div>
-        <div class="line">
+       <div class="line">
             <InputFile class="form-control" OnChange="HandleFileChange" @key="inputFileKey" />
         </div>
     </form>
@@ -36,6 +37,7 @@ else
 
     private Question NewQuestion = new Question();
     private FileQuestionDetail QuestionDetail = new FileQuestionDetail();
+    private IBrowserFile file;
 
     private object inputFileKey = new object();
 

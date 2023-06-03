@@ -131,6 +131,13 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\EditQuestionForms\FileEditQuestionForm.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class FileEditQuestionForm : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -139,7 +146,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\EditQuestionForms\FileEditQuestionForm.razor"
+#line 42 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\EditQuestionForms\FileEditQuestionForm.razor"
        
     [Parameter]
     public int QuestionId { get; set; }

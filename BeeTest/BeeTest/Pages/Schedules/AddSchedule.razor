@@ -1,0 +1,51 @@
+﻿@page "/schedules/add"
+@layout AuthenticatedLayout
+
+@using BeeTest.Models;
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+@using MudBlazor
+
+<AdminOnlyGate/>
+
+<PageTitle>BeeTest | Add Schedule</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="add-schedules">
+            <PageHeader Text="Add Schedule" />
+
+            @if (IsLoading)
+            {
+                <LoadingView />
+            }
+            else
+            {
+                <form class="schedule-form">
+                    <div class="line">
+                        <label for="start-datetime">Start DateTime</label>
+                        <input type="datetime-local" id="start-datetime"/>
+                        <MudTextField T="DateTime?" Format="s" Label="DateTimeLocal" InputType="InputType.DateTimeLocal" />
+                    </div>
+                    <div class="line">
+                        <label for="end-datetime">End DateTime</label>
+                        <input type="datetime-local" id="end-datetime" @bind="Schedule.EndTime" />
+                    </div>
+                    
+                    <Button Text="Add Schedule" OnClick="Save" />
+                </form>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private bool IsLoading = false;
+
+    private Schedule Schedule = new Schedule();
+
+    private async Task Save()
+    {
+        
+    }
+}

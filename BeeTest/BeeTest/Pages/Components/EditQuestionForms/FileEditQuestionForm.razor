@@ -5,6 +5,7 @@
 @using BeeTest.Services.Interfaces
 @using System.Text.Json
 @using System.IO
+@using MudBlazor
 
 @inject IJSRuntime js
 @inject ITestService testService
@@ -24,7 +25,7 @@ else
             <textarea id="title" @bind="@Question.Title" />
         </div>
         <div class="line">
-            <Button Text="Save Question Title" OnClick="Save" />
+             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Save Question</MudButton>
         </div>
         <div class="line">
             <a href="@QuestionDetail.fileURL">Download Case File</a>

@@ -4,13 +4,18 @@
 @using BeeTest.Models
 @using BeeTest.Pages.Components
 @using BeeTest.Authentication
+@using BeeTest.Pages.Components.Gates
 @using Services.Interfaces
 @using BCrypt.Net
+@using MudBlazor
 
-@inject NavigationManager navigationManager
+@inject ISnackbar Snackbar
 @inject IJSRuntime js
 @inject IUserService userService
 @inject IRoleService roleService
+@inject NavigationManager navigationManager
+
+<AdminOnlyGate/>
 
 <PageTitle>BeeTest | Add User</PageTitle>
 
@@ -25,31 +30,19 @@
             } else
             {
                 <form Model="NewUser" class="user-form">
-                    <div class="line">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" @bind="NewUser.Name" />
-                    </div>
-                    <div class="line">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" @bind="NewUser.Email" />
-                    </div>
-                    <div class="line">
-                        <div>
-                            <label>Gender</label>
-                        </div>
-                        <div>
-                            <label for="male">Male</label>
-                            <input type="radio" id="male" name="gender" value="Male" @onchange="UpdateGender" checked="@IsMaleRadioButtonChecked" />
-                            <label for="female">Female</label>
-                            <input type="radio" id="female" name="gender" value="Female"
-                                @onchange="UpdateGender" checked="@IsFemaleRadioButtonChecked"/>
-                        </div>
-                    </div>
+                    <MudTextField @bind-Value="NewUser.Name" Label="Name" Variant="Variant.Filled" InputType="InputType.Text"></MudTextField>
+                    <MudTextField @bind-Value="NewUser.Email" Label="Email" Variant="Variant.Filled" InputType="InputType.Email"></MudTextField>
+
+                    <MudRadioGroup @bind-SelectedOption="Gender">
+                        <MudRadio Option="1" Value="1" Size="Size.Medium">Male</MudRadio>
+                        <MudRadio Option="2" Value="2" Size="Size.Medium">Female</MudRadio>
+                    </MudRadioGroup>
+
                     <div class="line">
                         <label for="date-of-birth">Date of Birth</label>
                         <input type="date" id="date-of-birth" @bind="NewUser.DateOfBirth" />
                     </div>
-                    <Button Text="Add User" OnClick="Save" />
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Save User</MudButton>
                 </form>
             }
         </div>
@@ -57,28 +50,10 @@
 </AuthorizeView>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
-        await base.OnInitializedAsync();
-    }
-
     private bool IsLoading { get; set; } = false;
 
     private User NewUser = new User();
-    private string Gender { get; set; }
-    private bool IsMaleRadioButtonChecked => Gender == "Male";
-    private bool IsFemaleRadioButtonChecked => Gender == "Female";
-
-    private void UpdateGender(ChangeEventArgs e)
-    {
-        Gender = e.Value.ToString();
-    }
+    private int Gender { get; set; } = 1;
 
     private async Task Save()
     {
@@ -96,7 +71,7 @@
         NewUser.Id = 0;
         NewUser.Password = BCrypt.HashPassword(NewUser.Name);
         NewUser.Role = roleService.Get("Participant");
-        NewUser.Gender = Gender == "Male" ?
+        NewUser.Gender = Gender == 1 ?
             Enumerations.Gender.Male : Enumerations.Gender.Female;
 
         if (await userService.AddOrUpdate(NewUser))
@@ -104,7 +79,7 @@
             await js.InvokeVoidAsync("alert", "User Added Successfully");
 
             NewUser = new User();
-            Gender = "";
+            Gender = 1;
         }
         else await js.InvokeVoidAsync("alert", "Couldn't Save User");
 

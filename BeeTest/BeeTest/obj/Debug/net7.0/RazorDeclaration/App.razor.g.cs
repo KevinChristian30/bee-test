@@ -82,6 +82,13 @@ using BeeTest.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\App.razor"
+using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
     public partial class App : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998

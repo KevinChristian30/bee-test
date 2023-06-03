@@ -103,6 +103,20 @@ using BCrypt.Net;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+using BeeTest.Pages.Components;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/login")]
     public partial class Login : global::Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -112,7 +126,7 @@ using BCrypt.Net;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 32 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+#line 35 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
        
     private class Model
     {
@@ -121,19 +135,27 @@ using BCrypt.Net;
     }
 
     private Model model = new Model();
+    private bool IsLoading = false;
 
     private async Task Authenticate()
     {
+        IsLoading = true;
+        await Task.Delay(1);
+
         var userAccount = await userService.Get(model.Email);
 
         if (userAccount == null)
         {
+            IsLoading = false;
+            await Task.Delay(1);
             await js.InvokeVoidAsync("alert", "Email Not Found");
             return;
         }
 
         if (!BCrypt.Verify(model.Password, userAccount.Password))
         {
+            IsLoading = false;
+            await Task.Delay(1);
             await js.InvokeVoidAsync("alert", "Wrong Password");
             return;
         }
@@ -144,6 +166,9 @@ using BCrypt.Net;
             Email = userAccount.Email,
             Role = userAccount.Role.Name
         });
+
+        IsLoading = false;
+        await Task.Delay(1);
 
         navigationManager.NavigateTo("/", true);
     }

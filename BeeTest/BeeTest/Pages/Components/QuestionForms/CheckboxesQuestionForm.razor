@@ -3,6 +3,7 @@
 @using BeeTest.Models.QuestionDetail
 @using BeeTest.Services.Interfaces
 @using System.Text.Json
+@using MudBlazor
 
 @inject IJSRuntime js
 @inject ITestService testService
@@ -30,13 +31,13 @@
                     <div class="line">
                         <input type="checkbox" @bind="@keyValuePair.Value.IsTrue" />
                         <textarea @bind="@keyValuePair.Value.Statement" />
-                        <Button Text="Remove" OnClick="@(() => RemoveDetailData(@keyValuePair.Key))" />
+                        <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Red.Default}; color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => RemoveDetailData(@keyValuePair.Key))"></MudIconButton>
                     </div>
                 }
             </div>
         </div>
-        <Button Text="Add Choice" OnClick="AddNewDetailData" />
-        <Button Text="Add Question" OnClick="Save" />
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="AddNewDetailData" Style="@($"background-color:{Colors.Orange.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add Choice</MudButton>
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Save Question</MudButton>
     </form>
 }
 

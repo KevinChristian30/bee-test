@@ -7,9 +7,13 @@
 .line {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
-.line input[type=text],
-.line input[type=email] {
-    width: 100%;
+input[type=date]{
+    width: 200px;
+}
+
+input[type=date]:focus {
+    outline: none;
 }

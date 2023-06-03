@@ -3,16 +3,3 @@
     flex-direction: column;
     gap: 20px;
 }
-
-.line[b-0vvibkcvzw] {
-    display: flex;
-    flex-direction: column;
-}
-
-.line input[type=text][b-0vvibkcvzw] {
-    width: 100%;
-}
-
-.line input[type=number][b-0vvibkcvzw] {
-    width: 100px;
-}

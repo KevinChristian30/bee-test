@@ -91,20 +91,34 @@ using BeeTest.Pages.Components;
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
-using BeeTest.Authentication;
+using BeeTest.Pages.Components.Gates;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
-using BeeTest.Models;
+using BeeTest.Authentication;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
+using BeeTest.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
 using Services.Interfaces;
 
 #line default
@@ -120,20 +134,18 @@ using Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 59 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
+#line 58 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Users\Users.razor"
        
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading = false;
     private List<User> users = new List<User>();
 
+    private bool enabled = true;
+
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
+        IsLoading = true;
         users = await userService.GetAllParticipants();
+        IsLoading = false;
 
         await base.OnInitializedAsync();
     }

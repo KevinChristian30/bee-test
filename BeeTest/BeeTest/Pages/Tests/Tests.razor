@@ -4,11 +4,15 @@
 @using BeeTest.Authentication
 @using BeeTest.Pages.Components
 @using BeeTest.Models
+@using BeeTest.Pages.Components.Gates
 @using BeeTest.Services.Interfaces
+@using MudBlazor
 
 @inject NavigationManager navigationManager
 @inject ITestService testService
 @inject IJSRuntime js
+
+<AdminOnlyGate/>
 
 <PageTitle>BeeTest | Manage Tests</PageTitle>
 
@@ -21,50 +25,39 @@
         }
         else if (@tests.Count() == 0)
         {
-            <h3>There Are No Tests</h3>
-            <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
+            <h5>There Are No Tests</h5>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddTestPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add Test</MudButton>
         }
         else
         {
-            <Button Text="Add Test" OnClick="NavigateToAddTestPage" />
-            <table class="table table-fluid">
-                <thead>
-                    <tr>
-                        <th scope="col">Test Name</th>
-                        <th scope="col">Test Passing Grade</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var test in tests)
-                    {
-                        <tr>
-                            <td>@test.Name</td>
-                            <td>@test.PassingScore</td>
-                            <td>
-                                <Button Text="Manage" OnClick="@(() => NavigateToAddTestPage(test.Id))"/>
-                                <Button Text="Delete" OnClick="@(() => DeleteTest(@test))" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddTestPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add Test</MudButton>
+
+            <MudTable Items="@tests" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true"
+                  Style="@($"background-color:{Colors.Grey.Lighten3}; border-radius: 7px; margin-top: 10px")">
+                <HeaderContent>
+                    <MudTh>Test Name</MudTh>
+                    <MudTh>Test Passing Score</MudTh>
+                    <MudTh>Action</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="test">
+                    <MudTd DataLabel="Test Name">@test.Name</MudTd>
+                    <MudTd DataLabel="Test Passing Grade">@test.PassingScore</MudTd>
+                    <MudTd DataLabel="Action">
+                        <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => NavigateToTestDetailPage(test.Id))"></MudIconButton>
+                        <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Red.Default}; color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteTest(@test))"></MudIconButton>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
         }
     </Authorized>
 </AuthorizeView>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
     private bool IsLoading = false;
     private List<Test> tests = new List<Test>();
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        AuthStateProvider.AllowAdminOnly(authState, navigationManager);
-
         tests = await testService.GetAllTests();
 
         await base.OnInitializedAsync();
@@ -75,7 +68,7 @@
         navigationManager.NavigateTo("/tests/add", true);
     }
 
-    private void NavigateToAddTestPage(int id)
+    private void NavigateToTestDetailPage(int id)
     {
         navigationManager.NavigateTo($"/tests/{id}", true);
     }
