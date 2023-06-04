@@ -17,12 +17,13 @@
 @inject IQuestionService questionService
 @inject ITemporaryAnswerService temporaryAnswersService
 @inject IUserService userService
+@inject IScheduleService scheduleService
 
 @implements IAsyncDisposable
 
 <ParticipantOnlyGate />
 
-@*Need To Also Validate Participants That Doesn't Have The Test*@
+@*Need To Also Validate Time*@
 
 <PageTitle>BeeTest | Test</PageTitle>
 
@@ -54,6 +55,7 @@
 
     private Test test = new Test();
     private List<TemporaryAnswers> temporaryAnswers = new List<TemporaryAnswers>();
+    private BeeTest.Models.Schedule schedule;
 
     private HubConnection? hubConnection;
     private Timer? timer;
@@ -65,6 +67,8 @@
 
         User participant = await userService.Get(currentUserEmail);
         temporaryAnswers = await temporaryAnswersService.Get(participant.Id, int.Parse(scheduleId));
+
+        schedule = await scheduleService.Get(int.Parse(scheduleId));
 
         await SetServerTimeConnection();
 
@@ -81,6 +85,11 @@
         hubConnection.On<string>("ReceiveMessage", (time) =>
         {
             serverTime = time;
+
+            if (schedule.EndTime < DateTime.Now)
+            {
+                navigationManager.NavigateTo("/", true);
+            }
         });
 
         timer = new System.Threading.Timer(async _ =>  

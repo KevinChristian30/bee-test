@@ -155,7 +155,7 @@ using BeeTest.Pages.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 48 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TakeTest.razor"
+#line 49 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TakeTest.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -165,6 +165,7 @@ using BeeTest.Pages.Components;
 
     private Test test = new Test();
     private List<TemporaryAnswers> temporaryAnswers = new List<TemporaryAnswers>();
+    private BeeTest.Models.Schedule schedule;
 
     private HubConnection? hubConnection;
     private Timer? timer;
@@ -176,6 +177,8 @@ using BeeTest.Pages.Components;
 
         User participant = await userService.Get(currentUserEmail);
         temporaryAnswers = await temporaryAnswersService.Get(participant.Id, int.Parse(scheduleId));
+
+        schedule = await scheduleService.Get(int.Parse(scheduleId));
 
         await SetServerTimeConnection();
 
@@ -192,6 +195,11 @@ using BeeTest.Pages.Components;
         hubConnection.On<string>("ReceiveMessage", (time) =>
         {
             serverTime = time;
+
+            if (schedule.EndTime < DateTime.Now)
+            {
+                navigationManager.NavigateTo("/", true);
+            }
         });
 
         timer = new System.Threading.Timer(async _ =>  
@@ -220,6 +228,7 @@ using BeeTest.Pages.Components;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IScheduleService scheduleService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITemporaryAnswerService temporaryAnswersService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService questionService { get; set; }
