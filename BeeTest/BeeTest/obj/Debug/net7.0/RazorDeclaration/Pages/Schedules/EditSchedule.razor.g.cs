@@ -83,43 +83,43 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\EditSchedule.razor"
 using BeeTest.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\EditSchedule.razor"
 using BeeTest.Pages.Components;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\EditSchedule.razor"
 using BeeTest.Pages.Components.Gates;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\EditSchedule.razor"
 using BeeTest.Services.Interfaces;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\EditSchedule.razor"
 using MudBlazor;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
-    [global::Microsoft.AspNetCore.Components.RouteAttribute("/schedules/add")]
-    public partial class AddSchedule : global::Microsoft.AspNetCore.Components.ComponentBase
+    [global::Microsoft.AspNetCore.Components.RouteAttribute("/schedules/{id}/edit")]
+    public partial class EditSchedule : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -127,50 +127,51 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 57 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 73 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\EditSchedule.razor"
        
+    [Parameter]
+    public string id { get; set; }
+
     private bool IsLoading = false;
 
+    private List<User> users = new List<User>();
+    private List<Participant_Schedule> participant_Schedules = new List<Participant_Schedule>();
+
     private Schedule Schedule = new Schedule();
-    private List<Test> tests = new List<Test>();
-    private string testName = "";
+    private string participantEmail = "";
 
     protected override async Task OnInitializedAsync()
     {
-        tests = await testService.GetAllTests();
-
-        Schedule.StartTime = DateTime.Now;
-        Schedule.EndTime = DateTime.Now;
+        Schedule = await scheduleService.Get(int.Parse(id));
+        users = await userService.GetAllParticipants();
+        participant_Schedules = await participant_scheduleService.GetParticipantSchedulesByScheduleId(int.Parse(id));
 
         await base.OnInitializedAsync();
     }
 
-    private async Task Save()
+    private async Task AddParticipant()
     {
-        IsLoading = true;
-        await Task.Delay(1);
-
         if (!(await AreFormValuesValid()))
         {
-            IsLoading = false;
-            await Task.Delay(1);
-
             return;
         }
 
-        Schedule.Id = 0;
-        Schedule.Test = await testService.Get(testName);
+        IsLoading = true;
 
-        if (await scheduleService.AddOrUpdate(Schedule))
-        {
-            await js.InvokeVoidAsync("alert", "Schedule Added Successfully");
+        Participant_Schedule newParticipant_Schedule = new Participant_Schedule
+            {
+                Participant = await userService.Get(participantEmail),
+                Schedule = Schedule,
+                Details = "{}"
+            };
 
-            Schedule = new Schedule();
-            Schedule.StartTime = DateTime.Now;
-            Schedule.EndTime = DateTime.Now;
-            testName = "";
+        bool isSuccessful = await participant_scheduleService.Add(newParticipant_Schedule);
+
+        if (isSuccessful) {
+            participant_Schedules.Add(newParticipant_Schedule);
+            participantEmail = "";
         }
-        else await js.InvokeVoidAsync("alert", "Couldn't Save Schedule");
+        else await js.InvokeVoidAsync("alert", "Participant Addition Failed");
 
         IsLoading = false;
         await Task.Delay(1);
@@ -178,42 +179,46 @@ using MudBlazor;
 
     private async Task<bool> AreFormValuesValid()
     {
-        if (testName == null || testName == "")
+        User? newParticipant = users.Where(u => u.Email == participantEmail).FirstOrDefault();
+
+        if (newParticipant == null)
         {
-            await js.InvokeVoidAsync("alert", "Test Name Must be Filled");
+            await js.InvokeVoidAsync("alert", "Participant Doesn't Exist");
             return false;
         }
 
-        Test test = await testService.Get(testName);
-        if (test == null)
+        foreach(Participant_Schedule participant_Schedule in participant_Schedules)
         {
-            await js.InvokeVoidAsync("alert", "Test Doesn't Exist");
-            return false;
+            if (participant_Schedule.Participant.Email == newParticipant.Email)
+            {
+                await js.InvokeVoidAsync("alert", "Participant Already in Schedule");
+                return false;
+            }
         }
 
-        // Need to be server time later
-        if (Schedule.StartTime < DateTime.Now)
-        {
-            await js.InvokeVoidAsync("alert", "Test Start Time must be in the Future");
-            return false;
-        }
+        return true;
+    }
 
-        // Need to be server time later
-        if (Schedule.EndTime < Schedule.StartTime)
-        {
-            await js.InvokeVoidAsync("alert", "Test EndTime must be after Start Time");
-            return false;
-        }
+    private async Task DeleteParticipant(Participant_Schedule participant_Schedule)
+    {
+        IsLoading = true;
 
-        return true;    
+        bool isSucessful = await participant_scheduleService.Delete(participant_Schedule);
+
+        if (isSucessful) participant_Schedules.Remove(participant_Schedule);
+        else await js.InvokeVoidAsync("alert", "Participant Deletion Failed");
+    
+        IsLoading = false;
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IScheduleService scheduleService { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IParticipant_ScheduleService participant_scheduleService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IScheduleService scheduleService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

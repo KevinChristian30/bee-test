@@ -105,6 +105,13 @@ using BeeTest.Pages.Components.Gates;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\Schedules.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\Schedules.razor"
 using MudBlazor;
 
 #line default
@@ -120,20 +127,63 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 35 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\Schedules.razor"
+#line 60 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\Schedules.razor"
        
     private bool IsLoading = false;
 
     private List<Schedule> schedules = new List<Schedule>();
+    private DateTime selectedDate = DateTime.Today;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadData()
+    {
+        IsLoading = true;
+        schedules = await scheduleService.Get(selectedDate);
+        IsLoading = false;
+    }
 
     private void NavigateToAddSchedulePage()
     {
         navigationManager.NavigateTo("/schedules/add", true);
     }
 
+    private void NavigateToEditSchedulePage(int id)
+    {
+        navigationManager.NavigateTo($"/schedules/{id}/edit", true);
+    }
+
+    private async Task HandleSelectedDateChange(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value.ToString(), out DateTime newDate))
+        {
+            selectedDate = newDate;
+
+            await LoadData();
+        }
+    }
+
+    private async Task DeleteSchedule(Schedule schedule)
+    {
+        IsLoading = true;
+
+        bool isSucessful = await scheduleService.Delete(schedule.Id);
+        IsLoading = false;
+
+        if (isSucessful) schedules.Remove(schedule);
+        else await js.InvokeVoidAsync("alert", "Schedule Deletion Failed");
+    }
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IScheduleService scheduleService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }

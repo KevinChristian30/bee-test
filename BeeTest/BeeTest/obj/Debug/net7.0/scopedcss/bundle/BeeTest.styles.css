@@ -356,6 +356,13 @@ input[type=datetime-local][b-7dm8yb62e3] {
     border: 1px solid black;
     padding-left: 5px;
 }
+/* _content/BeeTest/Pages/Schedules/Schedules.razor.rz.scp.css */
+input[type=date][b-vy585w060q] { 
+    border: 2px solid black;
+    padding-left: 5px;
+    width: 150px;
+    margin-bottom: 20px;
+}
 /* _content/BeeTest/Pages/Tests/AddTest.razor.rz.scp.css */
 .test-form[b-0vvibkcvzw] {
     display: flex;

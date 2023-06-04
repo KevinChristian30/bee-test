@@ -393,3 +393,6 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Micr
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.JSInterop.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\MudBlazor.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Schedules\AddSchedule.razor.rz.scp.css
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Schedules\Schedules.razor.rz.scp.css
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\RazorDeclaration\Pages\Schedules\EditSchedule.razor.g.cs
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\Razor\Pages\Schedules\EditSchedule.razor.g.cs

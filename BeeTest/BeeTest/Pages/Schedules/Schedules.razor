@@ -4,9 +4,12 @@
 @using BeeTest.Models;
 @using BeeTest.Pages.Components
 @using BeeTest.Pages.Components.Gates
+@using BeeTest.Services.Interfaces;
 @using MudBlazor
 
 @inject NavigationManager navigationManager
+@inject IScheduleService scheduleService
+@inject IJSRuntime js
 
 <AdminOnlyGate/>
 
@@ -22,12 +25,34 @@
                 <LoadingView />
             }
 
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddSchedulePage" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};border-radius:2px;margin-bottom:25px;")">Add Test Schedule</MudButton>
+            <br />
+
+            <input type="date" id="date" @onchange="HandleSelectedDateChange"/>
+
             @if (schedules.Count() == 0)
             {
                 <h5>There Are No Schedules</h5>
+            } else
+            {
+                <MudTable Items="@schedules" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true" Style="@($"background-color:{Colors.Grey.Lighten3}; border-radius: 7px;")">
+                    <HeaderContent>
+                        <MudTh>Test Name</MudTh>
+                        <MudTh>Start Time</MudTh>
+                        <MudTh>End Time</MudTh>
+                        <MudTh>Action</MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="schedule">
+                        <MudTd DataLabel="Test Name">@schedule.Test.Name</MudTd>
+                        <MudTd DataLabel="Start Time">@schedule.StartTime</MudTd>
+                        <MudTd DataLabel="End Time">@schedule.EndTime</MudTd>
+                        <MudTd DataLabel="Action" Style="width:150px">
+                            <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => NavigateToEditSchedulePage(@schedule.Id))"></MudIconButton>
+                            <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Red.Default};color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteSchedule(@schedule))"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
             }
-
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddSchedulePage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add Test Schedule</MudButton>
         </div>
     </Authorized>
 </AuthorizeView>
@@ -36,9 +61,50 @@
     private bool IsLoading = false;
 
     private List<Schedule> schedules = new List<Schedule>();
+    private DateTime selectedDate = DateTime.Today;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadData()
+    {
+        IsLoading = true;
+        schedules = await scheduleService.Get(selectedDate);
+        IsLoading = false;
+    }
 
     private void NavigateToAddSchedulePage()
     {
         navigationManager.NavigateTo("/schedules/add", true);
+    }
+
+    private void NavigateToEditSchedulePage(int id)
+    {
+        navigationManager.NavigateTo($"/schedules/{id}/edit", true);
+    }
+
+    private async Task HandleSelectedDateChange(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value.ToString(), out DateTime newDate))
+        {
+            selectedDate = newDate;
+
+            await LoadData();
+        }
+    }
+
+    private async Task DeleteSchedule(Schedule schedule)
+    {
+        IsLoading = true;
+
+        bool isSucessful = await scheduleService.Delete(schedule.Id);
+        IsLoading = false;
+
+        if (isSucessful) schedules.Remove(schedule);
+        else await js.InvokeVoidAsync("alert", "Schedule Deletion Failed");
     }
 }

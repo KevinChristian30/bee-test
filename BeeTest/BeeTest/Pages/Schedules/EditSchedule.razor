@@ -1,0 +1,155 @@
+﻿@page "/schedules/{id}/edit"
+@layout AuthenticatedLayout
+
+@using BeeTest.Models;
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+@using BeeTest.Services.Interfaces;
+@using MudBlazor
+
+@inject NavigationManager navigationManager
+@inject IScheduleService scheduleService
+@inject IUserService userService
+@inject IParticipant_ScheduleService participant_scheduleService
+@inject IJSRuntime js
+
+<AdminOnlyGate />
+
+<PageTitle>BeeTest | Edit Schedule</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="edit-schedule">
+            @if (IsLoading)
+            {
+                <LoadingView />
+            } else
+            {
+                @if (Schedule == null)
+                {
+                    <h5>The Schedule You're Looking for Doesn't Exist</h5>
+                }
+                else
+                {
+                    <PageHeader Text="Manage Participants" />
+
+                    <h6>Add Participant</h6>
+                    <input class="form-control" list="datalistOptions" placeholder="Participant Email" @bind="participantEmail">
+                    <datalist id="datalistOptions">
+                        @foreach (User user in users)
+                        {
+                            <option value="@user.Email" />
+                        }
+                    </datalist>
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="AddParticipant" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};border-radius:2px;margin:20px 0;")">Add Participant</MudButton>
+
+                    @if (participant_Schedules.Count() <= 0)
+                    {
+                        <h5>Therea are no participants in this schedule</h5>
+                    } else
+                    {
+                        <MudTable Items="@participant_Schedules" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true"
+                      Style="@($"background-color:{Colors.Grey.Lighten3};border-radius: 7px;margin-top: 10px;")">
+                            <HeaderContent>
+                                <MudTh>Participat Name</MudTh>
+                                <MudTh>Email</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate Context="participant_schedule">
+                                <MudTd DataLabel="Name">@participant_schedule.Participant.Name</MudTd>
+                                <MudTd DataLabel="Email">@participant_schedule.Participant.Email</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Red.Default}; color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteParticipant(@participant_schedule))"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    }
+                }
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private bool IsLoading = false;
+
+    private List<User> users = new List<User>();
+    private List<Participant_Schedule> participant_Schedules = new List<Participant_Schedule>();
+
+    private Schedule Schedule = new Schedule();
+    private string participantEmail = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Schedule = await scheduleService.Get(int.Parse(id));
+        users = await userService.GetAllParticipants();
+        participant_Schedules = await participant_scheduleService.GetParticipantSchedulesByScheduleId(int.Parse(id));
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task AddParticipant()
+    {
+        if (!(await AreFormValuesValid()))
+        {
+            return;
+        }
+
+        IsLoading = true;
+
+        Participant_Schedule newParticipant_Schedule = new Participant_Schedule
+            {
+                Participant = await userService.Get(participantEmail),
+                Schedule = Schedule,
+                Details = "{}"
+            };
+
+        bool isSuccessful = await participant_scheduleService.Add(newParticipant_Schedule);
+
+        if (isSuccessful) {
+            participant_Schedules.Add(newParticipant_Schedule);
+            participantEmail = "";
+        }
+        else await js.InvokeVoidAsync("alert", "Participant Addition Failed");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        User? newParticipant = users.Where(u => u.Email == participantEmail).FirstOrDefault();
+
+        if (newParticipant == null)
+        {
+            await js.InvokeVoidAsync("alert", "Participant Doesn't Exist");
+            return false;
+        }
+
+        foreach(Participant_Schedule participant_Schedule in participant_Schedules)
+        {
+            if (participant_Schedule.Participant.Email == newParticipant.Email)
+            {
+                await js.InvokeVoidAsync("alert", "Participant Already in Schedule");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private async Task DeleteParticipant(Participant_Schedule participant_Schedule)
+    {
+        IsLoading = true;
+
+        bool isSucessful = await participant_scheduleService.Delete(participant_Schedule);
+
+        if (isSucessful) participant_Schedules.Remove(participant_Schedule);
+        else await js.InvokeVoidAsync("alert", "Participant Deletion Failed");
+    
+        IsLoading = false;
+    }
+}

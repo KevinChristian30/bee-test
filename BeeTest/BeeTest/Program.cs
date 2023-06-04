@@ -38,6 +38,7 @@ builder.Services.AddTransient<ITestService, TestService>();
 builder.Services.AddTransient<IQuestionTypeService, QuestionTypeService>();
 builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IScheduleService, ScheduleService>();
+builder.Services.AddTransient<IParticipant_ScheduleService, Participant_ScheduleService>();
 
 var app = builder.Build();
 

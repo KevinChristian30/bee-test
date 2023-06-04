@@ -28,7 +28,7 @@
             {
                 <form class="schedule-form">
                     <div class="line">
-                        <input class="form-control" list="datalistOptions" placeholder="Type to search..." @bind="testName">
+                        <input class="form-control" list="datalistOptions" placeholder="Test Name" @bind="testName">
                         <datalist id="datalistOptions">
                             @foreach(Test test in tests)
                             {
@@ -92,6 +92,8 @@
             await js.InvokeVoidAsync("alert", "Schedule Added Successfully");
 
             Schedule = new Schedule();
+            Schedule.StartTime = DateTime.Now;
+            Schedule.EndTime = DateTime.Now;
             testName = "";
         }
         else await js.InvokeVoidAsync("alert", "Couldn't Save Schedule");

@@ -1,7 +1,7 @@
 => Create a web application following these specifications:
 # Pages
-  - Manage questions 
-  - Manage schedule
+  - Manage questions V
+  - Manage schedule V
   - Manage participant V
   - View participant test result
   - View participant test status (answer status)
