@@ -4,6 +4,7 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+/*
 h1:focus {
     outline: none;
 }
@@ -66,10 +67,10 @@ a, .btn-link {
 .blazor-error-boundary::after {
     content: "An error has occurred."
 }
+    }*/
 
 textarea{
     border: 1.5px solid black;
     border-radius: 2px;
     resize: vertical;
     padding-left: 5px;
-}

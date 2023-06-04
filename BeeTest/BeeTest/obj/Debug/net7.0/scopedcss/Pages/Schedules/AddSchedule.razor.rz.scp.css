@@ -1,0 +1,22 @@
+.schedule-form[b-7dm8yb62e3] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-7dm8yb62e3] {
+    display: flex;
+    gap: 25px;
+}
+
+.line div[b-7dm8yb62e3] {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type=datetime-local][b-7dm8yb62e3] {
+    width: 200px;
+    border: 1px solid black;
+    padding-left: 5px;
+}

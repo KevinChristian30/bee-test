@@ -4,6 +4,7 @@
 @using BeeTest.Models;
 @using BeeTest.Pages.Components
 @using BeeTest.Pages.Components.Gates
+@using MudBlazor
 
 @inject NavigationManager navigationManager
 
@@ -20,14 +21,13 @@
             {
                 <LoadingView />
             }
-            else if (@schedules.Count() == 0)
+
+            @if (schedules.Count() == 0)
             {
-                <h3>There Are No Schedules</h3>
-                <Button Text="Add Schedule" OnClick="NavigateToAddSchedulePage" />
-            } else
-            {
-                <Button Text="Add Schedule" OnClick="NavigateToAddSchedulePage" />
+                <h5>There Are No Schedules</h5>
             }
+
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddSchedulePage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add Test Schedule</MudButton>
         </div>
     </Authorized>
 </AuthorizeView>

@@ -105,6 +105,13 @@ using BeeTest.Pages.Components.Gates;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
 using MudBlazor;
 
 #line default
@@ -120,20 +127,91 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 42 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
+#line 57 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\AddSchedule.razor"
        
     private bool IsLoading = false;
 
     private Schedule Schedule = new Schedule();
+    private List<Test> tests = new List<Test>();
+    private string testName = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        tests = await testService.GetAllTests();
+
+        Schedule.StartTime = DateTime.Now;
+        Schedule.EndTime = DateTime.Now;
+
+        await base.OnInitializedAsync();
+    }
 
     private async Task Save()
     {
-        
+        IsLoading = true;
+        await Task.Delay(1);
+
+        if (!(await AreFormValuesValid()))
+        {
+            IsLoading = false;
+            await Task.Delay(1);
+
+            return;
+        }
+
+        Schedule.Id = 0;
+        Schedule.Test = await testService.Get(testName);
+
+        if (await scheduleService.AddOrUpdate(Schedule))
+        {
+            await js.InvokeVoidAsync("alert", "Schedule Added Successfully");
+
+            Schedule = new Schedule();
+            testName = "";
+        }
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Schedule");
+
+        IsLoading = false;
+        await Task.Delay(1);
+    }
+
+    private async Task<bool> AreFormValuesValid()
+    {
+        if (testName == null || testName == "")
+        {
+            await js.InvokeVoidAsync("alert", "Test Name Must be Filled");
+            return false;
+        }
+
+        Test test = await testService.Get(testName);
+        if (test == null)
+        {
+            await js.InvokeVoidAsync("alert", "Test Doesn't Exist");
+            return false;
+        }
+
+        // Need to be server time later
+        if (Schedule.StartTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Start Time must be in the Future");
+            return false;
+        }
+
+        // Need to be server time later
+        if (Schedule.EndTime < Schedule.StartTime)
+        {
+            await js.InvokeVoidAsync("alert", "Test EndTime must be after Start Time");
+            return false;
+        }
+
+        return true;    
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IScheduleService scheduleService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
     }
 }
 #pragma warning restore 1591

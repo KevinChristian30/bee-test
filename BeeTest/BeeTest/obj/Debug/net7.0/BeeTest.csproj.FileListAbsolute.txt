@@ -392,3 +392,4 @@ C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Micr
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.AspNetCore.Metadata.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\Microsoft.JSInterop.dll
 C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\bin\Debug\net7.0\MudBlazor.dll
+C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\obj\Debug\net7.0\scopedcss\Pages\Schedules\AddSchedule.razor.rz.scp.css

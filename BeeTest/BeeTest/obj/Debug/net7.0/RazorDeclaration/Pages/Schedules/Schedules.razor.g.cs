@@ -103,6 +103,13 @@ using BeeTest.Pages.Components.Gates;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Schedules\Schedules.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
     [global::Microsoft.AspNetCore.Components.RouteAttribute("/schedules")]
     public partial class Schedules : global::Microsoft.AspNetCore.Components.ComponentBase
