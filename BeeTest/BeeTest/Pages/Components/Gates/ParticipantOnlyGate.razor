@@ -1,0 +1,16 @@
+﻿@using BeeTest.Authentication
+
+@inject NavigationManager navigationManager
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        AuthStateProvider.AllowParticipantOnly(authState, navigationManager);
+
+        await base.OnInitializedAsync();
+    }
+}

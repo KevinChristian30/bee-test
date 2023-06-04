@@ -1,0 +1,57 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Models;
+@using BeeTest.Models.Answer;
+@using BeeTest.Models.QuestionDetail;
+@using BeeTest.Services.Interfaces;
+@using MudBlazor;
+
+@inject ITemporaryAnswerService temporaryAnswersService
+@inject IJSRuntime js
+
+<h6>@temporaryAnswers.Question.Title</h6>
+
+@foreach (var keyValuePair in QuestionDetail.CheckboxQuestionData)
+{
+    <div class="line">
+        <input type="checkbox" @bind="@Answer.CheckboxQuestionData[keyValuePair.Key]" />
+        <label>@keyValuePair.Value.Statement</label>
+    </div>
+}
+
+<MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};border-radius: 2px;margin-top:10px;")">Save Choices</MudButton>
+
+@code {
+    [Parameter]
+    public TemporaryAnswers temporaryAnswers { get; set; }
+
+    private CheckboxesQuestionDetail QuestionDetail;
+    private CheckboxesAnswer Answer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        QuestionDetail = (CheckboxesQuestionDetail)QuestionDetailFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Question.Details);
+
+        Answer = (CheckboxesAnswer)AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
+
+        if (Answer.CheckboxQuestionData.Count() <= 0)
+        {
+            @foreach (var keyValuePair in QuestionDetail.CheckboxQuestionData)
+            {
+                Answer.CheckboxQuestionData[keyValuePair.Key] = false;
+            }
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        temporaryAnswers.Answer = Answer.ToJSONString();
+
+        bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);
+        if (!isSuccessful)
+        {
+            await js.InvokeVoidAsync("alert", "Couldn't Save Answer");
+        }
+    }
+}

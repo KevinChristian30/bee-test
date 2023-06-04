@@ -1,0 +1,27 @@
+﻿@using BeeTest.Models;
+
+@if (temporaryAnswers.Question.QuestionType.Name == "Multiple Choice")
+{
+    <MultipleChoiceAnswerCard temporaryAnswers="@temporaryAnswers" />
+}
+else if (temporaryAnswers.Question.QuestionType.Name == "Boolean")
+{
+    <BooleanQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+}
+else if (temporaryAnswers.Question.QuestionType.Name == "Checkboxes")
+{
+    <CheckboxesQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+}
+else if (temporaryAnswers.Question.QuestionType.Name == "Essay")
+{
+    <EssayQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+}
+else if (temporaryAnswers.Question.QuestionType.Name == "File")
+{
+    <FileQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+}
+
+@code {
+    [Parameter]
+    public TemporaryAnswers temporaryAnswers { get; set; }
+}

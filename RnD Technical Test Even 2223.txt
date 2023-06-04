@@ -3,9 +3,9 @@
   - Manage questions V
   - Manage schedule V
   - Manage participant V
-  - View participant test result
+  - View participant test result 
   - View participant test status (answer status)
-  - Test page for participant test (server time in the page)
+  - Test page for participant test (server time in the page) V
   - Login page for participant V
 
 # Types
@@ -13,7 +13,7 @@
   - true | false V
   - choose an answer from list V
   - essay V
-  - submit file V
+  - submit file -> Error V
 
 => use Blazor for making the web application V
 => try running it using docker / setup runnable with docker V

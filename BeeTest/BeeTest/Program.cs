@@ -1,11 +1,13 @@
 using BeeTest;
 using BeeTest.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using BeeTest.Authentication;
 using BeeTest.Services.Classes;
 using BeeTest.Services.Interfaces;
+using BeeTest.Hubs;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
 using MudBlazor.Services;
 using MudBlazor;
 
@@ -16,6 +18,12 @@ builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.AddSignalR();
+builder.Services.AddResponseCompression(options =>
+{
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"application/octet-stream"});
+});
+
 builder.Services.AddScoped<IScrollManager, ScrollManager>();
 builder.Services.AddScoped<IBrowserWindowSizeProvider, BrowserWindowSizeProvider>();
 builder.Services.AddScoped<IBreakpointService, BreakpointService>();
@@ -25,7 +33,6 @@ builder.Services.AddScoped<ISnackbar, SnackbarService>();
 
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-builder.Services.AddSingleton<UserAuthService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
@@ -39,6 +46,7 @@ builder.Services.AddTransient<IQuestionTypeService, QuestionTypeService>();
 builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IScheduleService, ScheduleService>();
 builder.Services.AddTransient<IParticipant_ScheduleService, Participant_ScheduleService>();
+builder.Services.AddTransient<ITemporaryAnswerService, TemporaryAnswerService>();
 
 var app = builder.Build();
 
@@ -66,6 +74,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapHub<ClockHub>("/clockhub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

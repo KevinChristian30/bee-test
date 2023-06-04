@@ -1,6 +1,5 @@
 ﻿using BeeTest.Data;
 using BeeTest.Models;
-using BeeTest.Pages.Users;
 using BeeTest.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

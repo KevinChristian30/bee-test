@@ -1,0 +1,70 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Models;
+@using BeeTest.Models.Answer;
+@using BeeTest.Models.QuestionDetail;
+@using BeeTest.Services.Interfaces;
+@using MudBlazor
+
+@inject ITemporaryAnswerService temporaryAnswersService
+@inject IJSRuntime js
+
+<h6>@temporaryAnswers.Question.Title</h6>
+
+<a style="color:var(--primary-color);text-decoration:underline;" href="@QuestionDetail.fileURL">Case Link</a>
+
+@if (Answer != null && Answer.link != null && Answer.link.Length > 0)
+{
+    <br /><br />
+    <a style="color:var(--primary-color);text-decoration:underline;" href="@QuestionDetail.fileURL">Your Answer</a>
+}
+
+<InputFile class="form-control my-5" OnChange="HandleFileChange" @key="inputFileKey" />
+
+@code {
+    [Parameter]
+    public TemporaryAnswers temporaryAnswers { get; set; }
+
+    private FileQuestionDetail QuestionDetail;
+    private FileAnswer Answer;
+    private object inputFileKey = new object();
+
+    protected override async Task OnInitializedAsync()
+    {
+        QuestionDetail = (FileQuestionDetail)QuestionDetailFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Question.Details);
+
+        if (temporaryAnswers.Answer == "{}")
+        {
+            Answer = new FileAnswer();
+        } else
+        {
+            Answer = (FileAnswer)AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        string fileName = QuestionDetail.filePath.Split("/")[1];
+        string url = await js.InvokeAsync<string>(
+                "uploadFileToFirebase",
+                "questions",
+                fileName,
+                e.File
+            );
+
+        if (url == "")
+        {
+            inputFileKey = new object ();
+
+            return;
+        }
+
+        Answer.link = url;
+        temporaryAnswers.Answer = Answer.ToJSONString();
+
+        bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);
+        if (isSuccessful) await js.InvokeVoidAsync("alert", "File Uploaded Successfully");
+        else await js.InvokeVoidAsync("alert", "Couldn't Save Answer");
+    }
+}

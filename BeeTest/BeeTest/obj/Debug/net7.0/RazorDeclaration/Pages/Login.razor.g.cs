@@ -126,7 +126,7 @@ using BeeTest.Pages.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 35 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
+#line 34 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Login.razor"
        
     private class Model
     {
@@ -180,7 +180,6 @@ using BeeTest.Pages.Components;
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider authenticationStateProvider { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private UserAuthService userAccountService { get; set; }
     }
 }
 #pragma warning restore 1591

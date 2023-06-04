@@ -1,0 +1,56 @@
+﻿@using BeeTest.Factories;
+@using BeeTest.Models;
+@using BeeTest.Models.Answer;
+@using BeeTest.Models.QuestionDetail;
+@using BeeTest.Services.Interfaces;
+
+@inject ITemporaryAnswerService temporaryAnswersService
+@inject IJSRuntime js
+
+<h6>@temporaryAnswers.Question.Title</h6>
+
+<input type="radio" name="@(temporaryAnswers.Question.Id)" id="true" value="True" @onchange="UpdateKey" checked="@IsTrueChecked" />
+<label for="true">True</label>
+
+<input type="radio" name="@(temporaryAnswers.Question.Id)" id="false" value="False" @onchange="UpdateKey" checked="@IsFalseChecked" />
+<label for="false">False</label>
+
+@code {
+    [Parameter]
+    public TemporaryAnswers temporaryAnswers { get; set; }
+
+    private BooleanQuestionDetail QuestionDetail;
+    private BooleanAnswer Answer;
+    private string choice;
+
+    private bool IsTrueChecked => choice == "True";
+    private bool IsFalseChecked => choice == "False";
+
+    protected override async Task OnInitializedAsync()
+    {
+        QuestionDetail = (BooleanQuestionDetail)QuestionDetailFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Question.Details);
+
+        Answer = (BooleanAnswer)AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
+
+        if (temporaryAnswers.Answer != "{}")
+        {
+            choice = Answer.choice ? "True" : "False";
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task UpdateKey(ChangeEventArgs e)
+    {
+        choice = e.Value.ToString();
+
+        Answer.choice = choice == "True";
+        temporaryAnswers.Answer = Answer.ToJSONString();
+
+        bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);
+        if (!isSuccessful)
+        {
+            await js.InvokeVoidAsync("alert", "Couldn't Save Answer");
+        }
+    } 
+}

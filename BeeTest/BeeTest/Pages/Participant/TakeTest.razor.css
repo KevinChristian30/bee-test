@@ -1,0 +1,26 @@
+﻿nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--secondary-color);
+    color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 7px 20px 0 20px;
+    position: absolute;
+    top: 25px;
+    width: 75%;
+    z-index: 9999;
+}
+
+.question-answer-card-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.question-answer-card {
+    padding: 15px;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
+}

@@ -1,0 +1,104 @@
+﻿@page "/participant-schedules"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication;
+@using BeeTest.Models
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+@using BeeTest.Services.Interfaces
+@using Microsoft.AspNetCore.SignalR.Client
+@using MudBlazor
+@using System.Security.Claims
+
+@inject IParticipant_ScheduleService participant_scheduleService
+@inject IJSRuntime js
+@inject NavigationManager navigationManager
+
+<ParticipantOnlyGate />
+
+<PageTitle>BeeTest | My Test Schedules</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <PageHeader Text="My Test Schedules" />
+
+        <h5>Current Tests</h5>
+        @if (currentParticipant_Schedules.Count() == 0)
+        {
+            <h6>You Don't Have Any Current Tests</h6>
+        }
+        else
+        {
+            <MudTable Items="@currentParticipant_Schedules" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true" Style="@($"background-color:{Colors.Grey.Lighten3};border-radius:7px;margin-top: 10px")">
+                <HeaderContent>
+                    <MudTh>Test Name</MudTh>
+                    <MudTh>Test Start Time</MudTh>
+                    <MudTh>Test End Time</MudTh>
+                    <MudTh>Action</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="participant_schedule">
+                    <MudTd DataLabel="Test Name">@participant_schedule.Schedule.Test.Name</MudTd>
+                    <MudTd DataLabel="Test Start Time">@participant_schedule.Schedule.StartTime</MudTd>
+                    <MudTd DataLabel="Test End Time">@participant_schedule.Schedule.EndTime</MudTd>
+                    <MudTd DataLabel="Test End Time">
+                        <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Green.Default};color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.DoorFront" OnClick="@(() => NavigateToTestPage(@participant_schedule))"></MudIconButton>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+
+        <br />
+
+        <h5>Future Tests</h5>
+        @if (futureParticipant_Schedules.Count() == 0)
+        {
+            <h6>You Don't Have Any Future Tests</h6>
+        } else
+        {
+            <MudTable Items="@futureParticipant_Schedules" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true" Style="@($"background-color:{Colors.Grey.Lighten3};border-radius:7px;margin-top: 10px")">
+                <HeaderContent>
+                    <MudTh>Test Name</MudTh>
+                    <MudTh>Test Start Time</MudTh>
+                    <MudTh>Test End Time</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="participant_schedule">
+                    <MudTd DataLabel="Test Name">@participant_schedule.Schedule.Test.Name</MudTd>
+                    <MudTd DataLabel="Test Start Time">@participant_schedule.Schedule.StartTime</MudTd>
+                    <MudTd DataLabel="Test End Time">@participant_schedule.Schedule.EndTime</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private string email = "";
+
+    private List<Participant_Schedule> futureParticipant_Schedules = new List<Participant_Schedule>();
+    private List<Participant_Schedule> currentParticipant_Schedules = new List<Participant_Schedule>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        email = AuthStateProvider.GetCurrentUserEmail(await authenticationState);
+
+        futureParticipant_Schedules = await participant_scheduleService.GetParticipantSchedulesByParticipantEmailAfter(email, DateTime.Now);
+
+        currentParticipant_Schedules = await participant_scheduleService.GetParticipantSchedulesByParticipantEmailBetween(email, DateTime.Now);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task NavigateToTestPage(Participant_Schedule participant_Schedule)
+    {
+        if (!(await participant_scheduleService.InitializeTest(participant_Schedule)))
+        {
+            await js.InvokeVoidAsync("alert", "Failed to Initialize Questions");
+            return;
+        }
+
+        navigationManager.NavigateTo($"/tests/{participant_Schedule.Schedule.Id}/take", true);
+    }
+}

@@ -1,0 +1,67 @@
+﻿@using BeeTest.Factories
+@using BeeTest.Models
+@using BeeTest.Models.Answer;
+@using BeeTest.Models.QuestionDetail
+@using BeeTest.Services.Interfaces
+@using System.Text.Json
+
+@inject ITemporaryAnswerService temporaryAnswersService
+@inject IJSRuntime js
+
+<h6>@temporaryAnswers.Question.Title</h6>
+<div class="line">
+    <input id="a" type="radio" name="@(temporaryAnswers.Question.Id)" value="a" @onchange="UpdateKey" checked="@IsAChecked" />
+    <label for="a">@QuestionDetail.Choices['a']</label>
+</div>
+<div class="line">
+    <input id="b" type="radio" name="@(temporaryAnswers.Question.Id)" value="b" @onchange="UpdateKey" checked="@IsBChecked" />
+    <label for="b">@QuestionDetail.Choices['b']</label>
+</div>
+<div class="line">
+    <input id="c" type="radio" name="@(temporaryAnswers.Question.Id)" value="c" @onchange="UpdateKey" checked="@IsCChecked" />
+    <label for="c">@QuestionDetail.Choices['c']</label>
+</div>
+<div class="line">
+    <input id="d" type="radio" name="@(temporaryAnswers.Question.Id)" value="d" @onchange="UpdateKey" checked="@IsDChecked" />
+    <label for="d">@QuestionDetail.Choices['d']</label>
+</div>
+<div class="line">
+    <input id="e" type="radio" name="@(temporaryAnswers.Question.Id)" value="e" @onchange="UpdateKey" checked="@IsEChecked" />
+    <label for="e">@QuestionDetail.Choices['e']</label>
+</div>
+
+@code {
+    [Parameter]
+    public TemporaryAnswers temporaryAnswers { get; set; }
+
+    private MultipleChoiceQuestionDetail QuestionDetail;
+    private MultipleChoiceAnswer Answer;
+
+    private bool IsAChecked => Answer.choice == 'a';
+    private bool IsBChecked => Answer.choice == 'b';
+    private bool IsCChecked => Answer.choice == 'c';
+    private bool IsDChecked => Answer.choice == 'd';
+    private bool IsEChecked => Answer.choice == 'e';
+
+    protected override async Task OnInitializedAsync()
+    {
+        QuestionDetail = (MultipleChoiceQuestionDetail) QuestionDetailFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Question.Details);
+
+        Answer = (MultipleChoiceAnswer) AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task UpdateKey(ChangeEventArgs e)
+    {
+        Answer.choice = e.Value.ToString()[0];
+
+        temporaryAnswers.Answer = Answer.ToJSONString();
+
+        bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);
+        if (!isSuccessful)
+        {
+            await js.InvokeVoidAsync("alert", "Couldn't Save Answer");
+        }
+    }
+}

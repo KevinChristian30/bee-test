@@ -162,7 +162,7 @@ using MudBlazor;
 
             QuestionDetail.CheckboxQuestionData.Add(
                 newKey,
-                new CheckboxesQuestionDetail.Data()
+                new CheckboxData()
             );
 
             break;
@@ -238,7 +238,7 @@ using MudBlazor;
         NewQuestion = new Question();
         NewQuestion.Title = "Manakah dari pernyataan ini yang benar?";
 
-        QuestionDetail.CheckboxQuestionData = new Dictionary<int, CheckboxesQuestionDetail.Data>();
+        QuestionDetail.CheckboxQuestionData = new Dictionary<int, CheckboxData>();
         for (int i = 0; i < 2; i++) AddNewDetailData();
     }
 

@@ -170,7 +170,7 @@ using MudBlazor;
 
             QuestionDetail.CheckboxQuestionData.Add(
                 newKey,
-                new CheckboxesQuestionDetail.Data()
+                new CheckboxData()
             );
 
             break;

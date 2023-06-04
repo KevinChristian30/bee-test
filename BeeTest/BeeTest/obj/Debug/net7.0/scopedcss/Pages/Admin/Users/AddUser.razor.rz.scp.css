@@ -1,0 +1,19 @@
+.user-form[b-7dfaal1auz] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-7dfaal1auz] {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type=date][b-7dfaal1auz]{
+    width: 200px;
+}
+
+input[type=date]:focus[b-7dfaal1auz] {
+    outline: none;
+}

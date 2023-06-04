@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using NuGet.Protocol;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 
@@ -77,10 +78,30 @@ namespace BeeTest.Authentication
             }
         }
 
+        public static string GetCurrentUserEmail(AuthenticationState authState)
+        {
+            var user = authState.User;
+
+            if (!IsAuthenticated(authState)) return "Not Authenticated";
+
+            var userEmail = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+
+            return userEmail.Value;
+        }
+
         public static void AllowAdminOnly(AuthenticationState authState, NavigationManager navigationManager)
         {
             if (!IsAuthenticated(authState) ||
                 !IsAuthorizedAs(authState, "Admin"))
+            {
+                navigationManager.NavigateTo("/", true);
+            }
+        }
+
+        public static void AllowParticipantOnly(AuthenticationState authState, NavigationManager navigationManager)
+        {
+            if (!IsAuthenticated(authState) ||
+               !IsAuthorizedAs(authState, "Participant"))
             {
                 navigationManager.NavigateTo("/", true);
             }

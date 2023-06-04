@@ -181,7 +181,7 @@ using MudBlazor;
     {
         if (!(await AreFormValuesValid()))
         {
-            await ClearFile();
+            ClearFile();
             return;
         }
 
@@ -199,7 +199,7 @@ using MudBlazor;
         if (url == "")
         {
             IsLoading = false;
-            await ClearFile();
+            ClearFile();
 
             return;
         }
@@ -243,7 +243,7 @@ using MudBlazor;
         await Task.Delay(1);
     }
 
-    private async Task ClearFile() => inputFileKey = new object ();
+    private void ClearFile() => inputFileKey = new object ();
 
 #line default
 #line hidden

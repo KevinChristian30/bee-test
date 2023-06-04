@@ -73,7 +73,7 @@ else
     {
         if (!(await AreFormValuesValid()))
         {
-            await ClearFile();
+            ClearFile();
             return;
         }
 
@@ -91,7 +91,7 @@ else
         if (url == "")
         {
             IsLoading = false;
-            await ClearFile();
+            ClearFile();
 
             return;
         }
@@ -135,5 +135,5 @@ else
         await Task.Delay(1);
     }
 
-    private async Task ClearFile() => inputFileKey = new object ();
+    private void ClearFile() => inputFileKey = new object ();
 }

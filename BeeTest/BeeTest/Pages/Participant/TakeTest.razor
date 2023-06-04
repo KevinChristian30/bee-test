@@ -1,0 +1,108 @@
+﻿@page "/tests/{scheduleId}/take"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Pages.Components.Gates
+@using BeeTest.Models
+@using BeeTest.Pages.Components.QuestionAnswerCard
+@using BeeTest.Services.Interfaces
+@using MudBlazor
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Threading
+@using BeeTest.Pages.Components
+
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionService questionService
+@inject ITemporaryAnswerService temporaryAnswersService
+@inject IUserService userService
+
+@implements IAsyncDisposable
+
+<ParticipantOnlyGate />
+
+@*Need To Also Validate Participants That Doesn't Have The Test*@
+
+<PageTitle>BeeTest | Test</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <nav>
+            <h6>@test.Name</h6>
+            <h6>Server Time: @serverTime</h6>
+        </nav>
+        <br /><br /><br />
+
+        <div class="question-answer-card-container">
+            @foreach (TemporaryAnswers temporaryAnswer in temporaryAnswers)
+            {
+                <div class="question-answer-card">
+                    <QuestionAnswerCardFactory TemporaryAnswers="@temporaryAnswer" />
+                </div>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    [Parameter]
+    public string scheduleId { get; set; }
+
+    private Test test = new Test();
+    private List<TemporaryAnswers> temporaryAnswers = new List<TemporaryAnswers>();
+
+    private HubConnection? hubConnection;
+    private Timer? timer;
+    private string serverTime = DateTime.Now.ToString();
+
+    protected override async Task OnInitializedAsync()
+    {
+        string currentUserEmail = AuthStateProvider.GetCurrentUserEmail(await authenticationState);
+
+        User participant = await userService.Get(currentUserEmail);
+        temporaryAnswers = await temporaryAnswersService.Get(participant.Id, int.Parse(scheduleId));
+
+        await SetServerTimeConnection();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task SetServerTimeConnection()
+    {
+        hubConnection = new HubConnectionBuilder()
+           .WithUrl(navigationManager.ToAbsoluteUri("/clockhub"))
+           .WithAutomaticReconnect()
+           .Build();
+
+        hubConnection.On<string>("ReceiveMessage", (time) =>
+        {
+            serverTime = time;
+        });
+
+        timer = new System.Threading.Timer(async _ =>  
+        {
+            if (hubConnection != null)
+            {
+                await hubConnection.SendAsync("SendMessage");
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }, null, 0, 1000);
+
+        await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection != null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+
+        timer?.Dispose();
+    }
+}

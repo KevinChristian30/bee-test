@@ -148,7 +148,6 @@ using MudBlazor;
 
     private Question NewQuestion = new Question();
     private FileQuestionDetail QuestionDetail = new FileQuestionDetail();
-    private IBrowserFile file;
 
     private object inputFileKey = new object();
 
@@ -167,7 +166,7 @@ using MudBlazor;
     {
         if (!(await AreFormValuesValid()))
         {
-            await ClearFile();
+            ClearFile();
             return;
         }
 
@@ -185,7 +184,7 @@ using MudBlazor;
         if (url == "")
         {
             IsLoading = false;
-            await ClearFile();
+            ClearFile();
 
             return;
         }
@@ -201,7 +200,7 @@ using MudBlazor;
         {
             await js.InvokeVoidAsync("alert", "Question Added Successfully");
 
-            await ResetFormValues();
+            ResetFormValues();
         }
         else await js.InvokeVoidAsync("alert", "Couldn't Save Question");
 
@@ -209,12 +208,12 @@ using MudBlazor;
         await Task.Delay(1);
     }
 
-    private async Task ClearFile() => inputFileKey = new object ();
+    private void ClearFile() => inputFileKey = new object ();
 
-    private async Task ResetFormValues()
+    private void ResetFormValues()
     {
         NewQuestion = new Question();
-        await ClearFile();
+        ClearFile();
     }
 
 #line default

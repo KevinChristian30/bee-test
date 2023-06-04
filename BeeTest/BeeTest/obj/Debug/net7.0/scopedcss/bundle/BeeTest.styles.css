@@ -1,3 +1,87 @@
+/* _content/BeeTest/Pages/Admin/Questions/AddQuestion.razor.rz.scp.css */
+.question-form[b-etj843q05x] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-etj843q05x] {
+    display: flex;
+    flex-direction: column;
+}
+
+select[b-etj843q05x] {
+    height: 30px;
+    border: 2px solid black;
+    padding: 2px;
+}
+/* _content/BeeTest/Pages/Admin/Schedules/AddSchedule.razor.rz.scp.css */
+.schedule-form[b-qyjsgvt226] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-qyjsgvt226] {
+    display: flex;
+    gap: 25px;
+}
+
+.line div[b-qyjsgvt226] {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type=datetime-local][b-qyjsgvt226] {
+    width: 200px;
+    border: 1px solid black;
+    padding-left: 5px;
+}
+/* _content/BeeTest/Pages/Admin/Schedules/Schedules.razor.rz.scp.css */
+input[type=date][b-wcg13238cb] { 
+    border: 2px solid black;
+    padding-left: 5px;
+    width: 150px;
+    margin-bottom: 20px;
+}
+/* _content/BeeTest/Pages/Admin/Tests/AddTest.razor.rz.scp.css */
+.test-form[b-qwioibvn3c] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/* _content/BeeTest/Pages/Admin/Tests/TestDetails.razor.rz.scp.css */
+.test-form[b-chf12ctpzt] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.button-container[b-chf12ctpzt]{
+    display: flex;
+    gap: 15px;
+}
+/* _content/BeeTest/Pages/Admin/Users/AddUser.razor.rz.scp.css */
+.user-form[b-7dfaal1auz] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.line[b-7dfaal1auz] {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type=date][b-7dfaal1auz]{
+    width: 200px;
+}
+
+input[type=date]:focus[b-7dfaal1auz] {
+    outline: none;
+}
 /* _content/BeeTest/Pages/Components/EditQuestionForms/BooleanEditQuestionForm.razor.rz.scp.css */
 .question-form[b-6v1iw6tvem] {
     display: flex;
@@ -151,6 +235,12 @@ textarea[b-obiuc0e0au] {
 /* _content/BeeTest/Pages/Components/PageHeader.razor.rz.scp.css */
 .page-header[b-qqlga66mbd] {
     margin-bottom: 50px;
+}
+/* _content/BeeTest/Pages/Components/QuestionAnswerCard/MultipleChoiceAnswerCard.razor.rz.scp.css */
+.line[b-5qopteoxdk]{
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 /* _content/BeeTest/Pages/Components/QuestionForms/BooleanQuestionForm.razor.rz.scp.css */
 .question-form[b-jm3tu5yj5x] {
@@ -316,89 +406,32 @@ button:hover[b-b9zy7gl736] {
     transform: scale(1.01, 1.01);
     background-color: var(--secondary-color);
 }
-/* _content/BeeTest/Pages/Questions/AddQuestion.razor.rz.scp.css */
-.question-form[b-6xqzjbu8bs] {
+/* _content/BeeTest/Pages/Participant/TakeTest.razor.rz.scp.css */
+nav[b-vxjl0dk2jh] {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--secondary-color);
+    color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 7px 20px 0 20px;
+    position: absolute;
+    top: 25px;
+    width: 75%;
+    z-index: 9999;
 }
 
-.line[b-6xqzjbu8bs] {
+.question-answer-card-container[b-vxjl0dk2jh]{
     display: flex;
     flex-direction: column;
-}
-
-select[b-6xqzjbu8bs] {
-    height: 30px;
-    border: 2px solid black;
-    padding: 2px;
-}
-/* _content/BeeTest/Pages/Schedules/AddSchedule.razor.rz.scp.css */
-.schedule-form[b-7dm8yb62e3] {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.line[b-7dm8yb62e3] {
-    display: flex;
-    gap: 25px;
-}
-
-.line div[b-7dm8yb62e3] {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-input[type=datetime-local][b-7dm8yb62e3] {
-    width: 200px;
-    border: 1px solid black;
-    padding-left: 5px;
-}
-/* _content/BeeTest/Pages/Schedules/Schedules.razor.rz.scp.css */
-input[type=date][b-vy585w060q] { 
-    border: 2px solid black;
-    padding-left: 5px;
-    width: 150px;
-    margin-bottom: 20px;
-}
-/* _content/BeeTest/Pages/Tests/AddTest.razor.rz.scp.css */
-.test-form[b-0vvibkcvzw] {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-/* _content/BeeTest/Pages/Tests/TestDetails.razor.rz.scp.css */
-.test-form[b-lj4536m4lr] {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.button-container[b-lj4536m4lr]{
-    display: flex;
     gap: 15px;
 }
-/* _content/BeeTest/Pages/Users/AddUser.razor.rz.scp.css */
-.user-form[b-2z7w7jde7k] {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
 
-.line[b-2z7w7jde7k] {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-input[type=date][b-2z7w7jde7k]{
-    width: 200px;
-}
-
-input[type=date]:focus[b-2z7w7jde7k] {
-    outline: none;
+.question-answer-card[b-vxjl0dk2jh] {
+    padding: 15px;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
 }
 /* _content/BeeTest/Shared/AuthenticatedLayout.razor.rz.scp.css */
 main[b-thbicw15dz] {

@@ -1,0 +1,90 @@
+﻿@page "/users"
+@layout AuthenticatedLayout
+
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+@using BeeTest.Authentication
+@using BeeTest.Models
+@using MudBlazor
+@using Services.Interfaces
+
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@inject IUserService userService
+
+<AdminOnlyGate/>
+
+<PageTitle>BeeTest | Manage Users</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="manage-users">
+            <PageHeader Text="Manage Users" />
+            @if(IsLoading)
+            {
+                <LoadingView />
+            } else if (@users.Count() == 0)
+            {
+                <h5>There Are No Users</h5>
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
+            } else
+            {
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
+
+                <MudTable Items="@users" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true"
+                      Style="@($"background-color:{Colors.Grey.Lighten3}; border-radius: 7px; margin-top: 10px")">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Email</MudTh>
+                        <MudTh>Gender</MudTh>
+                        <MudTh>Date of Birth</MudTh>
+                        <MudTh>Action</MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="user">
+                        <MudTd DataLabel="Name">@user.Name</MudTd>
+                        <MudTd DataLabel="Email">@user.Email</MudTd>
+                        <MudTd DataLabel="Gender">@user.Gender</MudTd>
+                        <MudTd DataLabel="Date of Birth">@user.DateOfBirth.ToString("yyyy-MM-dd")</MudTd>
+                        <MudTd DataLabel="Action">
+                            <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Red.Default}; color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteUser(@user))"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private bool IsLoading = false;
+    private List<User> users = new List<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        users = await userService.GetAllParticipants();
+        IsLoading = false;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void NavigateToAddUserPage()
+    {
+        navigationManager.NavigateTo("/users/add", true);
+    }
+
+    private async Task DeleteUser(User user)
+    {
+        IsLoading = true;
+
+        TimeZoneInfo wibTimeZone = 
+            TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        user.DeletedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, wibTimeZone);
+
+        bool isSucessful = await userService.AddOrUpdate(user);
+        IsLoading = false;
+
+        if (isSucessful) users.Remove(user);
+        else await js.InvokeVoidAsync("alert", "User Deletion Failed");
+    }
+}

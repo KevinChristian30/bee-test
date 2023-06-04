@@ -1,0 +1,59 @@
+﻿@page "/participant-schedules/history"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Models
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+@using BeeTest.Services.Interfaces
+@using MudBlazor
+
+@inject IParticipant_ScheduleService participant_scheduleService
+
+<ParticipantOnlyGate />
+
+<PageTitle>BeeTest | My Test History</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <PageHeader Text="My Past Tests" />
+
+        @if (participant_Schedules.Count() == 0)
+        {
+            <h6>You Haven't' Taken any Tests</h6>
+        }
+        else
+        {
+            <MudTable Items="@participant_Schedules" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true" Style="@($"background-color:{Colors.Grey.Lighten3};border-radius:7px;margin-top: 10px")">
+                <HeaderContent>
+                    <MudTh>Test Name</MudTh>
+                    <MudTh>Test Start Time</MudTh>
+                    <MudTh>Test End Time</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="participant_schedule">
+                    <MudTd DataLabel="Test Name">@participant_schedule.Schedule.Test.Name</MudTd>
+                    <MudTd DataLabel="Test Start Time">@participant_schedule.Schedule.StartTime</MudTd>
+                    <MudTd DataLabel="Test End Time">@participant_schedule.Schedule.EndTime</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private string email = "";
+
+    private List<Participant_Schedule> participant_Schedules = new List<Participant_Schedule>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        email = AuthStateProvider.GetCurrentUserEmail(await authenticationState);
+
+        participant_Schedules = await participant_scheduleService.GetParticipantSchedulesByParticipantEmailBefore(email, DateTime.Now);
+
+        await base.OnInitializedAsync();
+    }
+}
