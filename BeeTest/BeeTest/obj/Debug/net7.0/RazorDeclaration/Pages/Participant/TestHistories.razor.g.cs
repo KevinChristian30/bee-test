@@ -134,7 +134,7 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 43 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistories.razor"
+#line 48 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistories.razor"
        
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -152,9 +152,15 @@ using MudBlazor;
         await base.OnInitializedAsync();
     }
 
+    public void NavigateToTestHistoryDetailPage(Participant_Schedule participant_Schedule)
+    {
+        navigationManager.NavigateTo($"/participant-schedules/history/{participant_Schedule.ScheduleId}");
+    }
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IParticipant_ScheduleService participant_scheduleService { get; set; }
     }
 }

@@ -18,11 +18,17 @@
     <a style="color:var(--primary-color);text-decoration:underline;" href="@QuestionDetail.fileURL">Your Answer</a>
 }
 
-<InputFile class="form-control my-5" OnChange="HandleFileChange" @key="inputFileKey" />
+@if (!disabled)
+{
+    <InputFile class="form-control my-5" OnChange="HandleFileChange" @key="inputFileKey" />
+}
 
 @code {
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
 
     private FileQuestionDetail QuestionDetail;
     private FileAnswer Answer;
@@ -45,6 +51,12 @@
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         string fileName = QuestionDetail.filePath.Split("/")[1];
         string url = await js.InvokeAsync<string>(
                 "uploadFileToFirebase",

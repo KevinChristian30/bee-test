@@ -105,20 +105,27 @@ using BeeTest.Models.Answer;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
-using BeeTest.Models.QuestionDetail;
+using BeeTest.Models.AnswerChecker;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
-using BeeTest.Services.Interfaces;
+using BeeTest.Models.QuestionDetail;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
 using MudBlazor;
 
 #line default
@@ -132,13 +139,18 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 23 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
+#line 35 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
        
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
 
+    [Parameter]
+    public bool disabled { get; set; }
+
     private CheckboxesQuestionDetail QuestionDetail;
     private CheckboxesAnswer Answer;
+
+    private string result = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -154,7 +166,7 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 38 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
+#line 55 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
              foreach (var keyValuePair in QuestionDetail.CheckboxQuestionData)
             {
                 Answer.CheckboxQuestionData[keyValuePair.Key] = false;
@@ -164,15 +176,33 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 41 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
+#line 58 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\CheckboxesQuestionAnswerCard.razor"
              
+        }
+
+        if (disabled)
+        {
+            CalculateQuestionResult();
         }
 
         await base.OnInitializedAsync();
     }
 
+    private void CalculateQuestionResult()
+    {
+        CheckboxesChecker checker = new CheckboxesChecker();
+        if (checker.IsCorrect(QuestionDetail, Answer)) result = "Correct";
+        else result = "False";
+    }
+
     private async Task Save()
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         temporaryAnswers.Answer = Answer.ToJSONString();
 
         bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);

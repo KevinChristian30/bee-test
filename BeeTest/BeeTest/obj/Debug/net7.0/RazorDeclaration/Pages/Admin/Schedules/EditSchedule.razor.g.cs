@@ -161,8 +161,7 @@ using MudBlazor;
         Participant_Schedule newParticipant_Schedule = new Participant_Schedule
             {
                 Participant = await userService.Get(participantEmail),
-                Schedule = Schedule,
-                Details = "{}"
+                Schedule = Schedule
             };
 
         bool isSuccessful = await participant_scheduleService.Add(newParticipant_Schedule);

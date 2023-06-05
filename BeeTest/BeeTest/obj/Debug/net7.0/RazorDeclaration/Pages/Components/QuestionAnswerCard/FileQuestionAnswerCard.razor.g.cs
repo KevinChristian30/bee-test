@@ -132,10 +132,13 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 23 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\FileQuestionAnswerCard.razor"
+#line 26 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\FileQuestionAnswerCard.razor"
        
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
 
     private FileQuestionDetail QuestionDetail;
     private FileAnswer Answer;
@@ -158,6 +161,12 @@ using MudBlazor;
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         string fileName = QuestionDetail.filePath.Split("/")[1];
         string url = await js.InvokeAsync<string>(
                 "uploadFileToFirebase",

@@ -1,0 +1,12 @@
+.question-answer-card-container[b-cs74iztr3u] {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.question-answer-card[b-cs74iztr3u] {
+    padding: 15px;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
+}

@@ -2,26 +2,29 @@
 
 @if (temporaryAnswers.Question.QuestionType.Name == "Multiple Choice")
 {
-    <MultipleChoiceAnswerCard temporaryAnswers="@temporaryAnswers" />
+    <MultipleChoiceAnswerCard disabled="@disabled" temporaryAnswers="@temporaryAnswers" />
 }
 else if (temporaryAnswers.Question.QuestionType.Name == "Boolean")
 {
-    <BooleanQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+    <BooleanQuestionAnswerCard disabled="@disabled" temporaryAnswers="@temporaryAnswers" />
 }
 else if (temporaryAnswers.Question.QuestionType.Name == "Checkboxes")
 {
-    <CheckboxesQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+    <CheckboxesQuestionAnswerCard disabled="@disabled" temporaryAnswers="@temporaryAnswers" />
 }
 else if (temporaryAnswers.Question.QuestionType.Name == "Essay")
 {
-    <EssayQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+    <EssayQuestionAnswerCard disabled="@disabled"  temporaryAnswers="@temporaryAnswers" />
 }
 else if (temporaryAnswers.Question.QuestionType.Name == "File")
 {
-    <FileQuestionAnswerCard temporaryAnswers="@temporaryAnswers" />
+    <FileQuestionAnswerCard disabled="@disabled" temporaryAnswers="@temporaryAnswers" />
 }
 
 @code {
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
 }

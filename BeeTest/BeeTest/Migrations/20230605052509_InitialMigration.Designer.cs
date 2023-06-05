@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeeTest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230603073239_InitialCreation")]
-    partial class InitialCreation
+    [Migration("20230605052509_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,10 +32,6 @@ namespace BeeTest.Migrations
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ParticipantId", "ScheduleId");
 

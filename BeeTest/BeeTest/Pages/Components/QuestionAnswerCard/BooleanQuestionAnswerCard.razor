@@ -1,6 +1,7 @@
 ﻿@using BeeTest.Factories;
 @using BeeTest.Models;
 @using BeeTest.Models.Answer;
+@using BeeTest.Models.AnswerChecker;
 @using BeeTest.Models.QuestionDetail;
 @using BeeTest.Services.Interfaces;
 
@@ -9,15 +10,24 @@
 
 <h6>@temporaryAnswers.Question.Title</h6>
 
-<input type="radio" name="@(temporaryAnswers.Question.Id)" id="true" value="True" @onchange="UpdateKey" checked="@IsTrueChecked" />
+<input type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" id="true" value="True" @onchange="UpdateKey" checked="@IsTrueChecked" />
 <label for="true">True</label>
 
-<input type="radio" name="@(temporaryAnswers.Question.Id)" id="false" value="False" @onchange="UpdateKey" checked="@IsFalseChecked" />
+<input type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" id="false" value="False" @onchange="UpdateKey" checked="@IsFalseChecked" />
 <label for="false">False</label>
+
+@if (@disabled)
+{
+    <br /><br />
+    <h6>Status: @result</h6>
+}
 
 @code {
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
 
     private BooleanQuestionDetail QuestionDetail;
     private BooleanAnswer Answer;
@@ -25,6 +35,8 @@
 
     private bool IsTrueChecked => choice == "True";
     private bool IsFalseChecked => choice == "False";
+
+    private string result = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,11 +49,29 @@
             choice = Answer.choice ? "True" : "False";
         }
 
+        if (disabled)
+        {
+            CalculateQuestionResult();
+        }
+
         await base.OnInitializedAsync();
+    }
+
+    private void CalculateQuestionResult()
+    {
+        BooleanChecker checker = new BooleanChecker();
+        if (checker.IsCorrect(QuestionDetail, Answer)) result = "Correct";
+        else result = "False";
     }
 
     private async Task UpdateKey(ChangeEventArgs e)
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         choice = e.Value.ToString();
 
         Answer.choice = choice == "True";

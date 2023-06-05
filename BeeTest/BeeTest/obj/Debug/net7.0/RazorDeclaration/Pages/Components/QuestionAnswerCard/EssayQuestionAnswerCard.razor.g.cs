@@ -125,10 +125,13 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 16 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\EssayQuestionAnswerCard.razor"
+#line 19 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\EssayQuestionAnswerCard.razor"
        
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
 
     private EssayAnswer Answer;
 
@@ -147,6 +150,12 @@ using MudBlazor;
 
     private async Task Save()
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         temporaryAnswers.Answer = Answer.ToJSONString();
 
         bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);

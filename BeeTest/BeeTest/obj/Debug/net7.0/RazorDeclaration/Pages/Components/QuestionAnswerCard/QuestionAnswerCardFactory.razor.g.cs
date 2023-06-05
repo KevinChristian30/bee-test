@@ -102,6 +102,9 @@ using BeeTest.Models;
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
 
+    [Parameter]
+    public bool disabled { get; set; }
+
 #line default
 #line hidden
 #nullable disable

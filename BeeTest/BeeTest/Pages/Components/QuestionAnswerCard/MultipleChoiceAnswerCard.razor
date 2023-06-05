@@ -1,6 +1,7 @@
 ﻿@using BeeTest.Factories
 @using BeeTest.Models
 @using BeeTest.Models.Answer;
+@using BeeTest.Models.AnswerChecker;
 @using BeeTest.Models.QuestionDetail
 @using BeeTest.Services.Interfaces
 @using System.Text.Json
@@ -10,29 +11,40 @@
 
 <h6>@temporaryAnswers.Question.Title</h6>
 <div class="line">
-    <input id="a" type="radio" name="@(temporaryAnswers.Question.Id)" value="a" @onchange="UpdateKey" checked="@IsAChecked" />
+    <input id="a" type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" value="a" @onchange="UpdateKey" checked="@IsAChecked" />
     <label for="a">@QuestionDetail.Choices['a']</label>
 </div>
 <div class="line">
-    <input id="b" type="radio" name="@(temporaryAnswers.Question.Id)" value="b" @onchange="UpdateKey" checked="@IsBChecked" />
+    <input id="b" type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" value="b" @onchange="UpdateKey" checked="@IsBChecked" />
     <label for="b">@QuestionDetail.Choices['b']</label>
 </div>
 <div class="line">
-    <input id="c" type="radio" name="@(temporaryAnswers.Question.Id)" value="c" @onchange="UpdateKey" checked="@IsCChecked" />
+    <input id="c" type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" value="c" @onchange="UpdateKey" checked="@IsCChecked" />
     <label for="c">@QuestionDetail.Choices['c']</label>
 </div>
 <div class="line">
-    <input id="d" type="radio" name="@(temporaryAnswers.Question.Id)" value="d" @onchange="UpdateKey" checked="@IsDChecked" />
+    <input id="d" type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" value="d" @onchange="UpdateKey" checked="@IsDChecked" />
     <label for="d">@QuestionDetail.Choices['d']</label>
 </div>
 <div class="line">
-    <input id="e" type="radio" name="@(temporaryAnswers.Question.Id)" value="e" @onchange="UpdateKey" checked="@IsEChecked" />
+    <input id="e" type="radio" disabled="@disabled" name="@(temporaryAnswers.Question.Id)" value="e" @onchange="UpdateKey" checked="@IsEChecked" />
     <label for="e">@QuestionDetail.Choices['e']</label>
 </div>
+
+@if (@disabled)
+{
+    <br />
+    <h6>Status: @result</h6>
+}
 
 @code {
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
+
+    private string result = "";
 
     private MultipleChoiceQuestionDetail QuestionDetail;
     private MultipleChoiceAnswer Answer;
@@ -49,11 +61,29 @@
 
         Answer = (MultipleChoiceAnswer) AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
 
+        if (disabled)
+        {
+            CalculateQuestionResult();
+        }
+
         await base.OnInitializedAsync();
+    }
+
+    private void CalculateQuestionResult()
+    {
+        MultipleChoiceChecker checker = new MultipleChoiceChecker();
+        if (checker.IsCorrect(QuestionDetail, Answer)) result = "Correct";
+        else result = "False";
     }
 
     private async Task UpdateKey(ChangeEventArgs e)
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         Answer.choice = e.Value.ToString()[0];
 
         temporaryAnswers.Answer = Answer.ToJSONString();

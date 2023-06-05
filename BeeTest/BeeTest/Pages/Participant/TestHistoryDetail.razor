@@ -1,0 +1,59 @@
+﻿@page "/participant-schedules/history/{scheduleId}"
+@layout AuthenticatedLayout
+
+@using BeeTest.Authentication
+@using BeeTest.Models
+@using BeeTest.Pages.Components
+@using BeeTest.Pages.Components.Gates
+@using BeeTest.Pages.Components.QuestionAnswerCard
+@using BeeTest.Services.Interfaces
+@using MudBlazor
+
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@inject ITestService testService
+@inject IQuestionService questionService
+@inject ITemporaryAnswerService temporaryAnswersService
+@inject IUserService userService
+@inject IScheduleService scheduleService
+@inject IParticipant_ScheduleService participant_scheduleService
+
+<ParticipantOnlyGate />
+
+<PageTitle>BeeTest | My Test History</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <PageHeader Text="Your Answers" />       
+
+        <div class="question-answer-card-container">
+            @foreach (TemporaryAnswers temporaryAnswer in temporaryAnswers)
+            {
+                <div class="question-answer-card">
+                    <QuestionAnswerCardFactory disabled="true" TemporaryAnswers="@temporaryAnswer" />
+                </div>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    [Parameter]
+    public string scheduleId { get; set; }
+
+    private Test test = new Test();
+    private List<TemporaryAnswers> temporaryAnswers = new List<TemporaryAnswers>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        string currentUserEmail = AuthStateProvider.GetCurrentUserEmail(await authenticationState);
+
+        User participant = await userService.Get(currentUserEmail);
+        temporaryAnswers = await temporaryAnswersService.Get(participant.Id, int.Parse(scheduleId));
+
+        await base.OnInitializedAsync();
+    }
+}

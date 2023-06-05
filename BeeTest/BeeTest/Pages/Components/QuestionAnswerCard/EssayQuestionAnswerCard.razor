@@ -9,13 +9,19 @@
 
 <h6>@temporaryAnswers.Question.Title</h6>
 
-<textarea style="resize:vertical;width:100%;height:200px;" @bind="@Answer.answer" />
+<textarea disabled="@disabled" style="resize:vertical;width:100%;height:200px;" @bind="@Answer.answer" />
 
-<MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};border-radius:2px;margin-top:10px;")">Save Answer</MudButton>
+@if (!@disabled)
+{
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Large" OnClick="Save" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};border-radius:2px;margin-top:10px;")">Save Answer</MudButton>
+}
 
 @code {
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
 
     private EssayAnswer Answer;
 
@@ -34,6 +40,12 @@
 
     private async Task Save()
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         temporaryAnswers.Answer = Answer.ToJSONString();
 
         bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);

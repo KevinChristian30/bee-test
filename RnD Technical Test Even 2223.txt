@@ -3,8 +3,8 @@
   - Manage questions V
   - Manage schedule V
   - Manage participant V
-  - View participant test result 
-  - View participant test status (answer status)
+  - View participant test result V
+  - View participant test status (answer status) V
   - Test page for participant test (server time in the page) V
   - Login page for participant V
 
@@ -13,13 +13,13 @@
   - true | false V
   - choose an answer from list V
   - essay V
-  - submit file -> Error V
+  - submit file V
 
 => use Blazor for making the web application V
 => try running it using docker / setup runnable with docker V
 
-=> make a mock data for the question, user, and schedule (baru user)
-=> make a documentation for the application you made / video documentation
+=> make a mock data for the question, user, and schedule (baru user) V
+=> make a documentation for the application you made / video documentation V 
 
 * Please concern with the efficiency of the application regarding memory, server load, easy to use, and access time.
   describe the efficincy in the documentation V

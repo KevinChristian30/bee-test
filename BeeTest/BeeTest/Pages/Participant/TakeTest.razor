@@ -39,7 +39,7 @@
             @foreach (TemporaryAnswers temporaryAnswer in temporaryAnswers)
             {
                 <div class="question-answer-card">
-                    <QuestionAnswerCardFactory TemporaryAnswers="@temporaryAnswer" />
+                    <QuestionAnswerCardFactory disabled="false" TemporaryAnswers="@temporaryAnswer" />
                 </div>
             }
         </div>

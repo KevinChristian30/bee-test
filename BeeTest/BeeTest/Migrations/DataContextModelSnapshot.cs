@@ -30,10 +30,6 @@ namespace BeeTest.Migrations
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ParticipantId", "ScheduleId");
 
                     b.HasIndex("ScheduleId");

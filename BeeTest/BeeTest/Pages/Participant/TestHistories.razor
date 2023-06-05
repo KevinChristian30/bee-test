@@ -9,6 +9,7 @@
 @using MudBlazor
 
 @inject IParticipant_ScheduleService participant_scheduleService
+@inject NavigationManager navigationManager
 
 <ParticipantOnlyGate />
 
@@ -29,11 +30,15 @@
                     <MudTh>Test Name</MudTh>
                     <MudTh>Test Start Time</MudTh>
                     <MudTh>Test End Time</MudTh>
+                    <MudTh>Test Detail</MudTh>
                 </HeaderContent>
                 <RowTemplate Context="participant_schedule">
                     <MudTd DataLabel="Test Name">@participant_schedule.Schedule.Test.Name</MudTd>
                     <MudTd DataLabel="Test Start Time">@participant_schedule.Schedule.StartTime</MudTd>
                     <MudTd DataLabel="Test End Time">@participant_schedule.Schedule.EndTime</MudTd>
+                    <MudTd DataLabel="Test Detail">
+                        <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Green.Default};color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.History" OnClick="@(() => NavigateToTestHistoryDetailPage(@participant_schedule))"></MudIconButton>
+                    </MudTd>
                 </RowTemplate>
             </MudTable>
         }
@@ -55,5 +60,10 @@
         participant_Schedules = await participant_scheduleService.GetParticipantSchedulesByParticipantEmailBefore(email, DateTime.Now);
 
         await base.OnInitializedAsync();
+    }
+
+    public void NavigateToTestHistoryDetailPage(Participant_Schedule participant_Schedule)
+    {
+        navigationManager.NavigateTo($"/participant-schedules/history/{participant_Schedule.ScheduleId}");
     }
 }

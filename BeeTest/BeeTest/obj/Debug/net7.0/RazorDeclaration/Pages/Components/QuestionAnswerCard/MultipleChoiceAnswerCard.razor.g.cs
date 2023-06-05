@@ -105,20 +105,27 @@ using BeeTest.Models.Answer;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\MultipleChoiceAnswerCard.razor"
-using BeeTest.Models.QuestionDetail;
+using BeeTest.Models.AnswerChecker;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\MultipleChoiceAnswerCard.razor"
-using BeeTest.Services.Interfaces;
+using BeeTest.Models.QuestionDetail;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\MultipleChoiceAnswerCard.razor"
+using BeeTest.Services.Interfaces;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\MultipleChoiceAnswerCard.razor"
 using System.Text.Json;
 
 #line default
@@ -132,10 +139,15 @@ using System.Text.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 33 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\MultipleChoiceAnswerCard.razor"
+#line 40 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\MultipleChoiceAnswerCard.razor"
        
     [Parameter]
     public TemporaryAnswers temporaryAnswers { get; set; }
+
+    [Parameter]
+    public bool disabled { get; set; }
+
+    private string result = "";
 
     private MultipleChoiceQuestionDetail QuestionDetail;
     private MultipleChoiceAnswer Answer;
@@ -152,11 +164,29 @@ using System.Text.Json;
 
         Answer = (MultipleChoiceAnswer) AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
 
+        if (disabled)
+        {
+            CalculateQuestionResult();
+        }
+
         await base.OnInitializedAsync();
+    }
+
+    private void CalculateQuestionResult()
+    {
+        MultipleChoiceChecker checker = new MultipleChoiceChecker();
+        if (checker.IsCorrect(QuestionDetail, Answer)) result = "Correct";
+        else result = "False";
     }
 
     private async Task UpdateKey(ChangeEventArgs e)
     {
+        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
+        {
+            await js.InvokeVoidAsync("alert", "Test Already Finished");
+            return;
+        }
+
         Answer.choice = e.Value.ToString()[0];
 
         temporaryAnswers.Answer = Answer.ToJSONString();

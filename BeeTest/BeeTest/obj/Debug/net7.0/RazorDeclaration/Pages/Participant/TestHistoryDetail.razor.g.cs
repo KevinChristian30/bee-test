@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BeeTest.Pages.Components.QuestionAnswerCard
+namespace BeeTest.Pages.Participant
 {
     #line hidden
     using System;
@@ -83,48 +83,57 @@ using BeeTest.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
-using BeeTest.Factories;
+#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
+using BeeTest.Authentication;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
+#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
 using BeeTest.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
-using BeeTest.Models.Answer;
+#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
+using BeeTest.Pages.Components;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
-using BeeTest.Models.AnswerChecker;
+#line 7 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
+using BeeTest.Pages.Components.Gates;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
-using BeeTest.Models.QuestionDetail;
+#line 8 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
+using BeeTest.Pages.Components.QuestionAnswerCard;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
+#line 9 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
 using BeeTest.Services.Interfaces;
 
 #line default
 #line hidden
 #nullable disable
-    public partial class BooleanQuestionAnswerCard : global::Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 10 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+    [global::Microsoft.AspNetCore.Components.LayoutAttribute(typeof(AuthenticatedLayout))]
+    [global::Microsoft.AspNetCore.Components.RouteAttribute("/participant-schedules/history/{scheduleId}")]
+    public partial class TestHistoryDetail : global::Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -132,74 +141,38 @@ using BeeTest.Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 25 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Components\QuestionAnswerCard\BooleanQuestionAnswerCard.razor"
+#line 40 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Participant\TestHistoryDetail.razor"
        
-    [Parameter]
-    public TemporaryAnswers temporaryAnswers { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
 
     [Parameter]
-    public bool disabled { get; set; }
+    public string scheduleId { get; set; }
 
-    private BooleanQuestionDetail QuestionDetail;
-    private BooleanAnswer Answer;
-    private string choice;
-
-    private bool IsTrueChecked => choice == "True";
-    private bool IsFalseChecked => choice == "False";
-
-    private string result = "";
+    private Test test = new Test();
+    private List<TemporaryAnswers> temporaryAnswers = new List<TemporaryAnswers>();
 
     protected override async Task OnInitializedAsync()
     {
-        QuestionDetail = (BooleanQuestionDetail)QuestionDetailFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Question.Details);
+        string currentUserEmail = AuthStateProvider.GetCurrentUserEmail(await authenticationState);
 
-        Answer = (BooleanAnswer)AnswerFactory.ParseJSON(temporaryAnswers.Question.QuestionType.Name, temporaryAnswers.Answer);
-
-        if (temporaryAnswers.Answer != "{}")
-        {
-            choice = Answer.choice ? "True" : "False";
-        }
-
-        if (disabled)
-        {
-            CalculateQuestionResult();
-        }
+        User participant = await userService.Get(currentUserEmail);
+        temporaryAnswers = await temporaryAnswersService.Get(participant.Id, int.Parse(scheduleId));
 
         await base.OnInitializedAsync();
     }
 
-    private void CalculateQuestionResult()
-    {
-        BooleanChecker checker = new BooleanChecker();
-        if (checker.IsCorrect(QuestionDetail, Answer)) result = "Correct";
-        else result = "False";
-    }
-
-    private async Task UpdateKey(ChangeEventArgs e)
-    {
-        if (temporaryAnswers.Participant_Schedule.Schedule.EndTime < DateTime.Now)
-        {
-            await js.InvokeVoidAsync("alert", "Test Already Finished");
-            return;
-        }
-
-        choice = e.Value.ToString();
-
-        Answer.choice = choice == "True";
-        temporaryAnswers.Answer = Answer.ToJSONString();
-
-        bool isSuccessful = await temporaryAnswersService.Update(temporaryAnswers);
-        if (!isSuccessful)
-        {
-            await js.InvokeVoidAsync("alert", "Couldn't Save Answer");
-        }
-    } 
-
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IParticipant_ScheduleService participant_scheduleService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IScheduleService scheduleService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService userService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITemporaryAnswerService temporaryAnswersService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService questionService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ITestService testService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigationManager { get; set; }
     }
 }
 #pragma warning restore 1591
