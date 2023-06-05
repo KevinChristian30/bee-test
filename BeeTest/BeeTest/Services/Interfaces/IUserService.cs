@@ -8,5 +8,6 @@ namespace BeeTest.Services.Interfaces
         Task<User> Get(int id);
         Task<User> Get(string email);
         Task<List<User>> GetAllParticipants();
+        Task<List<User>> Search(string query);
     }
 }

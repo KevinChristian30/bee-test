@@ -23,14 +23,22 @@
             @if(IsLoading)
             {
                 <LoadingView />
-            } else if (@users.Count() == 0)
+            } 
+            
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
+
+            <div class="line">
+                <input placholder="Search by Email" class="form-control" type="text" @bind=@Query>
+                <MudIconButton Variant="Variant.Filled" Style="@($"background-color:{Colors.Blue.Default};color:{Colors.Grey.Lighten5};")" Icon="@Icons.Material.Filled.Search" OnClick="Search"></MudIconButton>
+            </div>
+
+            @if (@users.Count() == 0)
             {
+                <br />
+                <br />
                 <h5>There Are No Users</h5>
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
             } else
             {
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="NavigateToAddUserPage" Style="@($"background-color:{Colors.Blue.Default}; color:{Colors.Grey.Lighten5}; border-radius: 2px;")">Add User</MudButton>
-
                 <MudTable Items="@users" Hover="true" Breakpoint="Breakpoint.Sm" Bordered="true" Dense="true"
                       Style="@($"background-color:{Colors.Grey.Lighten3}; border-radius: 7px; margin-top: 10px")">
                     <HeaderContent>
@@ -59,10 +67,12 @@
     private bool IsLoading = false;
     private List<User> users = new List<User>();
 
+    private string Query = "";
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        users = await userService.GetAllParticipants();
+        users = await userService.Search(Query);
         IsLoading = false;
 
         await base.OnInitializedAsync();
@@ -86,5 +96,12 @@
 
         if (isSucessful) users.Remove(user);
         else await js.InvokeVoidAsync("alert", "User Deletion Failed");
+    }
+
+    private async Task Search()
+    {
+        IsLoading = true;
+        users = await userService.Search(Query);
+        IsLoading = false;
     }
 }

@@ -82,6 +82,13 @@ input[type=date][b-7dfaal1auz]{
 input[type=date]:focus[b-7dfaal1auz] {
     outline: none;
 }
+/* _content/BeeTest/Pages/Admin/Users/Users.razor.rz.scp.css */
+.line[b-nn10ypatkm] {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 25px;
+}
 /* _content/BeeTest/Pages/Components/EditQuestionForms/BooleanEditQuestionForm.razor.rz.scp.css */
 .question-form[b-6v1iw6tvem] {
     display: flex;

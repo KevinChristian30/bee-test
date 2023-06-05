@@ -134,15 +134,17 @@ using Services.Interfaces;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 58 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Admin\Users\Users.razor"
+#line 66 "C:\Users\Kevin\Desktop\Current Job\BeeTest\BeeTest\BeeTest\Pages\Admin\Users\Users.razor"
        
     private bool IsLoading = false;
     private List<User> users = new List<User>();
 
+    private string Query = "";
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        users = await userService.GetAllParticipants();
+        users = await userService.Search(Query);
         IsLoading = false;
 
         await base.OnInitializedAsync();
@@ -166,6 +168,13 @@ using Services.Interfaces;
 
         if (isSucessful) users.Remove(user);
         else await js.InvokeVoidAsync("alert", "User Deletion Failed");
+    }
+
+    private async Task Search()
+    {
+        IsLoading = true;
+        users = await userService.Search(Query);
+        IsLoading = false;
     }
 
 #line default

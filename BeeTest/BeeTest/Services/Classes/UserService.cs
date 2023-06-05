@@ -57,5 +57,15 @@ namespace BeeTest.Services.Classes
                 .Where(u => u.DeletedAt == null)
                 .ToListAsync();
         }
+
+        public async Task<List<User>> Search(string query)
+        {
+            return await _context.Users
+                .Include(user => user.Role)
+                .Where(u => u.Role.Name == "Participant")
+                .Where(u => u.DeletedAt == null)
+                .Where(u => u.Email.Contains(query))
+                .ToListAsync();
+        }
     }
 }
