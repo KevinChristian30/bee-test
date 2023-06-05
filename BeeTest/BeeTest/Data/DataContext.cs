@@ -43,6 +43,10 @@ namespace BeeTest.Data
                 .WithMany(q => q.TemporaryAnswers)
                 .HasForeignKey(ta => ta.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
         }
     }
 }

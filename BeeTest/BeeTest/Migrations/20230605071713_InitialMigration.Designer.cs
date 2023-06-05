@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeeTest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230605052509_InitialMigration")]
+    [Migration("20230605071713_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -192,7 +192,7 @@ namespace BeeTest.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -209,6 +209,9 @@ namespace BeeTest.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("RoleId");
 
